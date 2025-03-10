@@ -6,23 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "credit_bundle")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Admin {
+public class CreditBundle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int adminId;
+    private int bundleId;
 
     @Column(nullable = false, length = 100)
-    private String name;
-
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
+    private String bundleName;
 
     @Column(nullable = false)
-    private String passwordHash;
+    private Double amount;
+
+    @Column(nullable = false)
+    private int validityDays;
 
 }
-

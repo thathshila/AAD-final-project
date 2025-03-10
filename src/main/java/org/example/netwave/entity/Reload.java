@@ -5,26 +5,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "reload")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Employee {
-
-
+public class Reload {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long employeeId;
+    private int reloadId;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    private String position;
-    private Double salary;
-    private LocalDate hireDate;
 
+    @ManyToOne
+    @JoinColumn(name = "sim_id", nullable = false)
+    private SIM sim;
+
+    @Column(nullable = false)
+    private Double amount;
+
+    private LocalDateTime reloadDate = LocalDateTime.now();
 
 }

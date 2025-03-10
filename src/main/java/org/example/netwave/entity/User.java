@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -26,29 +27,21 @@ public class User implements Serializable {
     private String name;
     private String role;
 
-    private String phoneNumber;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-//    @Enumerated(EnumType.STRING)
-//    private Role role; // Enum: ADMIN, CUSTOMER, EMPLOYEE
+    private String status;
 
-//    @Enumerated(EnumType.STRING)
-//    private Status status; // Enum: ACTIVE, INACTIVE
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SIM> sims;
 
-
-    // Relationships
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payment> payments;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_service_package",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "package_id")
-    )
-    private List<ServicePackage> servicePackages;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reload> reloads;
 
 }
 

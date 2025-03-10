@@ -8,23 +8,32 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "payments")
+@Table(name = "payment")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentId;
+    private int paymentId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    private Double amount;
-    private LocalDateTime paymentDate;
-    private String paymentMethod;
-    private String status;
 
+    @Column(nullable = false)
+    private Double amount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private PaymentMethod paymentMethod;
+
+    private LocalDateTime paymentDate = LocalDateTime.now();
+
+    public enum PaymentMethod {
+        CREDIT_CARD, DEBIT_CARD, BANK_TRANSFER, CASH
+    }
 }
+
 
 
