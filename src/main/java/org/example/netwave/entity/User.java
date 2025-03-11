@@ -17,8 +17,8 @@ import java.util.UUID;
 @Data
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uid;
+  //  @GeneratedValue(strategy = GenerationType.UUID)
+    private int uid;
 
     @Column(unique = true)
     private String email;
@@ -33,6 +33,8 @@ public class User implements Serializable {
 
     private String status;
 
+    private int phoneNumber;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SIM> sims;
 
@@ -41,5 +43,8 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reload> reloads;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserConnection> connections;
 
 }

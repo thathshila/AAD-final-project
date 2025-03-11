@@ -4,7 +4,7 @@ package org.example.netwave.repo;
 import org.example.netwave.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepo extends JpaRepository<User,String> {
+public interface UserRepo extends JpaRepository<User,Integer> {
 
     User findByEmail(String userName);
 

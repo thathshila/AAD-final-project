@@ -1,9 +1,12 @@
 package org.example.netwave.service.impl;
 
+import org.example.netwave.dto.ConnectionDTO;
 import org.example.netwave.dto.UserDTO;
 
 import org.example.netwave.entity.User;
+import org.example.netwave.repo.ConnectionRepo;
 import org.example.netwave.repo.UserRepo;
+import org.example.netwave.service.ConnectionService;
 import org.example.netwave.service.UserService;
 import org.example.netwave.utill.VarList;
 import org.modelmapper.ModelMapper;
@@ -29,6 +32,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ConnectionRepo connectionRepo;
+
+    @Autowired
+    private ConnectionService connectionService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -57,6 +66,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
     }
 
+//    @Override
+//    public int saveUser(UserDTO userDTO) {
+//        if (userRepo.existsByEmail(userDTO.getEmail())) {
+//            return VarList.Not_Acceptable;
+//        } else {
+//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+//           // userDTO.setRole("USER");
+//            userRepo.save(modelMapper.map(userDTO, User.class));
+//            return VarList.Created;
+//        }
+//    }
+
+
+
     @Override
     public int saveUser(UserDTO userDTO) {
         if (userRepo.existsByEmail(userDTO.getEmail())) {
@@ -64,8 +88,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } else {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-           // userDTO.setRole("USER");
-            userRepo.save(modelMapper.map(userDTO, User.class));
+
+            // Convert DTO to User entity
+            User user = modelMapper.map(userDTO, User.class);
+
+            // Save User
+            user = userRepo.save(user);
+
+            // Save Connection details
+            ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(),user.getPhoneNumber(), user.getName());
+            connectionService.saveConnection(connectionDTO); // Fix: Use ConnectionService instead of ConnectionRepo
+
             return VarList.Created;
         }
-    }}
+    }
+}
+
