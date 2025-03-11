@@ -18,7 +18,7 @@ public class Reload {
     private int reloadId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
 //    @ManyToOne
@@ -26,7 +26,7 @@ public class Reload {
 //    private SIM sim;
 
     @ManyToOne
-    @JoinColumn(name = "connnection_id", nullable = false)
+    @JoinColumn(name = "connnection_id")
     private UserConnection userConnection;
 
     @Column(nullable = false)
@@ -35,6 +35,6 @@ public class Reload {
     private LocalDateTime reloadDate = LocalDateTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "credit_bundle_id", nullable = false)
+    @JoinColumn(name = "credit_bundle_id")
     private CreditBundle creditBundle;
 }
