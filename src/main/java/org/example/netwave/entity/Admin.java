@@ -14,17 +14,15 @@ import java.util.List;
 @Data
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int adminId;
 
-    @Column(nullable = false, length = 100)
-    private String name;
+    private String adminName;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
+    @Column(unique = true, length = 100)
+    private String adminEmail;
 
-    @Column(nullable = false)
-    private String passwordHash;
+    private String adminPassword;
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CreditBundle> creditBundles;
