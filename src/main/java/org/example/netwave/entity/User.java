@@ -29,10 +29,7 @@ public class User implements Serializable {
 
     private String role;
 
-    @Column(updatable = false)
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
+    private LocalDateTime date = LocalDateTime.now();
 
     private String status;
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,8 @@ public class CreditBundle {
 
     @Column(nullable = false)
     private Double amount;
+
+    private LocalDateTime date = LocalDateTime.now();
 
     @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Packages> packages;
