@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Entity
+@Table(name = "packages")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "packages")
 public class Packages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,9 +37,15 @@ public class Packages {
     @OneToMany(mappedBy = "packages", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Offers> offers;
 
+    @ManyToOne
+    @JoinColumn(name = "sim_id", nullable = false)
+    private SIM sim;
+
+    @ManyToOne
+    @JoinColumn(name = "credit_bundle_id", nullable = false)
+    private CreditBundle creditBundle;
+
     public enum PackageType {
         PREPAID, POSTPAID
     }
-
 }
-

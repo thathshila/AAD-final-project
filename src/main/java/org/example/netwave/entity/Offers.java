@@ -30,7 +30,6 @@ public class Offers {
     private LocalDate validUntil;
 
     @ManyToOne
-    @JoinColumn(name = "package_id")
+    @JoinColumn(name = "package_id", nullable = false)
     private Packages packages;
-
 }

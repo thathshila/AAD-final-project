@@ -31,9 +31,6 @@ public class Payment {
     private LocalDateTime paymentDate = LocalDateTime.now();
 
     public enum PaymentMethod {
-        CREDIT_CARD, DEBIT_CARD, BANK_TRANSFER, CASH
+        CREDIT_CARD, DEBIT_CARD, BANK_TRANSFER
     }
 }
-
-
-

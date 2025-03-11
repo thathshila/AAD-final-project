@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "sim")
@@ -28,12 +29,15 @@ public class SIM {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Packages> packages;
+
+    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reload> reloads;
+
     private LocalDateTime assignedAt = LocalDateTime.now();
 
     public enum SIMStatus {
         ACTIVE, INACTIVE
     }
-
-
 }
-

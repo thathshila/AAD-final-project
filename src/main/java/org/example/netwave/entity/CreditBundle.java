@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "credit_bundle")
 @AllArgsConstructor
@@ -21,7 +23,15 @@ public class CreditBundle {
     @Column(nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
-    private int validityDays;
+    @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Packages> packages;
+
+    @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reload> reloads;
+
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id", nullable = false)
+    private Admin admin;
 
 }

@@ -30,4 +30,7 @@ public class Reload {
 
     private LocalDateTime reloadDate = LocalDateTime.now();
 
+    @ManyToOne
+    @JoinColumn(name = "credit_bundle_id", nullable = false)
+    private CreditBundle creditBundle;
 }

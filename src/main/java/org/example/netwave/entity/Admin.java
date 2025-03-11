@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "admin")
 @AllArgsConstructor
@@ -24,5 +26,7 @@ public class Admin {
     @Column(nullable = false)
     private String passwordHash;
 
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CreditBundle> creditBundles;
 }
 
