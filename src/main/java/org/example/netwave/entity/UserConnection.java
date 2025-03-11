@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "connections")
@@ -22,8 +23,21 @@ public class UserConnection {
 
     private String UserName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    private Connectionstatus status = Connectionstatus.ACTIVE;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Packages> packages;
+
+    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reload> reloads;
+
+    private LocalDateTime assignedAt = LocalDateTime.now();
+
+    public enum Connectionstatus {
+        ACTIVE, INACTIVE
+    }
 }

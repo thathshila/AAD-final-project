@@ -21,9 +21,13 @@ public class Reload {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+//    @ManyToOne
+//    @JoinColumn(name = "sim_id", nullable = false)
+//    private SIM sim;
+
     @ManyToOne
-    @JoinColumn(name = "sim_id", nullable = false)
-    private SIM sim;
+    @JoinColumn(name = "connnection_id", nullable = false)
+    private UserConnection userConnection;
 
     @Column(nullable = false)
     private Double amount;

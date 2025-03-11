@@ -29,11 +29,11 @@ public class SIM {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Packages> packages;
-
-    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reload> reloads;
+//    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Packages> packages;
+//
+//    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Reload> reloads;
 
     private LocalDateTime assignedAt = LocalDateTime.now();
 
