@@ -14,15 +14,13 @@ import java.util.List;
 @Data
 public class Packages {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int packageId;
 
     @Column(nullable = false, length = 100)
     private String packageName;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private PackageType packageType;
+    private String packageType;
 
     private Float dataLimit;
     private Integer callMinutes;
@@ -42,11 +40,11 @@ public class Packages {
 //    private SIM sim;
 
     @ManyToOne
-    @JoinColumn(name = "credit_bundle_id", nullable = false)
+    @JoinColumn(name = "credit_bundle_id")
     private CreditBundle creditBundle;
 
     @ManyToOne
-    @JoinColumn(name = "connection_id", nullable = false)
+    @JoinColumn(name = "connection_id")
     private UserConnection userConnection;
 
     public enum PackageType {
