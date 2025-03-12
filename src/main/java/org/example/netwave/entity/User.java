@@ -47,4 +47,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserConnection> connections;
 
+    @Column(name = "deleted", columnDefinition = "boolean default false")
+    private boolean deleted;
+
 }

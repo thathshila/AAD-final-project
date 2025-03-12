@@ -4,6 +4,7 @@ import org.example.netwave.dto.ConnectionDTO;
 import org.example.netwave.dto.UserDTO;
 
 import org.example.netwave.entity.User;
+import org.example.netwave.entity.UserConnection;
 import org.example.netwave.repo.ConnectionRepo;
 import org.example.netwave.repo.UserRepo;
 import org.example.netwave.service.ConnectionService;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -80,6 +83,28 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //    }
 
 
+//    @Override
+//    public int saveUser(UserDTO userDTO) {
+//        if (userRepo.existsByEmail(userDTO.getEmail())) {
+//            return VarList.Not_Acceptable;
+//        } else {
+//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+//
+//            // Convert DTO to User entity
+//            User user = modelMapper.map(userDTO, User.class);
+//
+//            // Save User
+//            user = userRepo.save(user);
+//
+//            // Save Connection details
+//            ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(), user.getPhoneNumber(), user.getName());
+//            connectionService.saveConnection(connectionDTO); // Fix: Use ConnectionService instead of ConnectionRepo
+//
+//            return VarList.Created;
+//        }
+//    }
+
     @Override
     public int saveUser(UserDTO userDTO) {
         if (userRepo.existsByEmail(userDTO.getEmail())) {
@@ -88,18 +113,55 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 
-            // Convert DTO to User entity
             User user = modelMapper.map(userDTO, User.class);
-
-            // Save User
             user = userRepo.save(user);
 
-            // Save Connection details
             ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(), user.getPhoneNumber(), user.getName());
-            connectionService.saveConnection(connectionDTO); // Fix: Use ConnectionService instead of ConnectionRepo
+            connectionService.saveConnection(connectionDTO);
 
             return VarList.Created;
         }
     }
 
+    @Override
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepo.findByDeletedFalse();
+        return users.stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO getUserById(int id) {
+        return userRepo.findById(id)
+                .filter(user -> !user.isDeleted())
+                .map(user -> modelMapper.map(user, UserDTO.class))
+                .orElse(null);
+    }
+
+    @Override
+    public boolean updateUser(int id, UserDTO userDTO) {
+        return userRepo.findById(id).map(existingUser -> {
+            existingUser.setName(userDTO.getName());
+            existingUser.setEmail(userDTO.getEmail());
+            existingUser.setPhoneNumber(Integer.parseInt(userDTO.getPhoneNumber()));
+            userRepo.save(existingUser);
+            return true;
+        }).orElse(false);
+    }
+
+    @Override
+    public boolean softDeleteUser(int id) {
+        return userRepo.findById(id).map(user -> {
+            user.setDeleted(true);
+            userRepo.save(user);
+
+            // Soft delete associated connections
+            List<UserConnection> connections = connectionRepo.findByUser_UidAndDeletedFalse(id);
+            connections.forEach(connection -> {
+                connection.setDeleted(true);
+                connectionRepo.save(connection);
+            });
+
+            return true;
+        }).orElse(false);
+    }
 }

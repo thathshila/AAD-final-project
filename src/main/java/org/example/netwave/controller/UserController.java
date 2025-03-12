@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("api/v1/user")
@@ -54,4 +56,41 @@ public class UserController {
         }
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable int id) {
+        UserDTO user = userService.getUserById(id);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
+    }
+
+//    @PostMapping("/register")
+//    public ResponseEntity<ResponseDTO> registerUser(@RequestBody @Validated UserDTO userDTO) {
+//        try {
+//            int res = userService.saveUser(userDTO);
+//            if (res == VarList.Created) {
+//                return ResponseEntity.status(HttpStatus.CREATED)
+//                        .body(new ResponseDTO(VarList.Created, "Success", null));
+//            } else {
+//                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
+//                        .body(new ResponseDTO(VarList.Not_Acceptable, "Email Already Used", null));
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+//        }
+//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
+        return userService.updateUser(id, userDTO) ? ResponseEntity.ok("User Updated Successfully") : ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+        return userService.softDeleteUser(id) ? ResponseEntity.ok("User Deleted Successfully") : ResponseEntity.notFound().build();
+    }
 }

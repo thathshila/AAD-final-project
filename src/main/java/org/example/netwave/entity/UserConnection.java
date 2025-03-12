@@ -41,4 +41,6 @@ public class UserConnection {
     public enum Connectionstatus {
         ACTIVE, INACTIVE
     }
+    @Column(name = "deleted", columnDefinition = "boolean default false")
+    private boolean deleted;
 }

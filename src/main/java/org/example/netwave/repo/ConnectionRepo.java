@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ConnectionRepo extends JpaRepository<UserConnection, Integer> {
- //   List<UserConnection> findByIsDeletedFalse();
+    List<UserConnection> findByUser_UidAndDeletedFalse(int userId);
 }
 
