@@ -34,4 +34,6 @@ public class CreditBundle {
     @JoinColumn(name = "admin_id")
     private Admin admin;
 
+    private boolean isDeleted = false;
+
 }

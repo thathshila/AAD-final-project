@@ -12,4 +12,6 @@ public class Credit_BundleDTO {
     private String bundleName;
     private Double amount;
     private int admin_id;
+
+    private boolean isDeleted = false;
 }

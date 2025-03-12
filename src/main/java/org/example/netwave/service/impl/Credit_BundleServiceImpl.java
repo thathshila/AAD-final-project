@@ -41,7 +41,7 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
 
     @Override
     public List<Credit_BundleDTO> getAllCredit_bundle() {
-        return modelMapper.map(credit_BundleRepo.findAll(),
+        return modelMapper.map(credit_BundleRepo.findByIsDeletedFalse(),
                 new TypeToken<List<Credit_BundleDTO>>() {}.getType());
     }
 
@@ -61,5 +61,14 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
 
         // Save the updated entity
         credit_BundleRepo.save(existingCreditBundle);
+    }
+
+    @Override
+    public void deleteCredit_bundle(int id) {
+        CreditBundle creditBundle = credit_BundleRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("credit not found"));
+
+        creditBundle.setDeleted(true); // Mark as deleted
+        credit_BundleRepo.save(creditBundle);  // Save changes
     }
 }
