@@ -26,10 +26,9 @@ public class Reload {
 //    private SIM sim;
 
     @ManyToOne
-    @JoinColumn(name = "connnection_id")
+    @JoinColumn(name = "connection_id")
     private UserConnection userConnection;
 
-    @Column(nullable = false)
     private Double amount;
 
     private LocalDateTime reloadDate = LocalDateTime.now();

@@ -18,10 +18,8 @@ public class CreditBundle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bundleId;
 
-    @Column(nullable = false, length = 100)
     private String bundleName;
 
-    @Column(nullable = false)
     private Double amount;
 
     private LocalDateTime date = LocalDateTime.now();
@@ -32,9 +30,8 @@ public class CreditBundle {
     @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reload> reloads;
 
-
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id")
     private Admin admin;
 
 }

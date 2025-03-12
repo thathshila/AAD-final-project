@@ -26,10 +26,8 @@ public class Packages {
     private Integer callMinutes;
     private Integer smsLimit;
 
-    @Column(nullable = false)
     private Double price;
 
-    @Column(nullable = false)
     private int validityDays;
 
     @OneToMany(mappedBy = "packages", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -47,7 +45,4 @@ public class Packages {
     @JoinColumn(name = "connection_id")
     private UserConnection userConnection;
 
-    public enum PackageType {
-        PREPAID, POSTPAID
-    }
 }

@@ -17,19 +17,15 @@ public class Offers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int offerId;
 
-    @Column(nullable = false, length = 100)
     private String offerName;
 
-    @Column(nullable = false)
     private Double discountPercentage;
 
-    @Column(nullable = false)
     private LocalDate validFrom;
 
-    @Column(nullable = false)
     private LocalDate validUntil;
 
     @ManyToOne
-    @JoinColumn(name = "package_id", nullable = false)
+    @JoinColumn(name = "package_id")
     private Packages packages;
 }
