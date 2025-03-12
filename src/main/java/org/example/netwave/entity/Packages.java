@@ -41,6 +41,7 @@ public class Packages {
     @JoinColumn(name = "credit_bundle_id")
     private CreditBundle creditBundle;
 
+    private boolean isDeleted = false;
 //    @ManyToOne
 //    private UserConnection userConnection;
 

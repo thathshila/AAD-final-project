@@ -10,6 +10,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PackageServiceImpl implements PackageService {
 
@@ -41,5 +44,49 @@ public class PackageServiceImpl implements PackageService {
 
         // Save entity
         packageRepo.save(packages);
+    }
+    @Override
+    public List<PackageDTO> getAllPackages() {
+        return packageRepo.findByIsDeletedFalse().stream()
+                .map(packageEntity -> modelMapper.map(packageEntity, PackageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public PackageDTO getPackageById(int id) {
+        Packages packageEntity = packageRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+        return modelMapper.map(packageEntity, PackageDTO.class);
+    }
+
+    @Override
+    public void updatePackage(int id, PackageDTO packageDTO) {
+        Packages packageEntity = packageRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        packageEntity.setPackageName(packageDTO.getPackageName());
+        packageEntity.setPackageType(packageDTO.getPackageType());
+        packageEntity.setDataLimit(packageDTO.getDataLimit());
+        packageEntity.setCallMinutes(packageDTO.getCallMinutes());
+        packageEntity.setSmsLimit(packageDTO.getSmsLimit());
+        packageEntity.setPrice(packageDTO.getPrice());
+        packageEntity.setValidityDays(packageDTO.getValidityDays());
+
+        if (packageDTO.getCredit_bundle_id() != 0) {
+            CreditBundle creditBundle = creditBundleRepo.findById(packageDTO.getCredit_bundle_id())
+                    .orElseThrow(() -> new RuntimeException("Credit Bundle not found"));
+            packageEntity.setCreditBundle(creditBundle);
+        }
+
+        packageRepo.save(packageEntity);
+    }
+
+    @Override
+    public void deletePackage(int id) {
+        Packages packageEntity = packageRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        packageEntity.setDeleted(true);  // Soft delete
+        packageRepo.save(packageEntity);
     }
 }
