@@ -7,8 +7,11 @@ import org.example.netwave.repo.AdminRepo;
 import org.example.netwave.repo.Credit_BundleRepo;
 import org.example.netwave.service.Credit_BundleService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class Credit_BundleServiceImpl implements Credit_BundleService {
@@ -34,5 +37,11 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
 
         // Save the entity
         credit_BundleRepo.save(creditBundle);
+    }
+
+    @Override
+    public List<Credit_BundleDTO> getAllCredit_bundle() {
+        return modelMapper.map(credit_BundleRepo.findAll(),
+                new TypeToken<List<Credit_BundleDTO>>() {}.getType());
     }
 }

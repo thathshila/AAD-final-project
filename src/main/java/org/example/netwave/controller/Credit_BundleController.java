@@ -19,4 +19,9 @@ public class Credit_BundleController {
         Credit_BundleService.saveCredit_bundle(credit_bundleDTO);
         return new ResponseUtil(201, "Successfully", null);
     }
+
+    @GetMapping("getAll")
+    public ResponseUtil getAllCredit_bundle() {
+        return new ResponseUtil(200,"Get all  Credit Bundles",Credit_BundleService.getAllCredit_bundle());
+    }
 }
