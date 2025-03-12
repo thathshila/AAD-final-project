@@ -33,8 +33,8 @@ public class UserConnection {
 //    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Packages> packages;
 
-    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Reload> reloads;
+//    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Reload> reloads;
 
     private LocalDateTime assignedAt = LocalDateTime.now();
 

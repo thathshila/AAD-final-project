@@ -17,17 +17,17 @@ public class Reload {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reloadId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
 //    @ManyToOne
 //    @JoinColumn(name = "sim_id", nullable = false)
 //    private SIM sim;
 
-    @ManyToOne
-    @JoinColumn(name = "connection_id")
-    private UserConnection userConnection;
+//    @ManyToOne
+//    @JoinColumn(name = "connection_id")
+//    private UserConnection userConnection;
 
     private Double amount;
 
