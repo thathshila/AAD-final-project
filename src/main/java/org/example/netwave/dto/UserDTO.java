@@ -17,5 +17,4 @@ public class UserDTO {
     private String status;
     private String phoneNumber;
     private boolean deleted;
-
 }
