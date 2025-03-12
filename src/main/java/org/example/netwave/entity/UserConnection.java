@@ -29,8 +29,8 @@ public class UserConnection {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Packages> packages;
+//    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Packages> packages;
 
     @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reload> reloads;

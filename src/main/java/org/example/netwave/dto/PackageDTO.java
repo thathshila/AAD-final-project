@@ -19,6 +19,4 @@ public class PackageDTO {
     private Double price;
     private int validityDays;
     private int credit_bundle_id;
-    private UserConnection userConnection;
-
 }

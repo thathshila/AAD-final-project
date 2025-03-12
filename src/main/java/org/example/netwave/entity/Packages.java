@@ -41,8 +41,7 @@ public class Packages {
     @JoinColumn(name = "credit_bundle_id")
     private CreditBundle creditBundle;
 
-    @ManyToOne
-    @JoinColumn(name = "connection_id")
-    private UserConnection userConnection;
+//    @ManyToOne
+//    private UserConnection userConnection;
 
 }
