@@ -8,4 +8,6 @@ public interface Credit_BundleService {
     void saveCredit_bundle(Credit_BundleDTO creditBundleDTO);
 
     List<Credit_BundleDTO> getAllCredit_bundle();
+
+    void updateCredit_bundle(Credit_BundleDTO creditBundleDTO);
 }

@@ -36,10 +36,16 @@ public class AdminController {
         return new ResponseUtil(200,"Admin Update Successfully",null);
     }
 
+//    @DeleteMapping(path = "delete/{id}")
+//    public ResponseUtil deleteAdmin(@PathVariable int id) {
+//        adminService.deleteAdmin(id);
+//        return new ResponseUtil(200,"Admin Delete Successfully",null);
+//    }
+
     @DeleteMapping(path = "delete/{id}")
     public ResponseUtil deleteAdmin(@PathVariable int id) {
         adminService.deleteAdmin(id);
-        return new ResponseUtil(200,"Admin Delete Successfully",null);
+        return new ResponseUtil(200, "Admin deleted successfully (soft delete)", null);
     }
 
     @GetMapping("/checkRole")

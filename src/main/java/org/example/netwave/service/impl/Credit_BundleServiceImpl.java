@@ -44,4 +44,22 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
         return modelMapper.map(credit_BundleRepo.findAll(),
                 new TypeToken<List<Credit_BundleDTO>>() {}.getType());
     }
+
+    @Override
+    public void updateCredit_bundle(Credit_BundleDTO creditBundleDTO) {
+        CreditBundle existingCreditBundle = credit_BundleRepo.findById(creditBundleDTO.getCredit_bundle_id())
+                .orElseThrow(() -> new RuntimeException("Credit Bundle not found"));
+
+        // Fetch the Admin entity using the provided admin_id
+        Admin admin = adminRepo.findById(creditBundleDTO.getAdmin_id())
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        // Update the fields
+        existingCreditBundle.setBundleName(creditBundleDTO.getBundleName());
+        existingCreditBundle.setAmount(creditBundleDTO.getAmount());
+        existingCreditBundle.setAdmin(admin);
+
+        // Save the updated entity
+        credit_BundleRepo.save(existingCreditBundle);
+    }
 }

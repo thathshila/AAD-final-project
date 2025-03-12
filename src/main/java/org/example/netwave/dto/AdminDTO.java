@@ -13,4 +13,5 @@ public class AdminDTO {
     private String adminEmail;
     private String adminPassword;
 
+    private boolean isDeleted = false;
 }

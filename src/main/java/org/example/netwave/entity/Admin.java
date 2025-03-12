@@ -26,5 +26,7 @@ public class Admin {
 
     @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CreditBundle> creditBundles;
+
+    private boolean isDeleted = false;
 }
 

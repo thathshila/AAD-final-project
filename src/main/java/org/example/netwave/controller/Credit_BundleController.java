@@ -24,4 +24,10 @@ public class Credit_BundleController {
     public ResponseUtil getAllCredit_bundle() {
         return new ResponseUtil(200,"Get all  Credit Bundles",Credit_BundleService.getAllCredit_bundle());
     }
+
+    @PutMapping("update")
+    public ResponseUtil updateCredit_bundle(@RequestBody Credit_BundleDTO credit_bundleDTO) {
+        Credit_BundleService.updateCredit_bundle(credit_bundleDTO);
+        return new ResponseUtil(201, "updated", null);
+    }
 }

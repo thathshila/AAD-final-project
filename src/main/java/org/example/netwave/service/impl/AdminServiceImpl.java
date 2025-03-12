@@ -67,16 +67,32 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
+//    @Override
+//    public List<AdminDTO> getAllAdmins() {
+//        return modelMapper.map(adminRepo.findAll(),
+//                new TypeToken<List<AdminDTO>>() {}.getType());
+//
+//    }
+
     @Override
     public List<AdminDTO> getAllAdmins() {
-        return modelMapper.map(adminRepo.findAll(),
-                new TypeToken<List<AdminDTO>>() {}.getType());
-
+        List<Admin> admins = adminRepo.findByIsDeletedFalse(); // Fetch only non-deleted admins
+        return modelMapper.map(admins, new TypeToken<List<AdminDTO>>() {}.getType());
     }
 
+
+//    @Override
+//    public void deleteAdmin(int id) {
+//        adminRepo.deleteById(id);
+//    }
 
     @Override
     public void deleteAdmin(int id) {
-        adminRepo.deleteById(id);
+        Admin admin = adminRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        admin.setDeleted(true); // Mark as deleted
+        adminRepo.save(admin);  // Save changes
     }
+
 }
