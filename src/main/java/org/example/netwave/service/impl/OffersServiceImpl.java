@@ -7,8 +7,11 @@ import org.example.netwave.repo.OffersRepo;
 import org.example.netwave.repo.PackageRepo;
 import org.example.netwave.service.OffersService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OffersServiceImpl implements OffersService {
@@ -34,5 +37,36 @@ public class OffersServiceImpl implements OffersService {
 
         // Save to database
         offersRepo.save(offers);
+    }
+
+    @Override
+    public List<OffersDTO> getAllOffers() {
+        List<Offers> offersList = offersRepo.findByIsDeletedFalse();
+        return modelMapper.map(offersList, new TypeToken<List<OffersDTO>>() {}.getType());
+    }
+
+    @Override
+    public void updateOffer(OffersDTO offersDTO) {
+        Offers existingOffer = offersRepo.findById(offersDTO.getOfferId())
+                .orElseThrow(() -> new RuntimeException("Offer not found"));
+
+        existingOffer.setOfferName(offersDTO.getOfferName());
+        existingOffer.setDiscountPercentage(offersDTO.getDiscountPercentage());
+        existingOffer.setValidFrom(offersDTO.getValidFrom());
+        existingOffer.setValidUntil(offersDTO.getValidUntil());
+
+        Packages packages = packageRepo.findById(offersDTO.getPackageId())
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+        existingOffer.setPackages(packages);
+
+        offersRepo.save(existingOffer);
+    }
+
+    @Override
+    public void deleteOffer(int id) {
+        Offers offer = offersRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Offer not found"));
+        offer.setDeleted(true); // Soft delete
+        offersRepo.save(offer);
     }
 }

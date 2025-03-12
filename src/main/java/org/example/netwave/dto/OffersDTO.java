@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 public class OffersDTO {
+    private int offerId;
     private String offerName;
 
     private Double discountPercentage;
@@ -19,4 +20,6 @@ public class OffersDTO {
     private LocalDate validUntil;
 
     private int packageId;
+
+    private boolean isDeleted = false;
 }

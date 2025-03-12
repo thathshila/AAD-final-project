@@ -18,4 +18,21 @@ public class OffersController {
         offersService.saveOffers(offersDTO);
         return new ResponseUtil(201,"Offer Create Successfully",null);
     }
+
+    @GetMapping("getAll")
+    public ResponseUtil getAllOffers() {
+        return new ResponseUtil(200, "Success", offersService.getAllOffers());
+    }
+
+    @PutMapping("update")
+    public ResponseUtil updateOffer(@RequestBody OffersDTO offersDTO) {
+        offersService.updateOffer(offersDTO);
+        return new ResponseUtil(200, "Offer Updated Successfully", null);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseUtil deleteOffer(@PathVariable int id) {
+        offersService.deleteOffer(id);
+        return new ResponseUtil(200, "Offer Soft Deleted Successfully", null);
+    }
 }

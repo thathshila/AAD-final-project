@@ -28,4 +28,6 @@ public class Offers {
     @ManyToOne
     @JoinColumn(name = "package_id")
     private Packages packages;
+
+    private boolean isDeleted = false;
 }
