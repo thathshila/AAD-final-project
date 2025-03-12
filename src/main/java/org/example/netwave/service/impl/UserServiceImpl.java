@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     public UserDTO loadUserDetailsByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(username);
-        return modelMapper.map(user,UserDTO.class);
+        return modelMapper.map(user, UserDTO.class);
     }
 
     private Set<SimpleGrantedAuthority> getAuthority(User user) {
@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDTO searchUser(String username) {
         if (userRepo.existsByEmail(username)) {
-            User user= userRepo.findByEmail(username);
-            return modelMapper.map(user,UserDTO.class);
+            User user = userRepo.findByEmail(username);
+            return modelMapper.map(user, UserDTO.class);
         } else {
             return null;
         }
@@ -80,7 +80,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //    }
 
 
-
     @Override
     public int saveUser(UserDTO userDTO) {
         if (userRepo.existsByEmail(userDTO.getEmail())) {
@@ -96,11 +95,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             user = userRepo.save(user);
 
             // Save Connection details
-            ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(),user.getPhoneNumber(), user.getName());
+            ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(), user.getPhoneNumber(), user.getName());
             connectionService.saveConnection(connectionDTO); // Fix: Use ConnectionService instead of ConnectionRepo
 
             return VarList.Created;
         }
     }
-}
 
+}

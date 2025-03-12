@@ -12,6 +12,8 @@ import java.util.UUID;
 public class ConnectionDTO {
     private int userId;
     private int phoneNumber;
-
     private String UserName;
+   // private boolean isDeleted = false;
+
 }
+

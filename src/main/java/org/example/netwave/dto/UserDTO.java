@@ -16,4 +16,5 @@ public class UserDTO {
     private String role;
     private String status;
     private String phoneNumber;
+   // private boolean isDeleted = false;
 }

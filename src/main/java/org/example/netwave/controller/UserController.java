@@ -5,6 +5,7 @@ import org.example.netwave.dto.ResponseDTO;
 import org.example.netwave.dto.UserDTO;
 import org.example.netwave.service.UserService;
 import org.example.netwave.utill.JwtUtil;
+import org.example.netwave.utill.ResponseUtil;
 import org.example.netwave.utill.VarList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
