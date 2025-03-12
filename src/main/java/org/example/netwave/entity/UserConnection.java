@@ -23,6 +23,7 @@ public class UserConnection {
 
     private String UserName;
 
+    @Enumerated(EnumType.STRING)
     private Connectionstatus status = Connectionstatus.ACTIVE;
 
     @ManyToOne

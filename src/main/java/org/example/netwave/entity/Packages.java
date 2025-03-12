@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Packages {
     @Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int packageId;
 
     @Column(nullable = false, length = 100)
