@@ -16,38 +16,47 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class User implements Serializable {
-    @Id
-   //@GeneratedValue(strategy = GenerationType.UUID)
-    private int uid;
+ @Id
+ @GeneratedValue(strategy = GenerationType.IDENTITY)
+ private int uid;
 
-    @Column(unique = true)
-    private String email;
+ @Column(unique = true)
+ private String email;
 
-    private String password;
+ private String password;
 
-    private String name;
+ private String name;
 
-    private String role;
+ private LocalDateTime date = LocalDateTime.now();
 
-    private LocalDateTime date = LocalDateTime.now();
+ private String role;
+ private String status;
 
-    private String status;
+ private int phoneNumber;
 
-    private int phoneNumber;
+ @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+ private List<SIM> sims;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SIM> sims;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Payment> payments;
+ @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+ private List<Payment> payments;
 
 //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Reload> reloads;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserConnection> connections;
+ @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+ private List<UserConnection> connections;
 
-    @Column(name = "deleted", columnDefinition = "boolean default false")
-    private boolean deleted;
+ @Column(name = "deleted", columnDefinition = "boolean default false")
+ private boolean deleted;
 
+ @PrePersist
+ public void setDefaults() {
+  if (this.role == null) {
+   this.role = "User";
+  }
+  if (this.status == null) {
+   this.status = "Active";
+  }
+
+ }
 }
