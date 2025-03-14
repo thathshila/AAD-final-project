@@ -29,10 +29,10 @@ public class CreditBundle {
 
     @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reload> reloads;
-
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "admin_id")
+//    private Admin admin;
 
     private boolean isDeleted = false;
 
