@@ -22,7 +22,11 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
 
     @Override
     public void saveCredit_bundle(Credit_BundleDTO creditBundleDTO) {
-
+        if (credit_BundleRepo.existsById(creditBundleDTO.getBundleId())){
+            System.out.println(creditBundleDTO.getBundleId());
+            throw new RuntimeException("credit bundle already exists");
+        }
+        credit_BundleRepo.save(modelMapper.map(creditBundleDTO, CreditBundle.class));
     }
 
 
@@ -35,7 +39,10 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
 
     @Override
     public void updateCredit_bundle(Credit_BundleDTO creditBundleDTO) {
-
+        if (credit_BundleRepo.existsById(creditBundleDTO.getBundleId())){
+                credit_BundleRepo.save(modelMapper.map(creditBundleDTO, CreditBundle.class));
+        }
+            throw new RuntimeException("credit bundle not exists");
     }
 
     @Override

@@ -20,7 +20,7 @@ public class CreditBundle {
 
     private String bundleName;
 
-    private Double amount;
+    private double amount;
 
     private LocalDateTime date = LocalDateTime.now();
 

@@ -8,10 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Credit_BundleDTO {
-    private int credit_bundle_id;
+    private int bundleId;
     private String bundleName;
-    private Double amount;
-    private String admin_name;
-    private int admin_id;
+    private double amount;
     private boolean isDeleted = false;
 }
