@@ -35,6 +35,11 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
     }
 
     @Override
+    public Integer getCreditBundleByNames(String name) {
+        return credit_BundleRepo.findBundleByNames(name);
+    }
+
+    @Override
     public List<Credit_BundleDTO> getAllCredit_bundle() {
         return modelMapper.map(credit_BundleRepo.findByIsDeletedFalse(),
                 new TypeToken<List<Credit_BundleDTO>>() {}.getType());
