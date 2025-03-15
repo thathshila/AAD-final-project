@@ -12,4 +12,6 @@ public interface Credit_BundleService {
     void updateCredit_bundle(Credit_BundleDTO creditBundleDTO);
 
     void deleteCredit_bundle(int id);
+
+    List<String> getAllNamesCredit_bundle();
 }

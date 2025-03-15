@@ -29,7 +29,10 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
         credit_BundleRepo.save(modelMapper.map(creditBundleDTO, CreditBundle.class));
     }
 
-
+    @Override
+    public List<String> getAllNamesCredit_bundle() {
+        return credit_BundleRepo.findAllCreditBundleName();
+    }
 
     @Override
     public List<Credit_BundleDTO> getAllCredit_bundle() {
