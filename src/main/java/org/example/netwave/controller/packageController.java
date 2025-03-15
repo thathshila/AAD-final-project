@@ -27,21 +27,18 @@ public class packageController {
         return new ResponseUtil(200, "Packages Retrieved Successfully", packageDTOList);
     }
 
-    // Get package by ID (GET)
     @GetMapping("get/{id}")
     public ResponseUtil getPackageById(@PathVariable int id) {
         PackageDTO packageDTO = packageService.getPackageById(id);
         return new ResponseUtil(200, "Package Retrieved Successfully", packageDTO);
     }
 
-    // Update a package (PUT)
     @PutMapping("update/{id}")
     public ResponseUtil updatePackage(@PathVariable int id, @RequestBody PackageDTO packageDTO) {
         packageService.updatePackage(id, packageDTO);
         return new ResponseUtil(200, "Package Updated Successfully", null);
     }
 
-    // Soft delete a package (DELETE)
     @DeleteMapping("delete/{id}")
     public ResponseUtil deletePackage(@PathVariable int id) {
         packageService.deletePackage(id);

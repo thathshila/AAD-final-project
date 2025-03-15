@@ -27,22 +27,15 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public void savePackage(PackageDTO packageDTO) {
-        // Check if package exists
         if (packageDTO.getPackageId() != 0 && packageRepo.existsById(packageDTO.getPackageId())) {
             throw new RuntimeException("Package already exists");
         }
-
-        // Map DTO to entity
         Packages packages = modelMapper.map(packageDTO, Packages.class);
-
-        // Fetch and assign CreditBundle if provided
         if (packageDTO.getCredit_bundle_id() != 0) {
             CreditBundle creditBundle = creditBundleRepo.findById(packageDTO.getCredit_bundle_id())
                     .orElseThrow(() -> new RuntimeException("Credit Bundle not found"));
             packages.setCreditBundle(creditBundle);
         }
-
-        // Save entity
         packageRepo.save(packages);
     }
     @Override
