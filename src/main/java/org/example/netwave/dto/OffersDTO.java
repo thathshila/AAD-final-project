@@ -12,14 +12,9 @@ import java.time.LocalDate;
 public class OffersDTO {
     private int offerId;
     private String offerName;
-
     private Double discountPercentage;
-
     private LocalDate validFrom;
-
     private LocalDate validUntil;
-
     private int packageId;
-
     private boolean isDeleted = false;
 }

@@ -33,6 +33,17 @@ public class packageController {
         return new ResponseUtil(200, "Package Retrieved Successfully", packageDTO);
     }
 
+    @GetMapping("/getNames")
+    public ResponseUtil getPackageNames() {
+        return new ResponseUtil(200, "Package Names Retrieved Successfully",packageService.getPackageNames());
+    }
+
+    @GetMapping("/getPackageId/{name}")
+    public ResponseUtil getBundleByName(@PathVariable String name) {
+        Integer packageId = packageService.getPackageIdByNames(name);
+        return new ResponseUtil(200, "Bundle found",packageId);
+    }
+
     @PutMapping("update/{id}")
     public ResponseUtil updatePackage(@PathVariable int id, @RequestBody PackageDTO packageDTO) {
         packageService.updatePackage(id, packageDTO);

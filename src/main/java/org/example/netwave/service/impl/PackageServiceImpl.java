@@ -82,4 +82,14 @@ public class PackageServiceImpl implements PackageService {
         packageEntity.setDeleted(true);  // Soft delete
         packageRepo.save(packageEntity);
     }
+
+    @Override
+    public List<String> getPackageNames() {
+        return packageRepo.findAllPackageNames();
+    }
+
+    @Override
+    public Integer getPackageIdByNames(String name) {
+        return packageRepo.findPackageIdByNames(name);
+    }
 }
