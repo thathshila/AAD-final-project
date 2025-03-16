@@ -43,7 +43,7 @@ public class Credit_BundleController {
         return new ResponseUtil(201, "updated", null);
     }
 
-    @DeleteMapping(path = "delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseUtil deleteCredit_bundle(@PathVariable int id) {
         Credit_BundleService.deleteCredit_bundle(id);
         return new ResponseUtil(200, "Credit_bundle deleted successfully (soft delete)", null);
