@@ -27,6 +27,11 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public void saveOffers(OffersDTO offersDTO) {
+        // Check if the offer already exists
+        if (offersDTO.getOfferId() != 0 && offersRepo.existsById(offersDTO.getOfferId())) {
+            throw new RuntimeException("Offer already exists");
+        }
+
         // Map DTO to entity
         Offers offers = modelMapper.map(offersDTO, Offers.class);
 
@@ -34,6 +39,7 @@ public class OffersServiceImpl implements OffersService {
         Packages packages = packageRepo.findById(offersDTO.getPackageId())
                 .orElseThrow(() -> new RuntimeException("Package not found"));
         offers.setPackages(packages);
+        System.out.println(offersDTO.getPackageId());
 
         // Save to database
         offersRepo.save(offers);

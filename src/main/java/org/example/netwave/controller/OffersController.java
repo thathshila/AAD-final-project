@@ -13,8 +13,9 @@ public class OffersController {
     @Autowired
     private OffersService offersService;
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public ResponseUtil saveOffers(@RequestBody OffersDTO offersDTO) {
+        System.out.println(offersDTO);
         offersService.saveOffers(offersDTO);
         return new ResponseUtil(201,"Offer Create Successfully",null);
     }
