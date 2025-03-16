@@ -10,9 +10,6 @@ public interface PackageService {
     PackageDTO getPackageById(int id);
     void updatePackage(int id, PackageDTO packageDTO);
     void deletePackage(int id);
-
-
     List<String> getPackageNames();
-
     Integer getPackageIdByNames(String name);
 }

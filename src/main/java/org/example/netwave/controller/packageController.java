@@ -21,7 +21,7 @@ public class packageController {
         packageService.savePackage(packageDTO);
         return new ResponseUtil(201,"Package Created Successfully",null);
     }
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public ResponseUtil getAllPackages() {
         List<PackageDTO> packageDTOList = packageService.getAllPackages();
         return new ResponseUtil(200, "Packages Retrieved Successfully", packageDTOList);
