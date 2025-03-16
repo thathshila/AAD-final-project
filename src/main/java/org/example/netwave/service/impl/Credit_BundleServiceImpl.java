@@ -44,14 +44,17 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
         return modelMapper.map(credit_BundleRepo.findByIsDeletedFalse(),
                 new TypeToken<List<Credit_BundleDTO>>() {}.getType());
     }
-
     @Override
-    public void updateCredit_bundle(Credit_BundleDTO creditBundleDTO) {
-        if (credit_BundleRepo.existsById(creditBundleDTO.getBundleId())){
-                credit_BundleRepo.save(modelMapper.map(creditBundleDTO, CreditBundle.class));
+    public void updateCreditBundle(Credit_BundleDTO creditBundleDTO) {
+        if (!credit_BundleRepo.existsById(creditBundleDTO.getBundleId())) {
+            throw new RuntimeException("Credit bundle does not exist!");
         }
-            throw new RuntimeException("credit bundle not exists");
+
+        // Convert DTO to Entity and Save
+        CreditBundle creditBundle = modelMapper.map(creditBundleDTO, CreditBundle.class);
+        credit_BundleRepo.save(creditBundle);
     }
+
 
     @Override
     public void deleteCredit_bundle(int id) {

@@ -37,11 +37,13 @@ public class Credit_BundleController {
         return new ResponseUtil(200, "Bundle found",bundleId);
     }
 
-    @PutMapping("update")
-    public ResponseUtil updateCredit_bundle(@RequestBody Credit_BundleDTO credit_bundleDTO) {
-        Credit_BundleService.updateCredit_bundle(credit_bundleDTO);
-        return new ResponseUtil(201, "updated", null);
+    @PutMapping("/update/{id}")
+    public ResponseUtil updateCreditBundle(@PathVariable String id, @RequestBody Credit_BundleDTO creditBundleDTO) {
+        creditBundleDTO.setBundleId(Integer.parseInt(id)); // Ensure DTO has correct ID
+        Credit_BundleService.updateCreditBundle(creditBundleDTO);
+        return new ResponseUtil(200, "Credit bundle updated successfully", null);
     }
+
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseUtil deleteCredit_bundle(@PathVariable int id) {
