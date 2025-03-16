@@ -15,7 +15,7 @@ public class ReloadController {
     @Autowired
     private ReloadService reloadService;
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public ResponseUtil saveReload(@RequestBody ReloadDTO reloadDTO) {
         reloadService.saveReload(reloadDTO);
         return new ResponseUtil(201,"Reload Created Successfully",null);
