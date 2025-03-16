@@ -21,7 +21,7 @@ public class Credit_BundleController {
         return new ResponseUtil(201, "Successfully", null);
     }
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public ResponseUtil getAllCredit_bundle() {
         return new ResponseUtil(200,"Get all  Credit Bundles",Credit_BundleService.getAllCredit_bundle());
     }
