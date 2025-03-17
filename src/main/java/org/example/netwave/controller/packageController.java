@@ -16,7 +16,7 @@ public class packageController {
     @Autowired
     private PackageService packageService;
 
-    @PostMapping("save")
+    @PostMapping("/save")
     public ResponseUtil savePackage(@RequestBody PackageDTO packageDTO) {
         packageService.savePackage(packageDTO);
         return new ResponseUtil(201,"Package Created Successfully",null);
@@ -44,13 +44,13 @@ public class packageController {
         return new ResponseUtil(200, "Bundle found",packageId);
     }
 
-    @PutMapping("update/{id}")
+    @PutMapping("/update/{id}")
     public ResponseUtil updatePackage(@PathVariable int id, @RequestBody PackageDTO packageDTO) {
         packageService.updatePackage(id, packageDTO);
         return new ResponseUtil(200, "Package Updated Successfully", null);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseUtil deletePackage(@PathVariable int id) {
         packageService.deletePackage(id);
         return new ResponseUtil(200, "Package Deleted Successfully", null);
