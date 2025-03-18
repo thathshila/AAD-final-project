@@ -20,7 +20,7 @@ public class OffersController {
         return new ResponseUtil(201,"Offer Create Successfully",null);
     }
 
-    @GetMapping("getAll")
+    @GetMapping("/getAll")
     public ResponseUtil getAllOffers() {
         return new ResponseUtil(200, "Success", offersService.getAllOffers());
     }
