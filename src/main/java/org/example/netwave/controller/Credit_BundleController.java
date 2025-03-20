@@ -4,6 +4,7 @@ import org.example.netwave.dto.Credit_BundleDTO;
 import org.example.netwave.service.Credit_BundleService;
 import org.example.netwave.utill.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*")
@@ -15,6 +16,7 @@ public class Credit_BundleController {
     private Credit_BundleService Credit_BundleService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil saveCredit_bundle(@RequestBody Credit_BundleDTO credit_bundleDTO) {
         System.out.println(credit_bundleDTO);
         Credit_BundleService.saveCredit_bundle(credit_bundleDTO);
@@ -23,12 +25,14 @@ public class Credit_BundleController {
 
     @GetMapping("/getAll")
     public ResponseUtil getAllCredit_bundle() {
-        return new ResponseUtil(200,"Get all  Credit Bundles",Credit_BundleService.getAllCredit_bundle());
+        return new ResponseUtil(200,"Get all  Credit Bundles",
+                Credit_BundleService.getAllCredit_bundle());
     }
 
     @GetMapping("/getNames")
     public ResponseUtil getNamesCredit_bundle() {
-        return new ResponseUtil(200,"Get all  Credit Bundles",Credit_BundleService.getAllNamesCredit_bundle());
+        return new ResponseUtil(200,"Get all  Credit Bundles",
+                Credit_BundleService.getAllNamesCredit_bundle());
     }
 
     @GetMapping("/getCreditByName/{name}")
@@ -39,7 +43,7 @@ public class Credit_BundleController {
 
     @PutMapping("/update/{id}")
     public ResponseUtil updateCreditBundle(@PathVariable String id, @RequestBody Credit_BundleDTO creditBundleDTO) {
-        creditBundleDTO.setBundleId(Integer.parseInt(id)); // Ensure DTO has correct ID
+        creditBundleDTO.setBundleId(Integer.parseInt(id));
         Credit_BundleService.updateCreditBundle(creditBundleDTO);
         return new ResponseUtil(200, "Credit bundle updated successfully", null);
     }

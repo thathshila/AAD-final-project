@@ -25,13 +25,10 @@ public class ConnectionServiceImpl implements ConnectionService{
 
     @Override
     public void saveConnection(ConnectionDTO connectionDTO) {
-        // Fetch the user entity using user ID
         User user = userRepo.findById(Integer.valueOf(String.valueOf(connectionDTO.getUserId()))).orElseThrow(
                 () -> new RuntimeException("User not found"));
-
-        // Create and save Connection entity
         UserConnection connection = new UserConnection();
-        connection.setUser(user); // Associate connection with user
+        connection.setUser(user);
         connection.setPhoneNumber(connectionDTO.getPhoneNumber());
         connection.setUserName(connectionDTO.getUserName());
 

@@ -14,33 +14,28 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class UserConnection {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int connectionId;
-
     private int phoneNumber;
-
     private String UserName;
-
     @Enumerated(EnumType.STRING)
     private Connectionstatus status = Connectionstatus.ACTIVE;
+    private LocalDateTime assignedAt = LocalDateTime.now();
+    public enum Connectionstatus {
+        ACTIVE, INACTIVE
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "deleted", columnDefinition = "boolean default false")
+    private boolean deleted;
+}
 
 //    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Packages> packages;
 
 //    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Reload> reloads;
-
-    private LocalDateTime assignedAt = LocalDateTime.now();
-
-    public enum Connectionstatus {
-        ACTIVE, INACTIVE
-    }
-    @Column(name = "deleted", columnDefinition = "boolean default false")
-    private boolean deleted;
-}

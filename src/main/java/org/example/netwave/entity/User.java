@@ -16,47 +16,40 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class User implements Serializable {
- @Id
- @GeneratedValue(strategy = GenerationType.IDENTITY)
- private int uid;
+       @Id
+       @GeneratedValue(strategy = GenerationType.IDENTITY)
+       private int uid;
+       @Column(unique = true)
+       private String email;
+       private String password;
+       private String name;
+       private LocalDateTime date = LocalDateTime.now();
+       private String role;
+       private String status;
+       private int phoneNumber;
 
- @Column(unique = true)
- private String email;
+       @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+       private List<SIM> sims;
 
- private String password;
+       @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+       private List<Payment> payments;
 
- private String name;
 
- private LocalDateTime date = LocalDateTime.now();
+       @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+       private List<UserConnection> connections;
 
- private String role;
- private String status;
+       @Column(name = "deleted", columnDefinition = "boolean default false")
+       private boolean deleted;
 
- private int phoneNumber;
-
- @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
- private List<SIM> sims;
-
- @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
- private List<Payment> payments;
-
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Reload> reloads;
-
- @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
- private List<UserConnection> connections;
-
- @Column(name = "deleted", columnDefinition = "boolean default false")
- private boolean deleted;
-
- @PrePersist
- public void setDefaults() {
-  if (this.role == null) {
-   this.role = "User";
-  }
-  if (this.status == null) {
-   this.status = "Active";
-  }
-
- }
+       @PrePersist
+       public void setDefaults() {
+            if (this.role == null) {
+             this.role = "User";
+            }
+            if (this.status == null) {
+             this.status = "Active";
+            }
+       }
 }
+      //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+      //    private List<Reload> reloads;

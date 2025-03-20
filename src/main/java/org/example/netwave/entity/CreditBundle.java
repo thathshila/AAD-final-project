@@ -17,23 +17,20 @@ public class CreditBundle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bundleId;
-
     private String bundleName;
-
     private double amount;
-
     private LocalDateTime date = LocalDateTime.now();
+    private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Packages> packages;
 
     @OneToMany(mappedBy = "creditBundle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reload> reloads;
+}
+
 //
 //    @ManyToOne
 //    @JoinColumn(name = "admin_id")
 //    private Admin admin;
 
-    private boolean isDeleted = false;
-
-}

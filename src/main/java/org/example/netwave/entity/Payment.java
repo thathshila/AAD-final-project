@@ -16,19 +16,16 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentId;
+    private Double amount;
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+    private LocalDateTime paymentDate = LocalDateTime.now();
+    public enum PaymentMethod {
+        CREDIT_CARD, DEBIT_CARD, BANK_TRANSFER
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Double amount;
-
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
-
-    private LocalDateTime paymentDate = LocalDateTime.now();
-
-    public enum PaymentMethod {
-        CREDIT_CARD, DEBIT_CARD, BANK_TRANSFER
-    }
 }

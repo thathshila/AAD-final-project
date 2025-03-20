@@ -86,11 +86,13 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
-        return userService.updateUser(id, userDTO) ? ResponseEntity.ok("User Updated Successfully") : ResponseEntity.notFound().build();
+        return userService.updateUser(id, userDTO) ? ResponseEntity.ok("User Updated Successfully") :
+                ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable int id) {
-        return userService.softDeleteUser(id) ? ResponseEntity.ok("User Deleted Successfully") : ResponseEntity.notFound().build();
+        return userService.softDeleteUser(id) ? ResponseEntity.ok("User Deleted Successfully") :
+                ResponseEntity.notFound().build();
     }
 }

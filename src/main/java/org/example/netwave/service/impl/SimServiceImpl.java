@@ -20,21 +20,18 @@ public class SimServiceImpl implements SimService {
 
     private static final SecureRandom random = new SecureRandom();
 
-    // Generate a unique 10-digit SIM number
     private String generateUniqueSIMNumber() {
         String simNumber;
         do {
-            // Generate a random 7-digit number and prepend "052" to it
-            simNumber = "052" + String.format("%07d", Math.abs(random.nextLong()) % 1_000_0000L);
-        } while (simRepo.existsBySimNumber(simNumber)); // Ensure uniqueness
+          simNumber = "052" + String.format("%07d", Math.abs(random.nextLong()) % 1_000_0000L);
+        } while (simRepo.existsBySimNumber(simNumber));
         return simNumber;
     }
 
-    // Create a new SIM and assign a number
     @Override
     public void createSIM(SimDTO simDTO) {
         SIM sim = modelMapper.map(simDTO, SIM.class);
-        sim.setSimNumber(generateUniqueSIMNumber()); // Set unique number
+        sim.setSimNumber(generateUniqueSIMNumber());
         simRepo.save(sim);
     }
 }

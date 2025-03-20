@@ -20,7 +20,7 @@ public class PackageServiceImpl implements PackageService {
     private PackageRepo packageRepo;
 
     @Autowired
-    private Credit_BundleRepo creditBundleRepo; // Fetch CreditBundle
+    private Credit_BundleRepo creditBundleRepo;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -80,7 +80,7 @@ public class PackageServiceImpl implements PackageService {
         Packages packageEntity = packageRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Package not found"));
 
-        packageEntity.setDeleted(true);  // Soft delete
+        packageEntity.setDeleted(true);
         packageRepo.save(packageEntity);
     }
 

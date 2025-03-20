@@ -72,7 +72,7 @@ public class OffersServiceImpl implements OffersService {
     public void deleteOffer(int id) {
         Offers offer = offersRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Offer not found"));
-        offer.setDeleted(true); // Soft delete
+        offer.setDeleted(true);
         offersRepo.save(offer);
     }
 }

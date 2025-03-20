@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(email);
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority(user));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+                getAuthority(user));
     }
 
     public UserDTO loadUserDetailsByUsername(String username) throws UsernameNotFoundException {
@@ -68,42 +69,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             return null;
         }
     }
-
-//    @Override
-//    public int saveUser(UserDTO userDTO) {
-//        if (userRepo.existsByEmail(userDTO.getEmail())) {
-//            return VarList.Not_Acceptable;
-//        } else {
-//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-//           // userDTO.setRole("USER");
-//            userRepo.save(modelMapper.map(userDTO, User.class));
-//            return VarList.Created;
-//        }
-//    }
-
-
-//    @Override
-//    public int saveUser(UserDTO userDTO) {
-//        if (userRepo.existsByEmail(userDTO.getEmail())) {
-//            return VarList.Not_Acceptable;
-//        } else {
-//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-//
-//            // Convert DTO to User entity
-//            User user = modelMapper.map(userDTO, User.class);
-//
-//            // Save User
-//            user = userRepo.save(user);
-//
-//            // Save Connection details
-//            ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(), user.getPhoneNumber(), user.getName());
-//            connectionService.saveConnection(connectionDTO); // Fix: Use ConnectionService instead of ConnectionRepo
-//
-//            return VarList.Created;
-//        }
-//    }
 
     @Override
     public int saveUser(UserDTO userDTO) {
@@ -165,3 +130,39 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }).orElse(false);
     }
 }
+
+//    @Override
+//    public int saveUser(UserDTO userDTO) {
+//        if (userRepo.existsByEmail(userDTO.getEmail())) {
+//            return VarList.Not_Acceptable;
+//        } else {
+//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+//           // userDTO.setRole("USER");
+//            userRepo.save(modelMapper.map(userDTO, User.class));
+//            return VarList.Created;
+//        }
+//    }
+
+
+//    @Override
+//    public int saveUser(UserDTO userDTO) {
+//        if (userRepo.existsByEmail(userDTO.getEmail())) {
+//            return VarList.Not_Acceptable;
+//        } else {
+//            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+//
+//            // Convert DTO to User entity
+//            User user = modelMapper.map(userDTO, User.class);
+//
+//            // Save User
+//            user = userRepo.save(user);
+//
+//            // Save Connection details
+//            ConnectionDTO connectionDTO = new ConnectionDTO(user.getUid(), user.getPhoneNumber(), user.getName());
+//            connectionService.saveConnection(connectionDTO); // Fix: Use ConnectionService instead of ConnectionRepo
+//
+//            return VarList.Created;
+//        }
+//    }

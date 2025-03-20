@@ -22,7 +22,8 @@ public class OffersController {
 
     @GetMapping("/getAll")
     public ResponseUtil getAllOffers() {
-        return new ResponseUtil(200, "Success", offersService.getAllOffers());
+        return new ResponseUtil(200, "Success",
+                offersService.getAllOffers());
     }
 
     @PutMapping("update")

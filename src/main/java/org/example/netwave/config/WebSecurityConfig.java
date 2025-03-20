@@ -70,6 +70,7 @@ public class WebSecurityConfig {
 //                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
 //                .build();
 //    }
+
 @Bean
 public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -108,7 +109,7 @@ public PasswordEncoder passwordEncoder() {
         configuration.setAllowedOrigins(List.of("http://localhost:63342")); // Allow frontend origin
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true); // Allow credentials (cookies, authorization headers)
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -17,26 +17,22 @@ public class SIM {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int simId;
-
     @Column(unique = true, length = 20)
     private String simNumber;
-
     @Enumerated(EnumType.STRING)
     private SIMStatus status = SIMStatus.ACTIVE;
+    private LocalDateTime assignedAt = LocalDateTime.now();
+    public enum SIMStatus {
+        ACTIVE, INACTIVE
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+}
 
 //    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Packages> packages;
 //
 //    @OneToMany(mappedBy = "sim", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Reload> reloads;
-
-    private LocalDateTime assignedAt = LocalDateTime.now();
-
-    public enum SIMStatus {
-        ACTIVE, INACTIVE
-    }
-}

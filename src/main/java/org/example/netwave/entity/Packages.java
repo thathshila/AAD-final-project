@@ -16,33 +16,28 @@ public class Packages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int packageId;
-
     @Column(nullable = false, length = 100)
     private String packageName;
-
     private String packageType;
-
     private Float dataLimit;
     private Integer callMinutes;
     private Integer smsLimit;
-
     private Double price;
-
     private int validityDays;
+    private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "packages", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Offers> offers;
-
-//    @ManyToOne
-//    @JoinColumn(name = "sim_id", nullable = false)
-//    private SIM sim;
-
     @ManyToOne
     @JoinColumn(name = "credit_bundle_id")
     private CreditBundle creditBundle;
 
-    private boolean isDeleted = false;
+
+}
+
 //    @ManyToOne
 //    private UserConnection userConnection;
 
-}
+//    @ManyToOne
+//    @JoinColumn(name = "sim_id", nullable = false)
+//    private SIM sim;

@@ -26,16 +26,11 @@ public class ReloadServiceImpl implements ReloadService {
 
     @Override
     public void saveReload(ReloadDTO reloadDTO) {
-        // Check if the credit bundle exists
         CreditBundle creditBundle = credit_BundleRepo.findById(reloadDTO.getCredit_bundle_id())
                 .orElseThrow(() -> new RuntimeException("Credit Bundle not found"));
-
-        // Convert DTO to Entity
         Reload reload = modelMapper.map(reloadDTO, Reload.class);
         reload.setCreditBundle(creditBundle);
         reload.setReloadDate(LocalDateTime.now());
-
-        // Save to the database
         reloadRepo.save(reload);
     }
 

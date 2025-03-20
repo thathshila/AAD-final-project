@@ -16,18 +16,14 @@ public class Offers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int offerId;
-
     private String offerName;
-
     private Double discountPercentage;
-
     private LocalDate validFrom;
-
     private LocalDate validUntil;
+    private boolean isDeleted = false;
 
     @ManyToOne
     @JoinColumn(name = "package_id")
     private Packages packages;
 
-    private boolean isDeleted = false;
 }

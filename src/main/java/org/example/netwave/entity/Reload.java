@@ -16,6 +16,12 @@ public class Reload {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reloadId;
+    private Double amount;
+    private LocalDateTime reloadDate = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn(name = "credit_bundle_id")
+    private CreditBundle creditBundle;
+}
 
 //    @ManyToOne
 //    @JoinColumn(name = "user_id")
@@ -28,12 +34,3 @@ public class Reload {
 //    @ManyToOne
 //    @JoinColumn(name = "connection_id")
 //    private UserConnection userConnection;
-
-    private Double amount;
-
-    private LocalDateTime reloadDate = LocalDateTime.now();
-
-    @ManyToOne
-    @JoinColumn(name = "credit_bundle_id")
-    private CreditBundle creditBundle;
-}

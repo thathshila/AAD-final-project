@@ -12,5 +12,4 @@ public class SimDTO {
     private int simId;
     private String simNumber;
     private SIM.SIMStatus status = SIM.SIMStatus.ACTIVE;
-
 }

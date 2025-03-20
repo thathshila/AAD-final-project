@@ -27,7 +27,7 @@ public class JwtUtil implements Serializable {
     @Value("${jwt.secret}")
     private String secretKey;
 
-    //retrieve username from jwt token
+
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
@@ -36,7 +36,6 @@ public class JwtUtil implements Serializable {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
-    //retrieve expiration date from jwt token
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
