@@ -4,6 +4,7 @@ import org.example.netwave.dto.OffersDTO;
 import org.example.netwave.service.OffersService;
 import org.example.netwave.utill.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
@@ -14,6 +15,7 @@ public class OffersController {
     private OffersService offersService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil saveOffers(@RequestBody OffersDTO offersDTO) {
         System.out.println(offersDTO);
         offersService.saveOffers(offersDTO);
@@ -27,12 +29,14 @@ public class OffersController {
     }
 
     @PutMapping("update")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil updateOffer(@RequestBody OffersDTO offersDTO) {
         offersService.updateOffer(offersDTO);
         return new ResponseUtil(200, "Offer Updated Successfully", null);
     }
 
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil deleteOffer(@PathVariable int id) {
         offersService.deleteOffer(id);
         return new ResponseUtil(200, "Offer Soft Deleted Successfully", null);

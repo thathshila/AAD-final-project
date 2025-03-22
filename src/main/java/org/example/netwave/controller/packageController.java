@@ -4,6 +4,7 @@ import org.example.netwave.dto.PackageDTO;
 import org.example.netwave.service.PackageService;
 import org.example.netwave.utill.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class packageController {
     private PackageService packageService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil savePackage(@RequestBody PackageDTO packageDTO) {
         packageService.savePackage(packageDTO);
         return new ResponseUtil(201,"Package Created Successfully",null);
@@ -35,6 +37,7 @@ public class packageController {
     }
 
     @GetMapping("/getNames")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil getPackageNames() {
         return new ResponseUtil(200, "Package Names Retrieved Successfully",
                 packageService.getPackageNames());
@@ -47,12 +50,14 @@ public class packageController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil updatePackage(@PathVariable int id, @RequestBody PackageDTO packageDTO) {
         packageService.updatePackage(id, packageDTO);
         return new ResponseUtil(200, "Package Updated Successfully", null);
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil deletePackage(@PathVariable int id) {
         packageService.deletePackage(id);
         return new ResponseUtil(200, "Package Deleted Successfully", null);

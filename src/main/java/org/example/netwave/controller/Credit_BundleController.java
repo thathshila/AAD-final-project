@@ -24,24 +24,28 @@ public class Credit_BundleController {
     }
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil getAllCredit_bundle() {
         return new ResponseUtil(200,"Get all  Credit Bundles",
                 Credit_BundleService.getAllCredit_bundle());
     }
 
     @GetMapping("/getNames")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil getNamesCredit_bundle() {
         return new ResponseUtil(200,"Get all  Credit Bundles",
                 Credit_BundleService.getAllNamesCredit_bundle());
     }
 
     @GetMapping("/getCreditByName/{name}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil getBundleByName(@PathVariable String name) {
         Integer bundleId = Credit_BundleService.getCreditBundleByNames(name);
         return new ResponseUtil(200, "Bundle found",bundleId);
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil updateCreditBundle(@PathVariable String id, @RequestBody Credit_BundleDTO creditBundleDTO) {
         creditBundleDTO.setBundleId(Integer.parseInt(id));
         Credit_BundleService.updateCreditBundle(creditBundleDTO);
@@ -50,6 +54,7 @@ public class Credit_BundleController {
 
 
     @DeleteMapping(path = "/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil deleteCredit_bundle(@PathVariable int id) {
         Credit_BundleService.deleteCredit_bundle(id);
         return new ResponseUtil(200, "Credit_bundle deleted successfully (soft delete)", null);
