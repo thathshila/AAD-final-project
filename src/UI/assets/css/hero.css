@@ -1,0 +1,32 @@
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.navbar-nav .nav-link.active {
+    color: green !important;
+}
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    filter: brightness(50%);
+}
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+.carousel-caption h1 {
+    font-weight: bold;
+}
+.carousel-caption .btn {
+    background-color: green;
+    color: white;
+    border: none;
+}
+.carousel-caption .btn:hover {
+    background-color: darkgreen;
+}
