@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register | Corona Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('assets/img/register.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9);
+            color: black;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .form-control {
+            background-color: #f8f9fa;
+            color: black;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus {
+            background-color: #ffffff;
+            color: black;
+            border-color: #007bff;
+            box-shadow: none;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .forgot-pass, .sign-up a, .terms a {
+            color: #007bff;
+        }
+        .forgot-pass:hover, .sign-up a:hover, .terms a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card col-lg-4">
+        <div class="card-body">
+            <h3 class="text-center mb-4">Register</h3>
+            <form id="register">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phone_number" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </div>
+                <p class="text-center mt-3">Already have an account? <a href="#">Sign In</a></p>
+                <p class="text-center">By creating an account you agree to our <a href="#">Terms & Conditions</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#register").submit(function (event) {
+            event.preventDefault();
+            var userData = {
+                name: $("#username").val(),
+                email: $("#email").val(),
+                phoneNumber: $("#phone_number").val(),
+                password: $("#password").val()
+            };
+            $.ajax({
+                url: "http://localhost:8080/api/v1/user/register",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(userData),
+                success: function (response) {
+                    alert("Registration successful!");
+                    window.location.href = "index.html";
+                },
+                error: function (xhr) {
+                    alert("Registration failed: " + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
