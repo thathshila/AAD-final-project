@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-image: url('assets/img/hero-carousel-1.jpg '); /* Add your image URL here */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            color: #333;
+            width: 400px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .form-container h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .btn-container button {
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-container button:hover {
+            opacity: 0.8;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            width: 80%;
+            margin-top: 30px;
+        }
+
+        .credit-card {
+            background: #ffffff;
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .credit-card:hover {
+            background: #f1f1f1;
+            transform: translateY(-5px);
+        }
+
+        .credit-card h5 {
+            color: #007bff;
+        }
+
+        .credit-card p {
+            color: #666;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-info {
+            background-color: #17a2b8;
+            border: none;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border: none;
+        }
+
+        .btn-success:hover, .btn-danger:hover, .btn-info:hover, .btn-warning:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h3>MANAGE CREDIT BUNDLES</h3>
+    <form id="creditForm">
+        <div class="mb-3">
+            <label class="form-label">Bundle Name</label>
+            <input type="text" id="bundleName" class="form-control" placeholder="Enter bundle name">
+        </div>
+        <input type="hidden" id="bundleId" class="form-control">
+        <div class="mb-3">
+            <label class="form-label">Amount</label>
+            <input type="number" id="amount" class="form-control" placeholder="Enter amount">
+        </div>
+        <input type="hidden" id="adminId"> <!-- Hidden input field for admin ID -->
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger">Delete</button>
+            <button type="button" class="btn btn-info" onclick="viewBundles()">View</button>
+            <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
+        </div>
+    </form>
+</div>
+
+<div class="card-container" id="bundleList">
+    <!-- Credit bundles will be displayed here dynamically -->
+</div>
+
+<script>
+    let authToken = localStorage.getItem("authToken");
+
+    $(document).ready(function () {
+        viewBundles(); // Load bundles when page loads
+
+        // Save Bundle (Create)
+        $("#creditForm").submit(function (event) {
+            event.preventDefault();
+
+            let bundleId = $("#bundleId").val();
+            let bundleName = $("#bundleName").val().trim();
+            let amount = $("#amount").val().trim();
+
+            if (!bundleName || !amount) {
+                alert("Please enter all fields!");
+                return;
+            }
+
+            let apiUrl = "http://localhost:8080/api/v1/credit_bundle/save";
+            let methodType = "POST";
+            let requestData = { bundleName, amount };
+
+            if (bundleId) { // If bundleId exists, update instead of saving
+                apiUrl = `http://localhost:8080/api/v1/credit_bundle/update/${bundleId}`;
+                methodType = "PUT";
+                requestData.bundleId = bundleId;
+            }
+
+            $.ajax({
+                url: apiUrl,
+                type: methodType,
+                contentType: "application/json",
+                data: JSON.stringify(requestData),
+                headers: { "Authorization": `Bearer ${authToken}` },
+                success: function () {
+                    alert(bundleId ? "Bundle updated successfully!" : "Bundle saved successfully!");
+                    clearForm();
+                    viewBundles();
+                },
+                error: function (xhr) {
+                    alert("Operation failed: " + xhr.responseText);
+                },
+            });
+        });
+
+        // Delete Bundle
+        $(".btn-danger").click(function () {
+            let bundleId = $("#bundleId").val().trim();
+
+            if (!bundleId) {
+                alert("Please select a bundle to delete.");
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete this bundle?")) {
+                return;
+            }
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/credit_bundle/delete/${bundleId}`,
+                type: "DELETE",
+                headers: { "Authorization": `Bearer ${authToken}` },
+                success: function () {
+                    alert("Bundle deleted successfully!");
+                    clearForm();
+                    viewBundles();
+                },
+                error: function (xhr) {
+                    alert("Delete failed: " + xhr.responseText);
+                },
+            });
+        });
+    });
+
+    // View Bundles (Read)
+    function viewBundles() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/credit_bundle/getAll",
+            type: "GET",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function (response) {
+                $("#bundleList").empty();
+
+                if (!Array.isArray(response.data)) {
+                    console.error("Unexpected response format:", response);
+                    alert("Error fetching bundles. Check console for details.");
+                    return;
+                }
+
+                response.data.forEach(bundle => {
+                    $("#bundleList").append(`
+                    <div class="credit-card" onclick="fillForm('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
+                        <h5>${bundle.bundleName}</h5>
+                        <p>Amount: $${bundle.amount}</p>
+                    </div>
+                `);
+                });
+            },
+            error: function (xhr) {
+                console.error("Failed to load bundles:", xhr.responseText);
+                alert("Failed to fetch bundles.");
+            },
+        });
+    }
+
+    // Fill form when clicking a bundle card
+    function fillForm(bundleId, bundleName, amount) {
+        $("#bundleId").val(bundleId);
+        $("#bundleName").val(bundleName);
+        $("#amount").val(amount);
+    }
+
+    // Clear form fields
+    function clearForm() {
+        $("#bundleId").val("");
+        $("#bundleName").val("");
+        $("#amount").val("");
+    }
+
+</script>
+</body>
+</html>
