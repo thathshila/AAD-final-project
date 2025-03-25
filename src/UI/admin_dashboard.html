@@ -25,8 +25,11 @@
             height: 100vh;
             padding-top: 50px;
             position: fixed;
+            top: 0;
+            left: 0;
             width: 250px;
             transition: all 0.3s ease;
+            z-index: 1000;
         }
 
         .sidebar .nav-link {
@@ -57,18 +60,43 @@
         .navbar {
             background-color: #00796b;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-actions i,
+        .navbar-actions .btn-custom {
+            margin-left: 15px;
         }
 
         /* Iframe Container */
         .iframe-container {
             width: 100%;
-            height: 80vh;
+            height: calc(100vh - 90px);
             border: none;
             background: #ffffff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             transition: opacity 0.3s ease-in-out;
             opacity: 1;
+            margin-top: 60px;
         }
 
         /* Button Styles */
@@ -90,6 +118,69 @@
             font-size: 20px;
             cursor: pointer;
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .navbar {
+                left: 0;
+            }
+        }
+
+        /* Registration Form Styles */
+        .register-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 90px);
+            margin-top: 60px;
+        }
+
+        .register-form {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .social-btn {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .facebook-btn {
+            background-color: #3b5998;
+        }
+
+        .google-btn {
+            background-color: #db4437;
+        }
     </style>
 </head>
 <body>
@@ -105,7 +196,10 @@
             <a class="nav-link" href="#" onclick="loadPage('credit_bundle.html', this)"><i class="fas fa-credit-card"></i> Credit</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadPage('package.html', this)"><i class="fas fa-chart-line"></i> Package</a>
+            <a class="nav-link" href="#" onclick="loadPage('register_admin.html', this)"><i class="fas fa-chart-line"></i> Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="loadPage('package.html', this)"><i class="fas fa-chart-line"></i> Packages</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#" onclick="loadPage('settings.html', this)"><i class="fas fa-cogs"></i> Settings</a>
@@ -115,13 +209,11 @@
 
 <!-- Content -->
 <div class="content">
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar">
         <a class="navbar-brand" href="#">Admin Panel</a>
-        <div class="ms-auto">
+        <div class="navbar-actions">
             <!-- User Icon for Login -->
             <i class="fas fa-user-circle" style="font-size: 25px; cursor: pointer;" onclick="window.location.href='login.html'"></i>
-        </div>
-        <div class="ms-3">
             <!-- Logout Button -->
             <button class="btn-custom">Logout</button>
         </div>
