@@ -147,8 +147,8 @@
             <div class="btn-container">
                 <button type="submit" class="btn btn-success">Save</button>
                 <button type="button" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-info" onclick="viewPackages()">View</button>
-                <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
+                <button type="button" class="btn btn-info" id="viewBundle">View</button>
+                <button type="button" class="btn btn-warning" id="clearBtn">Clear</button>
             </div>
         </form>
     </div>
@@ -163,6 +163,18 @@
 
 <script>
     let authToken = localStorage.getItem("authToken");
+
+    function fillForm(packageId, packageName, packageType, price, dataLimit, callMinutes, smsLimit, validityDays, credit_bundle_id) {
+        $("#packageId").val(packageId);
+        $("#packageName").val(packageName);
+        $("#packageType").val(packageType);
+        $("#price").val(price);
+        $("#dataLimit").val(dataLimit);
+        $("#callMinutes").val(callMinutes);
+        $("#smsLimit").val(smsLimit);
+        $("#validityDays").val(validityDays);
+        $("#creditBundle").val(credit_bundle_id);
+    }
 
     $(document).ready(function () {
         viewPackages();
@@ -193,6 +205,10 @@
             });
         }
 
+        $("#viewBundle").click(function() {
+            viewPackages();
+        });
+
         function viewPackages() {
             $.ajax({
                 url: "http://localhost:8080/api/v1/packages/getAll",
@@ -209,16 +225,16 @@
 
                     response.data.forEach(pkg => {
                         $("#packageList").append(`
-                            <div class="package-card" onclick="fillForm('${pkg.packageId}', '${pkg.packageName}', '${pkg.packageType}', '${pkg.price}', ${pkg.dataLimit}, ${pkg.callMinutes}, ${pkg.smsLimit}, ${pkg.validityDays}, '${pkg.credit_bundle_id}')">
-                                <h5>${pkg.packageName}</h5>
-                                <p>Type: ${pkg.packageType}</p>
-                                <p>Data Limit: ${pkg.dataLimit} GB</p>
-                                <p>Price: LKR ${pkg.price}</p>
-                                <p>Validity: ${pkg.validityDays} days</p>
-                                <p>SMS: ${pkg.smsLimit}</p>
-                                <p>Call: ${pkg.callMinutes}</p>
-                            </div>
-                        `);
+                        <div class="package-card" onclick="fillForm('${pkg.packageId}', '${pkg.packageName}', '${pkg.packageType}', '${pkg.price}', ${pkg.dataLimit}, ${pkg.callMinutes}, ${pkg.smsLimit}, ${pkg.validityDays}, '${pkg.credit_bundle_id}')">
+                            <h5>${pkg.packageName}</h5>
+                            <p>Type: ${pkg.packageType}</p>
+                            <p>Data Limit: ${pkg.dataLimit} GB</p>
+                            <p>Price: LKR ${pkg.price}</p>
+                            <p>Validity: ${pkg.validityDays} days</p>
+                            <p>SMS: ${pkg.smsLimit}</p>
+                            <p>Call: ${pkg.callMinutes}</p>
+                        </div>
+                    `);
                     });
                 },
                 error: function (xhr) {
@@ -227,6 +243,11 @@
                 }
             });
         }
+
+        $("#clearBtn").click(function() {
+            clearForm();
+        });
+
 
         function clearForm() {
             $("#packageName").val("");
@@ -238,19 +259,8 @@
             $("#validityDays").val("");
             $("#creditBundle").val("");
         }
-
-        function fillForm(packageId, packageName, packageType, price, dataLimit, callMinutes, smsLimit, validityDays, credit_bundle_id) {
-            $("#packageId").val(packageId);
-            $("#packageName").val(packageName);
-            $("#packageType").val(packageType);
-            $("#price").val(price);
-            $("#dataLimit").val(dataLimit);
-            $("#callMinutes").val(callMinutes);
-            $("#smsLimit").val(smsLimit);
-            $("#validityDays").val(validityDays);
-            $("#creditBundle").val(credit_bundle_id);
-        }
     });
+
 </script>
 </body>
 </html>
