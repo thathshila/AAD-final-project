@@ -3,45 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Form</title>
+    <title>Credit Bundle Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
-            background-image: url('assets/img/hero-carousel-1.jpg '); /* Add your image URL here */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('assets/img/hero-carousel-1.jpg'); /* Replace with your preferred background image URL */
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s ease;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .top-navbar .navbar-brand {
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .top-navbar-actions i,
+        .top-navbar-actions .btn-logout {
+            margin-left: 15px;
+            color: white;
+        }
+
+        .content-container {
+            margin-top: 80px;
+            padding: 20px;
         }
 
         .form-container {
-            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for readability */
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            color: #333;
-            width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            transition: all 0.3s ease;
         }
 
         .form-container h3 {
             text-align: center;
             margin-bottom: 20px;
-            color: #007bff;
+            color: #00695c;
         }
 
         .btn-container button {
             width: 100%;
             margin-top: 10px;
-            transition: background-color 0.3s ease;
+            transition: opacity 0.3s ease;
         }
 
         .btn-container button:hover {
@@ -52,87 +62,80 @@
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center;
-            width: 80%;
-            margin-top: 30px;
+            justify-content: start;
         }
 
         .credit-card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
             color: #333;
             padding: 20px;
             border-radius: 10px;
-            width: 250px;
+            width: calc(33.333% - 20px);
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-bottom: 20px;
         }
 
         .credit-card:hover {
-            background: #f1f1f1;
             transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         .credit-card h5 {
-            color: #007bff;
+            color: #00695c;
         }
 
         .credit-card p {
             color: #666;
         }
 
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            border: none;
-        }
-
-        .btn-info {
-            background-color: #17a2b8;
-            border: none;
-        }
-
-        .btn-warning {
-            background-color: #ffc107;
-            border: none;
-        }
-
-        .btn-success:hover, .btn-danger:hover, .btn-info:hover, .btn-warning:hover {
-            opacity: 0.8;
+        @media (max-width: 768px) {
+            .credit-card {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-<div class="form-container">
-    <h3>MANAGE CREDIT BUNDLES</h3>
-    <form id="creditForm">
-        <div class="mb-3">
-            <label class="form-label">Bundle Name</label>
-            <input type="text" id="bundleName" class="form-control" placeholder="Enter bundle name">
-        </div>
-        <input type="hidden" id="bundleId" class="form-control">
-        <div class="mb-3">
-            <label class="form-label">Amount</label>
-            <input type="number" id="amount" class="form-control" placeholder="Enter amount">
-        </div>
-        <input type="hidden" id="adminId"> <!-- Hidden input field for admin ID -->
 
-        <div class="btn-container">
-            <button type="submit" class="btn btn-success">Save</button>
-            <button type="button" class="btn btn-danger">Delete</button>
-            <button type="button" class="btn btn-info" onclick="viewBundles()">View</button>
-            <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
-        </div>
-    </form>
-</div>
+<!-- Content Container -->
+<div class="content-container">
+    <div class="form-container">
+        <h3>MANAGE CREDIT BUNDLES</h3>
+        <form id="creditForm">
+            <div class="mb-3">
+                <label class="form-label">Bundle Name</label>
+                <input type="text" id="bundleName" class="form-control" placeholder="Enter bundle name">
+            </div>
+            <input type="hidden" id="bundleId" class="form-control">
+            <div class="mb-3">
+                <label class="form-label">Amount</label>
+                <input type="number" id="amount" class="form-control" placeholder="Enter amount">
+            </div>
+            <div class="btn-container">
+                <div class="row">
+                    <div class="col-6 mb-2">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <button type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <button type="button" class="btn btn-info" onclick="viewBundles()">View</button>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
-<div class="card-container" id="bundleList">
-    <!-- Credit bundles will be displayed here dynamically -->
+    <div class="card-container" id="bundleList">
+        <!-- Credit bundles will be displayed here dynamically -->
+    </div>
 </div>
 
 <script>
@@ -227,11 +230,11 @@
 
                 response.data.forEach(bundle => {
                     $("#bundleList").append(`
-                    <div class="credit-card" onclick="fillForm('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
-                        <h5>${bundle.bundleName}</h5>
-                        <p>Amount: $${bundle.amount}</p>
-                    </div>
-                `);
+                        <div class="credit-card" onclick="fillForm('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
+                            <h5>${bundle.bundleName}</h5>
+                            <p>Amount: $${bundle.amount}</p>
+                        </div>
+                    `);
                 });
             },
             error: function (xhr) {
@@ -254,7 +257,6 @@
         $("#bundleName").val("");
         $("#amount").val("");
     }
-
 </script>
 </body>
 </html>
