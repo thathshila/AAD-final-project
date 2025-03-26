@@ -53,20 +53,21 @@ public class OffersServiceImpl implements OffersService {
 
     @Override
     public void updateOffer(OffersDTO offersDTO) {
-        Offers existingOffer = offersRepo.findById(offersDTO.getOfferId())
-                .orElseThrow(() -> new RuntimeException("Offer not found"));
+        if (!offersRepo.existsById(offersDTO.getOfferId())) {
+            throw new RuntimeException("Offer does not exist!");
+        }
 
-        existingOffer.setOfferName(offersDTO.getOfferName());
-        existingOffer.setDiscountPercentage(offersDTO.getDiscountPercentage());
-        existingOffer.setValidFrom(offersDTO.getValidFrom());
-        existingOffer.setValidUntil(offersDTO.getValidUntil());
+        // Convert DTO to Entity and Save
+        Offers offer = modelMapper.map(offersDTO, Offers.class);
 
-        Packages packages = packageRepo.findById(offersDTO.getPackageId())
-                .orElseThrow(() -> new RuntimeException("Package not found"));
-        existingOffer.setPackages(packages);
+        // Ensure associated package exists
+        if (!packageRepo.existsById(offersDTO.getPackageId())) {
+            throw new RuntimeException("Package does not exist!");
+        }
 
-        offersRepo.save(existingOffer);
+        offersRepo.save(offer);
     }
+
 
     @Override
     public void deleteOffer(int id) {

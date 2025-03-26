@@ -15,7 +15,7 @@ public class OffersController {
     private OffersService offersService;
 
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil saveOffers(@RequestBody OffersDTO offersDTO) {
         System.out.println(offersDTO);
         offersService.saveOffers(offersDTO);
@@ -28,15 +28,17 @@ public class OffersController {
                 offersService.getAllOffers());
     }
 
-    @PutMapping("update")
+    @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseUtil updateOffer(@RequestBody OffersDTO offersDTO) {
+    public ResponseUtil updateOffer(@PathVariable String id, @RequestBody OffersDTO offersDTO) {
+        offersDTO.setOfferId(Integer.parseInt(id));  // Assuming 'offerId' is the identifier
         offersService.updateOffer(offersDTO);
         return new ResponseUtil(200, "Offer Updated Successfully", null);
     }
 
-    @DeleteMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+
+    @DeleteMapping("/delete/{id}")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil deleteOffer(@PathVariable int id) {
         offersService.deleteOffer(id);
         return new ResponseUtil(200, "Offer Soft Deleted Successfully", null);
