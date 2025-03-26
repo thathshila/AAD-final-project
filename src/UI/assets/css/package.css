@@ -1,58 +1,197 @@
+/*.container {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));*/
+/*    gap: 20px;*/
+/*    padding: 20px;*/
+/*    width: 90%;*/
+/*}*/
+
+/*.package-card {*/
+/*    background-color: white;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*    overflow: hidden;*/
+/*    transition: transform 0.3s ease-in-out;*/
+/*}*/
+
+/*.package-card:hover {*/
+/*    transform: translateY(-10px);*/
+/*}*/
+
+/*.package-image-container {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.package-image {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    object-fit: cover; !* Ensure image maintains its aspect ratio *!*/
+/*}*/
+
+/*.package-title-overlay {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    font-size: 1.8rem;*/
+/*    color: white;*/
+/*    font-weight: bold;*/
+/*    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);*/
+/*}*/
+
+/*!* Card Sizes *!*/
+/*.large {*/
+/*    grid-column: span 2;  !* Takes up two columns *!*/
+/*    height: 350px;  !* Larger card height *!*/
+/*}*/
+
+/*.medium {*/
+/*    grid-column: span 1; !* Takes up one column *!*/
+/*    height: 250px;  !* Medium card height *!*/
+/*}*/
+
+/*.small {*/
+/*    grid-column: span 1;  !* Takes up one column *!*/
+/*    height: 250px;  !* Smaller card height *!*/
+/*}*/
+/* General styling for the container */
 .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: space-around;
+    margin: 0 auto;
     padding: 20px;
-    width: 90%;
 }
 
+/* Styling for the package cards */
 .package-card {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease-in-out;
-}
-
-.package-card:hover {
-    transform: translateY(-10px);
-}
-
-.package-image-container {
+    width: calc(33% - 20px); /* Default width for medium cards */
     position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    background-color: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Mini Package (small) - Reduced height */
+.package-card.small {
+    width: calc(25% - 20px);
+    height: 200px; /* Reduced height */
+}
+
+.package-card img.package-image {
     width: 100%;
+    height: auto;
+    display: block;
+}
+
+.package-card.small .package-image-container {
+    height: 130px; /* Adjust image height for small cards */
     overflow: hidden;
 }
 
-.package-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure image maintains its aspect ratio */
+.package-card .package-image-container {
+    position: relative;
 }
 
-.package-title-overlay {
+.package-card .package-title-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.8rem;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
     color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 18px;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-/* Card Sizes */
-.large {
-    grid-column: span 2;  /* Takes up two columns */
-    height: 350px;  /* Larger card height */
+/* Post title styling */
+.package-card h3.post-title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+    color: #2c3e50;
 }
 
-.medium {
-    grid-column: span 1; /* Takes up one column */
-    height: 250px;  /* Medium card height */
+/* Styled 'More Details' button */
+.package-card h3.post-title a {
+    text-decoration: none;
+    color: white;
+    background-color: #2ccccc;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
-.small {
-    grid-column: span 1;  /* Takes up one column */
-    height: 250px;  /* Smaller card height */
+/* Hover effect */
+.package-card h3.post-title a:hover {
+    background-color: darkgreen;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Add a right-hand pointer icon */
+.package-card h3.post-title a::after {
+    content: ' 👉'; /* Right-hand pointer icon */
+    font-size: 18px;
+    margin-left: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Add animation to the hand icon on hover */
+.package-card h3.post-title a:hover::after {
+    margin-left: 12px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .package-card {
+        width: calc(50% - 20px);
+    }
+    .package-card.small {
+        width: calc(40% - 20px);
+        height: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .package-card {
+        width: 100%;
+    }
+    .package-card.small {
+        width: 100%;
+        height: 160px;
+    }
+}
+
+/* Additional styling for specific card sizes */
+.package-card.medium {
+    width: calc(33% - 20px);
+}
+
+.package-card.large {
+    width: calc(50% - 20px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover effect for all cards */
+.package-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
 }

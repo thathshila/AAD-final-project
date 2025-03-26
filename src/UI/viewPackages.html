@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telecom Packages</title>
+
+    <!-- Bootstrap & jQuery -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+</head>
+
+<style>
+    .breadcrumb-item a {
+        color: #2563EB; /* Blue color for links */
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .breadcrumb-item a:hover {
+        color: #E40046; /* Red color on hover */
+        text-decoration: underline;
+    }
+
+    .breadcrumb-item i {
+        margin-right: 5px;
+        font-size: 16px;
+    }
+
+    .package-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .package-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .package-title {
+        background: #E0ECFF;
+        color: #2563EB;
+        display: inline-block;
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+    .package-price {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .package-features {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+        margin-top: 15px;
+    }
+
+    .package-features li {
+        margin-bottom: 8px;
+    }
+
+    .promo-badge {
+        color: #F44336;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+
+    .btn-package {
+        background: #E40046;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 25px;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn-package:hover {
+        background: #B30037;
+    }
+</style>
+
+<body class="view-packages-page">
+
+<!-- Header -->
+<header id="header" class="header position-relative">
+    <!-- Header content here -->
+</header>
+
+<main class="main">
+    <!-- Page Title -->
+    <div class="page-title text-center">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="bi bi-house"></i> Home</a></li>
+                    <li class="breadcrumb-item active current">View Packages</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="title-wrapper">
+            <h1>View Packages</h1>
+            <p>Explore our packages and activate the ones you need.</p>
+        </div>
+    </div>
+
+    <!-- Packages Section -->
+    <section class="packages-section py-5">
+        <div class="container">
+            <div class="row justify-content-center" id="packageList">
+                <!-- Packages will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+</main>
+<!-- Script to Fetch & Display Packages -->
+<script>
+    $(document).ready(function () {
+        let authToken = localStorage.getItem("authToken");
+        console.log(authToken )
+        if (!authToken) {
+            alert("Unauthorized access. Please log in.");
+            window.location.href = "login.html"; // Redirect to login
+            return;
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/api/v1/packages/getAll",
+            type: "GET",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function (response) {
+                $("#packageList").empty();
+
+                if (!Array.isArray(response.data)) {
+                    console.error("Unexpected response format:", response);
+                    alert("Error fetching packages.");
+                    return;
+                }
+
+                response.data.forEach(pkg => {
+                    $("#packageList").append(`
+                            <div class="col-md-4 mb-4">
+                                <div class="package-card">
+                                    <div class="package-title">${pkg.packageName.toUpperCase()}</div>
+                                    <div class="package-price">Rs. ${pkg.price.toFixed(2)}</div>
+                                    <p class="text-muted">Per Month (Tax applicable)</p>
+                                    <h5 class="mt-3">Unlimited</h5>
+                                    <small class="text-muted">AnyNet Voice</small>
+                                    <ul class="package-features">
+                                        <li>📩 ${pkg.smsLimit || 1000} SMS</li>
+                                        <li>📶 ${pkg.dataLimit !== undefined && pkg.dataLimit !== null ? pkg.dataLimit : 'N/A'}GB With Data Rollover & Sharing</li>
+                                    </ul>
+                                    <div class="promo-badge">🔥 Special promotion</div>
+<!--                                    <button class="btn btn-package w-100 mt-3" onclick="activatePackage('${pkg.name}')">GET PACKAGE</button>-->
+                                    <button class="btn btn-package w-100 mt-3" onclick="activatePackage('${pkg.packageId}', ${pkg.price})">GET PACKAGE</button>
+
+                                </div>
+                            </div>
+                        `);
+                });
+            },
+            error: function (xhr) {
+                console.error("Failed to load packages:", xhr.responseText);
+                alert("Failed to fetch packages.");
+            }
+        });
+    });
+
+    function activatePackage() {
+            window.location.href = "getPackage.html";
+    }
+</script>
+</body>
+</html>

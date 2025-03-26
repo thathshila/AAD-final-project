@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class ConnectionServiceImpl implements ConnectionService{
@@ -33,5 +35,10 @@ public class ConnectionServiceImpl implements ConnectionService{
         connection.setUserName(connectionDTO.getUserName());
 
         connectionRepo.save(connection);
+    }
+
+    @Override
+    public List<Integer> getAllConnections() {
+        return connectionRepo.findAllContacts();
     }
 }

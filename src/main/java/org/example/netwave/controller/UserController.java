@@ -68,23 +68,6 @@ public class UserController {
         return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<ResponseDTO> registerUser(@RequestBody @Validated UserDTO userDTO) {
-//        try {
-//            int res = userService.saveUser(userDTO);
-//            if (res == VarList.Created) {
-//                return ResponseEntity.status(HttpStatus.CREATED)
-//                        .body(new ResponseDTO(VarList.Created, "Success", null));
-//            } else {
-//                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE)
-//                        .body(new ResponseDTO(VarList.Not_Acceptable, "Email Already Used", null));
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
-//        }
-//    }
-
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UserDTO userDTO) {
