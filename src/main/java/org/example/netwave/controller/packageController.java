@@ -20,9 +20,26 @@ public class packageController {
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil savePackage(@RequestBody PackageDTO packageDTO) {
+        System.out.println(packageDTO);
         packageService.savePackage(packageDTO);
-        return new ResponseUtil(201,"Package Created Successfully",null);
+        return new ResponseUtil(201, "Package saved successfully!", null);
     }
+
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseUtil updatePackage(@PathVariable String id, @RequestBody PackageDTO packageDTO) {
+        packageDTO.setPackageId(Integer.parseInt(id));
+        packageService.updatePackage(packageDTO);
+        return new ResponseUtil(200, "Package updated successfully", null);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseUtil deletePackage(@PathVariable String id) {
+        packageService.deletePackage(Integer.parseInt(id));
+        return new ResponseUtil(200, "Package deleted successfully", null);
+    }
+
 
     @GetMapping("/getAll")
     public ResponseUtil getAllPackages() {
@@ -49,17 +66,4 @@ public class packageController {
         return new ResponseUtil(200, "Bundle found",packageId);
     }
 
-    @PutMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseUtil updatePackage(@PathVariable int id, @RequestBody PackageDTO packageDTO) {
-        packageService.updatePackage(id, packageDTO);
-        return new ResponseUtil(200, "Package Updated Successfully", null);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseUtil deletePackage(@PathVariable int id) {
-        packageService.deletePackage(id);
-        return new ResponseUtil(200, "Package Deleted Successfully", null);
-    }
 }

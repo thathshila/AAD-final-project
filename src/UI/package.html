@@ -143,6 +143,7 @@
                         <option value="">Select Credit Bundle</option>
                     </select>
                 </div>
+                <input type="hidden" id="packageId" class="form-control">
             </div>
             <div class="btn-container">
                 <button type="submit" class="btn btn-success">Save</button>
@@ -208,6 +209,89 @@
         $("#viewBundle").click(function() {
             viewPackages();
         });
+
+        // Save or Update Package
+        $("#packageForm").submit(function (event) {
+            event.preventDefault();
+
+            let packageId = $("#packageId").val();
+            let packageName = $("#packageName").val().trim();
+            let packageType = $("#packageType").val().trim();
+            let dataLimit = $("#dataLimit").val().trim();
+            let callMinutes = $("#callMinutes").val().trim();
+            let smsLimit = $("#smsLimit").val().trim();
+            let price = $("#price").val().trim();
+            let validityDays = $("#validityDays").val().trim();
+            let creditBundleId = $("#creditBundle").val();
+
+            if (!packageName || !packageType || !dataLimit || !callMinutes || !smsLimit || !price || !validityDays || !creditBundleId) {
+                alert("Please fill in all fields!");
+                return;
+            }
+
+            let apiUrl = "http://localhost:8080/api/v1/packages/save";
+            let methodType = "POST";
+            let requestData = {
+                packageName,
+                packageType,
+                dataLimit,
+                callMinutes,
+                smsLimit,
+                price,
+                validityDays,
+                creditBundleId
+            };
+
+            if (packageId) {  // If packageId exists, update instead of saving
+                apiUrl = `http://localhost:8080/api/v1/packages/update/${packageId}`;
+                methodType = "PUT";
+                requestData.packageId = packageId;
+            }
+
+            $.ajax({
+                url: apiUrl,
+                type: methodType,
+                contentType: "application/json",
+                data: JSON.stringify(requestData),
+                headers: { "Authorization": `Bearer ${authToken}` },
+                success: function () {
+                    alert(packageId ? "Package updated successfully!" : "Package saved successfully!");
+                    clearForm();
+                    viewPackages();
+                },
+                error: function (xhr) {
+                    alert("Operation failed: " + xhr.responseText);
+                },
+            });
+        });
+// Delete Package
+        $(".btn-danger").click(function () {
+            let packageId = $("#packageId").val().trim();
+
+            if (!packageId) {
+                alert("Please select a package to delete.");
+                return;
+            }
+
+            if (!confirm("Are you sure you want to delete this package?")) {
+                return;
+            }
+
+            $.ajax({
+                url: `http://localhost:8080/api/v1/packages/delete/${packageId}`,
+                type: "DELETE",
+                headers: { "Authorization": `Bearer ${authToken}` },
+                success: function () {
+                    alert("Package deleted successfully!");
+                    clearForm();
+                    viewPackages();
+                },
+                error: function (xhr) {
+                    alert("Delete failed: " + xhr.responseText);
+                },
+            });
+        });
+
 
         function viewPackages() {
             $.ajax({

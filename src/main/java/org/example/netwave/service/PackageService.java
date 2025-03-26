@@ -8,7 +8,7 @@ public interface PackageService {
     void savePackage(PackageDTO packageDTO);
     List<PackageDTO> getAllPackages();
     PackageDTO getPackageById(int id);
-    void updatePackage(int id, PackageDTO packageDTO);
+    void updatePackage(PackageDTO packageDTO);
     void deletePackage(int id);
     List<String> getPackageNames();
     Integer getPackageIdByNames(String name);

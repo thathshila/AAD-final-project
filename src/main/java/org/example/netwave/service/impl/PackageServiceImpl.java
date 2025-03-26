@@ -1,7 +1,6 @@
 package org.example.netwave.service.impl;
 
 import org.example.netwave.dto.PackageDTO;
-import org.example.netwave.entity.CreditBundle;
 import org.example.netwave.entity.Packages;
 import org.example.netwave.repo.Credit_BundleRepo;
 import org.example.netwave.repo.PackageRepo;
@@ -27,16 +26,27 @@ public class PackageServiceImpl implements PackageService {
 
     @Override
     public void savePackage(PackageDTO packageDTO) {
-        if (packageDTO.getPackageId() != 0 && packageRepo.existsById(packageDTO.getPackageId())) {
-            throw new RuntimeException("Package already exists");
+        if (packageRepo.existsById(packageDTO.getPackageId())) {
+            throw new RuntimeException("Package already exists!");
         }
-        Packages packages = modelMapper.map(packageDTO, Packages.class);
-        if (packageDTO.getCredit_bundle_id() != 0) {
-            CreditBundle creditBundle = creditBundleRepo.findById(packageDTO.getCredit_bundle_id())
-                    .orElseThrow(() -> new RuntimeException("Credit Bundle not found"));
-            packages.setCreditBundle(creditBundle);
+        packageRepo.save(modelMapper.map(packageDTO, Packages.class));
+    }
+
+    @Override
+    public void updatePackage(PackageDTO packageDTO) {
+        if (!packageRepo.existsById(packageDTO.getPackageId())) {
+            throw new RuntimeException("Package does not exist!");
         }
-        packageRepo.save(packages);
+        Packages packageEntity = modelMapper.map(packageDTO, Packages.class);
+        packageRepo.save(packageEntity);
+    }
+
+    @Override
+    public void deletePackage(int packageId) {
+        if (!packageRepo.existsById(packageId)) {
+            throw new RuntimeException("Package not found!");
+        }
+        packageRepo.deleteById(packageId);
     }
 
     @Override
@@ -51,37 +61,6 @@ public class PackageServiceImpl implements PackageService {
         Packages packageEntity = packageRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Package not found"));
         return modelMapper.map(packageEntity, PackageDTO.class);
-    }
-
-    @Override
-    public void updatePackage(int id, PackageDTO packageDTO) {
-        Packages packageEntity = packageRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Package not found"));
-
-        packageEntity.setPackageName(packageDTO.getPackageName());
-        packageEntity.setPackageType(packageDTO.getPackageType());
-        packageEntity.setDataLimit(packageDTO.getDataLimit());
-        packageEntity.setCallMinutes(packageDTO.getCallMinutes());
-        packageEntity.setSmsLimit(packageDTO.getSmsLimit());
-        packageEntity.setPrice(packageDTO.getPrice());
-        packageEntity.setValidityDays(packageDTO.getValidityDays());
-
-        if (packageDTO.getCredit_bundle_id() != 0) {
-            CreditBundle creditBundle = creditBundleRepo.findById(packageDTO.getCredit_bundle_id())
-                    .orElseThrow(() -> new RuntimeException("Credit Bundle not found"));
-            packageEntity.setCreditBundle(creditBundle);
-        }
-
-        packageRepo.save(packageEntity);
-    }
-
-    @Override
-    public void deletePackage(int id) {
-        Packages packageEntity = packageRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Package not found"));
-
-        packageEntity.setDeleted(true);
-        packageRepo.save(packageEntity);
     }
 
     @Override
