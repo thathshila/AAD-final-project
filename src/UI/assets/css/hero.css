@@ -30,3 +30,17 @@
 .carousel-caption .btn:hover {
     background-color: darkgreen;
 }
+.continue {
+    background-color: #e1d7d9;
+    color: black;
+    padding: 10px 18px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.continue:hover {
+    background-color: #a1969c;
+}
