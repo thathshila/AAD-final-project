@@ -56,11 +56,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/all")
-  //  @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
+//    @GetMapping("/getAll")
+//  //  @PreAuthorize("hasAuthority('ADMIN')")
+//    public ResponseEntity<List<UserDTO>> getAllUsers() {
+//        return ResponseEntity.ok(userService.getAllUsers());
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable int id) {
@@ -80,5 +80,11 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable int id) {
         return userService.softDeleteUser(id) ? ResponseEntity.ok("User Deleted Successfully") :
                 ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<UserDTO> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

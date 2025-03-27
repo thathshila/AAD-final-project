@@ -7,6 +7,7 @@ import org.example.netwave.repo.ConnectionRepo;
 import org.example.netwave.repo.UserRepo;
 import org.example.netwave.service.ConnectionService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,9 @@ public class ConnectionServiceImpl implements ConnectionService{
     }
 
     @Override
-    public List<Integer> getAllConnections() {
+    public List<Integer> getAllContacts() {
         return connectionRepo.findAllContacts();
     }
+
+
 }
