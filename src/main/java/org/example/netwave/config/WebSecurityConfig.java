@@ -92,6 +92,8 @@ public PasswordEncoder passwordEncoder() {
                                 "/api/v1/auth/authenticate",
                                 "/api/v1/user/register",
                                 "/api/v1/auth/refreshToken",
+                                "api/v1/auth/send-otp",
+                                "api/v1/auth//verify-otp",
                                 "/api/v1/admin/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",

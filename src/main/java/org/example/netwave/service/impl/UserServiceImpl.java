@@ -44,13 +44,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepo.findByEmail(email);
+//        User user = userRepo.findByEmail(email);
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 getAuthority(user));
     }
 
-    public UserDTO loadUserDetailsByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByEmail(username);
+    public UserDTO loadUserDetailsByUsername(String email) throws UsernameNotFoundException {
+//        User user = userRepo.findByEmail(username);
+        User user = userRepo.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         return modelMapper.map(user, UserDTO.class);
     }
 
@@ -61,9 +67,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public UserDTO searchUser(String username) {
-        if (userRepo.existsByEmail(username)) {
-            User user = userRepo.findByEmail(username);
+    public UserDTO searchUser(String email) {
+        if (userRepo.existsByEmail(email)) {
+          //  User user = userRepo.findByEmail(username);
+            User user = userRepo.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
             return modelMapper.map(user, UserDTO.class);
         } else {
             return null;

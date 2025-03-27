@@ -49,6 +49,7 @@ public class User implements Serializable {
              this.status = "Active";
             }
        }
+
 }
       //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
       //    private List<Reload> reloads;
