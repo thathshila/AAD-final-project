@@ -1,5 +1,6 @@
 package org.example.netwave.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.example.netwave.entity.OTPVerification;
 import org.example.netwave.entity.User;
 import org.example.netwave.repo.OTPRepo;
@@ -44,20 +45,38 @@ public class OTPServiceImpl implements OTPService {
         mailSender.send(message);
     }
 
+//    public boolean verifyOtp(String email, String otp, String newPassword) {
+//        Optional<OTPVerification> otpData = otpRepo.findByEmail(email);
+//        if (otpData.isPresent() && otpData.get().getOtp().equals(otp) &&
+//                otpData.get().getExpiryTime().isAfter(LocalDateTime.now())) {
+//
+//            User user = (User) userRepo.findByEmail(email)  // ✅ Correct method name
+//                    .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//            user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+//            userRepo.save(user);
+//            otpRepo.delete(otpData.get());
+//            return true;
+//        }
+//        return false;
+//    }
+
+    @Transactional
     public boolean verifyOtp(String email, String otp, String newPassword) {
-        Optional<OTPVerification> otpData = otpRepo.findByEmail(email);
+        Optional<OTPVerification> otpData = otpRepo.findTopByEmailOrderByExpiryTimeDesc(email);
         if (otpData.isPresent() && otpData.get().getOtp().equals(otp) &&
                 otpData.get().getExpiryTime().isAfter(LocalDateTime.now())) {
 
-            User user = (User) userRepo.findByEmail(email)  // ✅ Correct method name
+            User user = userRepo.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
             userRepo.save(user);
-            otpRepo.delete(otpData.get());
+            otpRepo.delete(otpData.get()); // Delete used OTP
             return true;
         }
         return false;
     }
+
 
 }

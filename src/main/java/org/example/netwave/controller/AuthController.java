@@ -92,5 +92,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("message", "Invalid OTP or expired."));
         }
     }
+
+
 }
 
