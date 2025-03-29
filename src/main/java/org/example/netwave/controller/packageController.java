@@ -39,12 +39,9 @@ public class packageController {
         packageService.deletePackage(Integer.parseInt(id));
         return new ResponseUtil(200, "Package deleted successfully", null);
     }
-
-
     @GetMapping("/getAll")
     public ResponseUtil getAllPackages() {
-        List<PackageDTO> packageDTOList = packageService.getAllPackages();
-        return new ResponseUtil(200, "Packages Retrieved Successfully", packageDTOList);
+        return new ResponseUtil(200, "Get all Packages", packageService.getAllPackages());
     }
 
     @GetMapping("get/{id}")

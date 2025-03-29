@@ -113,10 +113,15 @@
         <h3>MANAGE OFFERS</h3>
         <form id="offerForm">
             <div class="row">
+                <label class="form-label">Offer Name</label>
                 <input type="text" id="offerName" class="form-control" placeholder="Offer Name">
+                <label class="form-label">Discount</label>
                 <input type="number" id="discountPercentage" class="form-control" placeholder="Discount">
+                <label class="form-label">Valid From</label>
                 <input type="date" id="validFrom" class="form-control" placeholder="validFrom">
+                <label class="form-label">Valid Until</label>
                 <input type="date" id="validUntil" class="form-control" placeholder="validUntil">
+                <label class="form-label">Package Name</label>
                 <select class="form-select" id="packageName">
                     <option selected>Select a package</option>
                 </select>
@@ -289,22 +294,20 @@
             type: "GET",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (response) {
-                // Empty the existing package list
-                $("#offerList   ").empty();
+                $("#offerList").empty(); // Clear existing offers
 
-                // Check if the response is in the expected format (array of packages)
+                console.log("Offer Response Data:", response.data); // Debugging
+
                 if (!Array.isArray(response.data)) {
                     console.error("Unexpected response format:", response);
-                    alert("Error fetching packages. Check console for details.");
+                    alert("Error fetching offers.");
                     return;
                 }
 
-                // Iterate over the packages and append them to the list
                 response.data.forEach(offer => {
                     $("#offerList").append(`
-                    <div class="offer-card" onclick="fillForm('${offer.offerId}','${offer.offerName}', '${offer.discountPercentage}','' +
-                     '${offer.validFrom}','${offer.validUntil}'">
-
+                    <div class="offer-card" onclick="fillForm('${offer.offerId}', '${offer.offerName}',
+                    '${offer.discountPercentage}', '${offer.validFrom}', '${offer.validUntil}')">
                         <h5>${offer.offerName}</h5>
                         <p>Discount: ${offer.discountPercentage} %</p>
                         <p>Valid From: ${offer.validFrom}</p>
@@ -314,22 +317,21 @@
                 });
             },
             error: function (xhr) {
-                console.error("Failed to load packages:", xhr.responseText);
-                alert("Failed to fetch packages.");
+                console.error("Failed to load offers:", xhr.responseText);
+                alert("Failed to fetch offers.");
             },
         });
     }
-    function fillForm(offerId,offerName, discountPercentage, validFrom, validUntil) {
-        // Populate the form with the selected offer's data
+    function fillForm(offerId, offerName, discountPercentage, validFrom, validUntil, packageNames) {
+        console.log("Filling form with:", offerId, offerName, discountPercentage, validFrom, validUntil);
+
         $("#offerId").val(offerId);
         $("#offerName").val(offerName);
         $("#discountPercentage").val(discountPercentage);
         $("#validFrom").val(validFrom);
         $("#validUntil").val(validUntil);
-
-        // You might want to set the package name based on some additional logic
-        // You can get the package name through an additional request if necessary
     }
+
     // Clear Form
     function clearForm() {
         $("#offerForm")[0].reset();

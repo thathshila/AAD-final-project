@@ -40,14 +40,15 @@ public class PackageServiceImpl implements PackageService {
         Packages packageEntity = modelMapper.map(packageDTO, Packages.class);
         packageRepo.save(packageEntity);
     }
-
     @Override
     public void deletePackage(int packageId) {
-        if (!packageRepo.existsById(packageId)) {
-            throw new RuntimeException("Package not found!");
-        }
-        packageRepo.deleteById(packageId);
+        Packages packageItem = packageRepo.findById(packageId)
+                .orElseThrow(() -> new RuntimeException("Package not found!"));
+
+        packageItem.setDeleted(true);  // Mark as deleted (soft delete)
+        packageRepo.save(packageItem);  // Save changes
     }
+
 
     @Override
     public List<PackageDTO> getAllPackages() {
