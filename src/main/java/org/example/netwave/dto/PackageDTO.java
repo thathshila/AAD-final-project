@@ -13,11 +13,11 @@ public class PackageDTO {
     private int packageId;
     private String packageName;
     private String packageType;
-    private Float dataLimit;
+    private String dataLimit;
     private Integer callMinutes;
     private Integer smsLimit;
     private Double price;
     private int validityDays;
-    private int credit_bundle_id;
+    private int creditBundleId;
     private boolean isDeleted = false;
 }

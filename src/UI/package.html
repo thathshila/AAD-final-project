@@ -114,8 +114,8 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label class="form-label">Data Limit (GB)</label>
-                    <input type="number" id="dataLimit" class="form-control">
+                    <label class="form-label">Data Limit</label>
+                    <input type="text" id="dataLimit" class="form-control">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Call Minutes</label>
@@ -129,7 +129,7 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Price (LKR)</label>
-                    <input type="number" id="price" class="form-control">
+                    <input type="text" id="price" class="form-control">
                 </div>
             </div>
             <div class="form-row">
@@ -143,6 +143,7 @@
                         <option value="">Select Credit Bundle</option>
                     </select>
                 </div>
+                <input type="hidden" id="creditBundleId" class="form-control">
                 <input type="hidden" id="packageId" class="form-control">
             </div>
             <div class="btn-container">
@@ -164,18 +165,6 @@
 
 <script>
     let authToken = localStorage.getItem("authToken");
-
-    function fillForm(packageId, packageName, packageType, price, dataLimit, callMinutes, smsLimit, validityDays, credit_bundle_id) {
-        $("#packageId").val(packageId);
-        $("#packageName").val(packageName);
-        $("#packageType").val(packageType);
-        $("#price").val(price);
-        $("#dataLimit").val(dataLimit);
-        $("#callMinutes").val(callMinutes);
-        $("#smsLimit").val(smsLimit);
-        $("#validityDays").val(validityDays);
-        $("#creditBundle").val(credit_bundle_id);
-    }
 
     $(document).ready(function () {
         viewPackages();
@@ -206,15 +195,42 @@
             });
         }
 
-        $("#viewBundle").click(function() {
+        $("#creditBundle").change(function () {
+            let selectedBundle = $(this).val();
+            if (selectedBundle) {
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/credit_bundle/getCreditByName/${selectedBundle}`,
+                    method: "GET",
+                    dataType: "json",
+                    headers: {"Authorization": `Bearer ${authToken}`},
+                    success: function (resp) {
+                        console.log("Selected Credit Bundle Data Response:", resp); // Debugging output
+
+                        if (resp && resp.data) {
+                            $("#creditBundleId").val(resp.data); // Set the credit bundle ID field
+                        } else {
+                            $("#creditBundleId").val(""); // Clear input if no data found
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error fetching selected credit bundle details:", error);
+                    }
+                });
+            } else {
+                console.log("No credit bundle selected.");
+                $("#creditBundleId").val("");
+            }
+        });
+
+
+        $("#viewBundle").click(function () {
             viewPackages();
         });
 
-        // Save or Update Package
         $("#packageForm").submit(function (event) {
             event.preventDefault();
 
-            let packageId = $("#packageId").val();
+            let packageId = $("#packageId").val().trim();
             let packageName = $("#packageName").val().trim();
             let packageType = $("#packageType").val().trim();
             let dataLimit = $("#dataLimit").val().trim();
@@ -222,30 +238,34 @@
             let smsLimit = $("#smsLimit").val().trim();
             let price = $("#price").val().trim();
             let validityDays = $("#validityDays").val().trim();
-            let creditBundleId = $("#creditBundle").val();
+            let creditBundleId = $("#creditBundleId").val().trim();  // Select Credit Bundle
 
-            if (!packageName || !packageType || !dataLimit || !callMinutes || !smsLimit || !price || !validityDays || !creditBundleId) {
-                alert("Please fill in all fields!");
+            // Validation for required fields
+            if (!packageName || !packageType || !dataLimit || !callMinutes || !smsLimit || !price || !validityDays || !creditBundle) {
+                alert("Please enter all required fields!");
                 return;
             }
 
-            let apiUrl = "http://localhost:8080/api/v1/packages/save";
-            let methodType = "POST";
             let requestData = {
-                packageName,
-                packageType,
-                dataLimit,
-                callMinutes,
-                smsLimit,
-                price,
-                validityDays,
-                creditBundleId
+                packageId: packageId,
+                packageName: packageName,
+                packageType: packageType,
+                dataLimit: dataLimit,
+                callMinutes: callMinutes,
+                smsLimit: smsLimit,
+                price: price,
+                validityDays: validityDays,
+                creditBundleId: parseInt(creditBundleId),  // Ensure credit bundle ID is sent correctly
             };
 
-            if (packageId) {  // If packageId exists, update instead of saving
+            let apiUrl = "http://localhost:8080/api/v1/packages/save";
+            let methodType = "POST";
+
+            // If updating an existing package
+            if (packageId) {
                 apiUrl = `http://localhost:8080/api/v1/packages/update/${packageId}`;
                 methodType = "PUT";
-                requestData.packageId = packageId;
+                requestData.packageId = parseInt(packageId);
             }
 
             $.ajax({
@@ -253,17 +273,20 @@
                 type: methodType,
                 contentType: "application/json",
                 data: JSON.stringify(requestData),
-                headers: { "Authorization": `Bearer ${authToken}` },
-                success: function () {
+                headers: {"Authorization": `Bearer ${authToken}`},
+                success: function (resp) {
                     alert(packageId ? "Package updated successfully!" : "Package saved successfully!");
+                    viewPackages();  // Refresh package list
                     clearForm();
-                    viewPackages();
                 },
-                error: function (xhr) {
-                    alert("Operation failed: " + xhr.responseText);
-                },
+                error: function (error) {
+                    console.error("Error saving/updating package:", error);
+                    alert("Failed to save/update package!");
+                }
             });
         });
+
+
 // Delete Package
         $(".btn-danger").click(function () {
             let packageId = $("#packageId").val().trim();
@@ -308,18 +331,20 @@
                     }
 
                     response.data.forEach(pkg => {
-                        $("#packageList").append(`
-                        <div class="package-card" onclick="fillForm('${pkg.packageId}', '${pkg.packageName}', '${pkg.packageType}', '${pkg.price}', ${pkg.dataLimit}, ${pkg.callMinutes}, ${pkg.smsLimit}, ${pkg.validityDays}, '${pkg.credit_bundle_id}')">
-                            <h5>${pkg.packageName}</h5>
-                            <p>Type: ${pkg.packageType}</p>
-                            <p>Data Limit: ${pkg.dataLimit} GB</p>
-                            <p>Price: LKR ${pkg.price}</p>
-                            <p>Validity: ${pkg.validityDays} days</p>
-                            <p>SMS: ${pkg.smsLimit}</p>
-                            <p>Call: ${pkg.callMinutes}</p>
-                        </div>
-                    `);
+                        const packageCard = `
+        <div class="package-card" data-package-id="${pkg.packageId}" data-package-name="${pkg.packageName}" data-package-type="${pkg.packageType}" data-price="${pkg.price}" data-data-limit="${pkg.dataLimit}" data-call-minutes="${pkg.callMinutes}" data-sms-limit="${pkg.smsLimit}" data-validity-days="${pkg.validityDays}" data-credit-bundle-id="${pkg.creditBundleId}">
+            <h5>${pkg.packageName}</h5>
+            <p>Type: ${pkg.packageType}</p>
+            <p>Data Limit: ${pkg.dataLimit}</p>
+            <p>Price: LKR ${pkg.price}</p>
+            <p>Validity: ${pkg.validityDays} days</p>
+            <p>SMS: ${pkg.smsLimit}</p>
+            <p>Call: ${pkg.callMinutes}</p>
+        </div>
+    `;
+                        $("#packageList").append(packageCard);
                     });
+
                 },
                 error: function (xhr) {
                     console.error("Failed to load packages:", xhr.responseText);
@@ -328,10 +353,44 @@
             });
         }
 
+        $("#packageList").on("click", ".package-card", function () {
+            console.log("Package card clicked!");
+
+            const packageId = $(this).data("package-id");
+            console.log("packageId:", packageId);
+
+            fillForm(
+                packageId,
+                $(this).data("package-name"),
+                $(this).data("package-type"),
+                $(this).data("price"),
+                $(this).data("data-limit"),
+                $(this).data("call-minutes"),
+                $(this).data("sms-limit"),
+                $(this).data("validity-days"),
+                $(this).data("credit-bundle-id")
+            );
+        });
+
+
         $("#clearBtn").click(function() {
             clearForm();
         });
 
+        function fillForm(packageId, packageName, packageType, price, dataLimit, callMinutes, smsLimit, validityDays, creditBundleId) {
+            $("#packageId").val(packageId);
+            $("#packageName").val(packageName);
+            $("#packageType").val(packageType);
+            $("#dataLimit").val(dataLimit);
+            $("#callMinutes").val(callMinutes);
+            $("#smsLimit").val(smsLimit);
+            $("#price").val(price);
+            $("#validityDays").val(validityDays);
+            $("#creditBundleId").val(creditBundleId);
+
+            // Set the dropdown to match the selected credit bundle
+            $("#creditBundle").val(creditBundleId);
+        }
 
         function clearForm() {
             $("#packageName").val("");
@@ -344,6 +403,7 @@
             $("#creditBundle").val("");
         }
     });
+
 
 </script>
 </body>

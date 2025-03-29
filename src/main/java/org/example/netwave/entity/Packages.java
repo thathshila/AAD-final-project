@@ -19,7 +19,7 @@ public class Packages {
     @Column(nullable = false, length = 100)
     private String packageName;
     private String packageType;
-    private Float dataLimit;
+    private String dataLimit;
     private Integer callMinutes;
     private Integer smsLimit;
     private Double price;
