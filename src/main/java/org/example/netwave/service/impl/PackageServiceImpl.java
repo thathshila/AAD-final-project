@@ -2,8 +2,11 @@ package org.example.netwave.service.impl;
 
 import org.example.netwave.dto.PackageDTO;
 import org.example.netwave.entity.Packages;
+import org.example.netwave.entity.User;
 import org.example.netwave.repo.Credit_BundleRepo;
 import org.example.netwave.repo.PackageRepo;
+import org.example.netwave.repo.UserRepo;
+import org.example.netwave.service.EmailService;
 import org.example.netwave.service.PackageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +25,48 @@ public class PackageServiceImpl implements PackageService {
     private Credit_BundleRepo creditBundleRepo;
 
     @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private ModelMapper modelMapper;
 
-    @Override
-    public void savePackage(PackageDTO packageDTO) {
-        if (packageRepo.existsById(packageDTO.getPackageId())) {
-            throw new RuntimeException("Package already exists!");
-        }
-        packageRepo.save(modelMapper.map(packageDTO, Packages.class));
+//    @Override
+//    public void savePackage(PackageDTO packageDTO) {
+//        if (packageRepo.existsById(packageDTO.getPackageId())) {
+//            throw new RuntimeException("Package already exists!");
+//        }
+//        packageRepo.save(modelMapper.map(packageDTO, Packages.class));
+//    }
+@Override
+public void savePackage(PackageDTO packageDTO) {
+    if (packageRepo.existsById(packageDTO.getPackageId())) {
+        throw new RuntimeException("Package already exists!");
     }
+
+    // Map DTO to Entity and save package
+    Packages newPackage = modelMapper.map(packageDTO, Packages.class);
+    packageRepo.save(newPackage);
+
+    // Fetch all registered users
+    List<User> users = userRepo.findAll();
+
+    // Send email notifications
+    for (User user : users) {
+        emailService.sendPackageNotification(
+                user.getEmail(),
+                newPackage.getPackageName(),
+                newPackage.getPackageType(),
+                newPackage.getPrice(),
+                newPackage.getDataLimit(),
+                newPackage.getCallMinutes(),
+                newPackage.getSmsLimit(),
+                newPackage.getValidityDays()
+        );
+    }
+}
 
     @Override
     public void updatePackage(PackageDTO packageDTO) {
