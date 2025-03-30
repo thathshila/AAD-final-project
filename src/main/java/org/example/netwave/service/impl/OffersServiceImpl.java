@@ -1,5 +1,7 @@
 package org.example.netwave.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.example.netwave.dto.OffersDTO;
 import org.example.netwave.entity.Offers;
 import org.example.netwave.entity.Packages;
@@ -25,25 +27,28 @@ public class OffersServiceImpl implements OffersService {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Override
-    public void saveOffers(OffersDTO offersDTO) {
-        // Check if the offer already exists
-        if (offersDTO.getOfferId() != 0 && offersRepo.existsById(offersDTO.getOfferId())) {
-            throw new RuntimeException("Offer already exists");
-        }
 
-        // Map DTO to entity
-        Offers offers = modelMapper.map(offersDTO, Offers.class);
-
-        // Fetch and assign package
-        Packages packages = packageRepo.findById(offersDTO.getPackageId())
-                .orElseThrow(() -> new RuntimeException("Package not found"));
-        offers.setPackages(packages);
-        System.out.println(offersDTO.getPackageId());
-
-        // Save to database
-        offersRepo.save(offers);
+@Override
+public void saveOffer(OffersDTO offersDTO) {
+    if (offersRepo.existsById(offersDTO.getOfferId())) {
+        throw new RuntimeException("Offer already exists!");
     }
+
+    // Retrieve the Packages entity by its ID
+    Packages packages = packageRepo.findById(offersDTO.getPackageId())
+            .orElseThrow(() -> new RuntimeException("Package not found"));
+
+    // Create a new Offers entity and map the DTO to the entity
+    Offers offer = modelMapper.map(offersDTO, Offers.class);
+
+    // Set the Packages entity in the Offer
+    offer.setPackages(packages);
+
+    // Save the Offer entity to the database
+    offersRepo.save(offer);
+}
+
+
 
     @Override
     public List<OffersDTO> getAllOffers() {
@@ -67,6 +72,7 @@ public class OffersServiceImpl implements OffersService {
 
         offersRepo.save(offer);
     }
+
 
 
     @Override

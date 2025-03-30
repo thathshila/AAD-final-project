@@ -143,7 +143,7 @@
                         <option value="">Select Credit Bundle</option>
                     </select>
                 </div>
-                <input type="hidden" id="creditBundleId" class="form-control">
+                <input type="text" id="creditBundleId" class="form-control">
                 <input type="hidden" id="packageId" class="form-control">
             </div>
             <div class="btn-container">
@@ -241,7 +241,7 @@
             let creditBundleId = $("#creditBundleId").val().trim();  // Select Credit Bundle
 
             // Validation for required fields
-            if (!packageName || !packageType || !dataLimit || !callMinutes || !smsLimit || !price || !validityDays || !creditBundle) {
+            if (!packageName || !packageType || !dataLimit || !callMinutes || !smsLimit || !price || !validityDays || !creditBundleId) {
                 alert("Please enter all required fields!");
                 return;
             }

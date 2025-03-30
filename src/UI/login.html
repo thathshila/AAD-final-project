@@ -2,14 +2,11 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login Page</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ10b4kJpOacJ6FSwB0w7y35gm55FFkB96sDbi08vvI5cfaIOW/mN52xgLoz" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
@@ -21,20 +18,19 @@
             color: #212529;
             margin: 0;
             padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
-        /* Card Styling */
         .card {
             background-color: #ffffff;
             border-radius: 10px;
@@ -42,96 +38,31 @@
             padding: 20px;
             width: 100%;
             max-width: 400px;
-        }
-        /* Form Fields */
-        .form-group label {
-            color: #495057;
-            font-weight: 500;
-        }
-
-        .form-control {
-            background: #ffffff;
-            color: #212529;
-            border: 1px solid #ced4da;
-            padding: 10px;
-            border-radius: 5px;
+            text-align: center;
         }
 
         .form-control:focus {
             border-color: #007bff;
-            outline: none;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
-        /* Buttons */
         .btn-primary {
-            background-color: #007bff !important;
-            border: none;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 5px;
-            transition: 0.3s;
             width: 100%;
         }
 
-        .btn-primary:hover {
-            background-color: #0056b3 !important;
-        }
-
-        /* Forgot Password & Sign Up */
         .forgot-pass {
             color: #007bff;
             text-decoration: none;
-            transition: 0.3s;
         }
 
         .forgot-pass:hover {
             color: #0056b3;
         }
-
-        .sign-up a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-
-        .sign-up a:hover {
-            color: #0056b3;
-        }
-
-        /* Checkbox */
-        .form-check-input {
-            accent-color: #007bff;
-        }
-
-        .form-check-label {
-            color: #495057;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .card {
-                width: 80%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .card {
-                width: 90%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .card {
-                width: 100%;
-                padding: 15px;
-            }
-        }
     </style>
 </head>
 
 <body>
+
 <div class="container">
     <div class="card">
         <div class="card-body">
@@ -142,7 +73,7 @@
                     <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
                 </div>
                 <div class="form-group mb-4">
-                    <label for="password">Password *</label>
+                    <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
                 </div>
                 <div class="form-group d-flex align-items-center justify-content-between">
@@ -150,21 +81,49 @@
                         <input type="checkbox" class="form-check-input" id="rememberMe">
                         <label class="form-check-label" for="rememberMe">Remember me</label>
                     </div>
-                    <a href="#" class="forgot-pass">Forgot password?</a>
+                    <a href="#" class="forgot-pass" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a>
                 </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                </div>
-                <div class="d-flex justify-content-between mt-3">
-                    <p class="sign-up">Don't have an Account?<a href="#"> Sign Up</a></p>
-                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+                <p class="text-center mt-3">Don't have an account? <a href="register.html">Sign Up</a></p>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS & Dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0wWzPlhg6N4K5e1TQMMz6FwFL9A0c2GiHf8+XzB4iMQJ8FEy" crossorigin="anonymous"></script>
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="forgotEmail">Enter Your Email</label>
+                        <input type="email" class="form-control" id="forgotEmail" required>
+                    </div>
+                    <button type="button" class="btn btn-primary mt-2" id="sendOtpBtn">Send OTP</button>
+                </form>
+
+                <form id="verifyOtpForm" class="mt-3" style="display:none;">
+                    <div class="form-group">
+                        <label for="otpCode">Enter OTP</label>
+                        <input type="text" class="form-control" id="otpCode" required>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" required>
+                    </div>
+                    <button type="button" class="btn btn-success mt-2" id="verifyOtpBtn">Verify & Change Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
     document.getElementById("loginForm").addEventListener("submit", function (event) {
@@ -216,7 +175,66 @@
                 alert("Login failed. Please try again.");
             });
     });
-</script>
-</body>
+    $(document).ready(function () {
+        $("#sendOtpBtn").click(function () {
+            let email = $("#forgotEmail").val().trim();
+            if (!email) {
+                alert("Please enter your email.");
+                return;
+            }
 
+            $.ajax({
+                url: "http://localhost:8080/api/v1/auth/send-otp",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ email: email }),
+                success: function (response) {
+                    alert("OTP sent to your email.");
+                    $("#forgotPasswordForm").hide();
+                    $("#verifyOtpForm").show();
+                },
+                error: function () {
+                    alert("Error sending OTP. Please try again.");
+                }
+            });
+        });
+
+        $("#verifyOtpBtn").click(function () {
+            let email = $("#forgotEmail").val().trim();
+            let otp = $("#otpCode").val().trim();
+            let newPassword = $("#newPassword").val().trim();
+
+            if (!otp || !newPassword) {
+                alert("Please enter OTP and new password.");
+                return;
+            }
+
+            let token = localStorage.getItem("authToken");
+
+            if (!token) {
+                alert("You need to log in first.");
+                return;
+            }
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/auth/verify-otp",
+                type: "POST",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                data: JSON.stringify({ email: email, otp: otp, newPassword: newPassword }),
+                success: function (response) {
+                    alert("Password changed successfully.");
+                    $("#forgotPasswordModal").modal('hide');
+                },
+                error: function () {
+                    alert("Invalid OTP or expired. Please try again.");
+                }
+            });
+        });
+    });
+</script>
+
+</body>
 </html>

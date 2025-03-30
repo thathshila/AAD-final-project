@@ -1,5 +1,6 @@
 package org.example.netwave.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.example.netwave.dto.Credit_BundleDTO;
 import org.example.netwave.entity.CreditBundle;
 import org.example.netwave.repo.Credit_BundleRepo;
@@ -20,12 +21,14 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
     @Autowired
     private ModelMapper modelMapper;
 
+@Transactional
     @Override
     public void saveCredit_bundle(Credit_BundleDTO creditBundleDTO) {
         if (credit_BundleRepo.existsById(creditBundleDTO.getBundleId())){
             System.out.println(creditBundleDTO.getBundleId());
             throw new RuntimeException("credit bundle already exists");
         }
+        System.out.println("Received DTO: " + creditBundleDTO);
         credit_BundleRepo.save(modelMapper.map(creditBundleDTO, CreditBundle.class));
     }
 

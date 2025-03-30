@@ -126,8 +126,8 @@
                     <option selected>Select a package</option>
                 </select>
             </div>
-            <input type="hidden" id="offerId" class="form-control" placeholder="offerId">
-            <input type="hidden" id="packageId" class="form-control" placeholder="packageId">
+            <input type="text" id="offerId" class="form-control" placeholder="offerId">
+            <input type="text" id="packageId" class="form-control" placeholder="packageId">
             <div class="btn-container">
                 <div class="btn-row">
                     <button type="submit" class="btn btn-success">Save</button>
@@ -152,6 +152,7 @@
     let authToken = localStorage.getItem("authToken");
     loadAllPackageNames();
     viewOffers();
+
 
     function loadAllPackageNames() {
         $.ajax({
@@ -248,7 +249,7 @@
             data: JSON.stringify(requestData),
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (resp) {
-              //  alert(resp.message);
+                //  alert(resp.message);
                 alert(offerId ? "Bundle updated successfully!" : "Bundle saved successfully!");
                 viewOffers();  // Refresh offer list
                 clearForm();
@@ -297,7 +298,6 @@
                 $("#offerList").empty(); // Clear existing offers
 
                 console.log("Offer Response Data:", response.data); // Debugging
-
                 if (!Array.isArray(response.data)) {
                     console.error("Unexpected response format:", response);
                     alert("Error fetching offers.");
@@ -307,11 +307,12 @@
                 response.data.forEach(offer => {
                     $("#offerList").append(`
                     <div class="offer-card" onclick="fillForm('${offer.offerId}', '${offer.offerName}',
-                    '${offer.discountPercentage}', '${offer.validFrom}', '${offer.validUntil}')">
+                    '${offer.discountPercentage}', '${offer.validFrom}', '${offer.validUntil}','${offer.packageId}')">
                         <h5>${offer.offerName}</h5>
                         <p>Discount: ${offer.discountPercentage} %</p>
                         <p>Valid From: ${offer.validFrom}</p>
                         <p>Valid Until: ${offer.validUntil}</p>
+                        <p>Package Id: ${offer.packageId}</p>
                     </div>
                 `);
                 });
@@ -322,7 +323,7 @@
             },
         });
     }
-    function fillForm(offerId, offerName, discountPercentage, validFrom, validUntil, packageNames) {
+    function fillForm(offerId, offerName, discountPercentage, validFrom, validUntil, packageId) {
         console.log("Filling form with:", offerId, offerName, discountPercentage, validFrom, validUntil);
 
         $("#offerId").val(offerId);
@@ -330,6 +331,7 @@
         $("#discountPercentage").val(discountPercentage);
         $("#validFrom").val(validFrom);
         $("#validUntil").val(validUntil);
+        $("#packageId").val(packageId)
     }
 
     // Clear Form

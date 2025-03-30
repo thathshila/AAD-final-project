@@ -15,10 +15,10 @@ public class OffersController {
     private OffersService offersService;
 
     @PostMapping("/save")
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil saveOffers(@RequestBody OffersDTO offersDTO) {
         System.out.println(offersDTO);
-        offersService.saveOffers(offersDTO);
+        offersService.saveOffer(offersDTO);
         return new ResponseUtil(201,"Offer Create Successfully",null);
     }
 

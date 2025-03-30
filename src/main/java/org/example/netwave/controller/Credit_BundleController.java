@@ -1,9 +1,13 @@
 package org.example.netwave.controller;
 
+import jakarta.validation.Valid;
 import org.example.netwave.dto.Credit_BundleDTO;
+import org.example.netwave.dto.ResponseDTO;
 import org.example.netwave.service.Credit_BundleService;
 import org.example.netwave.utill.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +19,26 @@ public class Credit_BundleController {
     @Autowired
     private Credit_BundleService Credit_BundleService;
 
+//    @PostMapping("/save")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public ResponseUtil saveCredit_bundle(@RequestBody Credit_BundleDTO credit_bundleDTO) {
+//        System.out.println(credit_bundleDTO);
+//        Credit_BundleService.saveCredit_bundle(credit_bundleDTO);
+//        return new ResponseUtil(201, "Successfully", null);
+//    }
+
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseUtil saveCredit_bundle(@RequestBody Credit_BundleDTO credit_bundleDTO) {
-        System.out.println(credit_bundleDTO);
-        Credit_BundleService.saveCredit_bundle(credit_bundleDTO);
-        return new ResponseUtil(201, "Successfully", null);
+    public ResponseEntity<ResponseDTO> saveCreditBundle(@Valid @RequestBody Credit_BundleDTO creditBundleDTO) {
+        System.out.println("controller"+creditBundleDTO);
+        Credit_BundleService.saveCredit_bundle(creditBundleDTO);
+
+        ResponseDTO responseDTO = new ResponseDTO(
+                201,
+                "Successfully Created",
+                creditBundleDTO
+        );
+
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")
