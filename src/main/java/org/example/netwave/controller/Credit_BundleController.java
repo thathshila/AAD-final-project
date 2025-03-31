@@ -27,20 +27,6 @@ public class Credit_BundleController {
         return new ResponseUtil(201, "Successfully", null);
     }
 
-//    @PostMapping("/save")
-//    public ResponseEntity<ResponseDTO> saveCreditBundle(@Valid @RequestBody Credit_BundleDTO creditBundleDTO) {
-//        System.out.println("controller"+creditBundleDTO);
-//        Credit_BundleService.saveCredit_bundle(creditBundleDTO);
-//
-//        ResponseDTO responseDTO = new ResponseDTO(
-//                201,
-//                "Successfully Created",
-//                creditBundleDTO
-//        );
-//
-//        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
-//    }
-
     @GetMapping("/getAll")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil getAllCredit_bundle() {

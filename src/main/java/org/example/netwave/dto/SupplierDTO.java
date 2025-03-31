@@ -12,5 +12,6 @@ public class SupplierDTO {
     private String name;
     private String contactEmail;
     private String contactPhone;
+    private boolean isDeleted = false;
 
 }

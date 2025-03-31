@@ -94,6 +94,9 @@ public PasswordEncoder passwordEncoder() {
                                 "/api/v1/auth/refreshToken",
                                 "api/v1/auth/send-otp",
                                 "api/v1/auth//verify-otp",
+                                "api/v1/chat/**",
+                                "/ws/**",
+                                "/uploads/**",
                                 "/api/v1/admin/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
@@ -105,10 +108,22 @@ public PasswordEncoder passwordEncoder() {
                 .build();
     }
 
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(List.of("http://localhost:63342")); // Allow frontend origin
+//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+//        configuration.setAllowCredentials(true);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:63342")); // Allow frontend origin
+        configuration.setAllowedOrigins(List.of("http://localhost:63342", "http://localhost:8080", "http://127.0.0.1:5500")); // Add more origins if needed
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
