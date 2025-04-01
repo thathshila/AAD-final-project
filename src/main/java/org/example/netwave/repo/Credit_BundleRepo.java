@@ -1,6 +1,5 @@
 package org.example.netwave.repo;
 
-import org.example.netwave.dto.Credit_BundleDTO;
 import org.example.netwave.entity.CreditBundle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

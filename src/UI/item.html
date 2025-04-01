@@ -89,11 +89,12 @@
 </div>
 
 <script>
-    // Modified script section for the HTML file
-    // Replace the existing script block with this one
-
+    // Constants
     const BASE_URL = "http://localhost:8080/api/v1/item";
     const AUTH_TOKEN = localStorage.getItem('authToken');
+
+    // Store all items in memory for quick access
+    let allItems = [];
 
     // Check Authentication
     function checkAuth() {
@@ -197,6 +198,9 @@
                 console.log("Items received:", response);
                 tableBody.empty();
 
+                // Store items in memory for later use
+                allItems = response.data || [];
+
                 if (!response.data || response.data.length === 0) {
                     tableBody.append('<tr><td colspan="7" class="text-center text-muted">No items found</td></tr>');
                     return;
@@ -206,17 +210,17 @@
                     let imageUrl = item.image ? `http://localhost:8080/uploads/${item.image}` : 'placeholder.jpg';
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                <td>${item.name}</td>
-                <td>${item.description}</td>
-                <td>${item.price}</td>
-                <td>${item.category || 'N/A'}</td>
-                <td>${item.stockQuantity}</td>
-                <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
-                <td>
-                    <button class="btn btn-warning btn-sm" onclick='loadItemForEdit(${JSON.stringify(item).replace(/'/g, "\\'")}')'>Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteItem(${item.itemId})">Delete</button>
-                </td>
-            `;
+                    <td>${item.name}</td>
+                    <td>${item.description}</td>
+                    <td>${item.price}</td>
+                    <td>${item.category || 'N/A'}</td>
+                    <td>${item.stockQuantity}</td>
+                    <td><img src="${imageUrl}" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="loadItemForEdit(${item.itemId})">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteItem(${item.itemId})">Delete</button>
+                    </td>
+                `;
                     tableBody.append(row);
                 });
             },
@@ -229,9 +233,24 @@
         });
     }
 
-    // Load Item for Edit
-    function loadItemForEdit(item) {
-        console.log("Loading item for edit:", item);
+    // Load Item for Edit - Using stored items instead of making a new API call
+    function loadItemForEdit(itemId) {
+        console.log("Loading item for edit, ID:", itemId);
+
+        // Find the item in our stored array
+        const item = allItems.find(item => item.itemId === itemId);
+
+        if (!item) {
+            console.error("Item not found with ID:", itemId);
+            alert("Error: Could not find item data");
+            return;
+        }
+
+        // Store selected item ID for update/delete operations
+        window.selectedItemId = itemId;
+        console.log("Item data found:", item);
+
+        // Fill the form with item data
         document.getElementById('name').value = item.name;
         document.getElementById('description').value = item.description;
         document.getElementById('price').value = item.price;
@@ -239,10 +258,7 @@
         document.getElementById('stock').value = item.stockQuantity;
         document.getElementById('supplierId').value = item.supplierId;
 
-        // Store the item ID for update/delete operations
-        window.selectedItemId = item.itemId;
-        console.log("Selected item ID:", window.selectedItemId);
-
+        // Handle the image preview
         const preview = document.getElementById('imagePreview');
         if (item.image) {
             preview.src = `http://localhost:8080/uploads/${item.image}`;
