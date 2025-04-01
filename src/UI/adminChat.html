@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Chat</title>
+    <link rel="stylesheet" href="assets/css/chat.css">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="assets/js/chat.js"></script>
+</head>
+<body>
+<div class="chat-container">
+    <div class="chat-header">
+        <h2>Admin Chat Panel</h2>
+        <div class="user-info">
+            You are: <span id="username" th:text="${username}"></span>
+        </div>
+    </div>
+
+    <div class="chat-messages" id="messageArea">
+        <!-- Messages will appear here -->
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        connect();
+    });
+</script>
+</body>
+</html>
