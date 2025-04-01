@@ -282,12 +282,10 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!--<script src="assets/js/pay5a.js"></script>-->
-<!-- Replace the script section -->
 <script>
-    let authToken = localStorage.getItem("authToken");
-
     document.addEventListener("DOMContentLoaded", function() {
+        let authToken = localStorage.getItem("authToken");
+
         // Display the amount from localStorage
         const amount = localStorage.getItem("amount");
         if (amount) {
@@ -332,7 +330,7 @@
             fetch('http://localhost:8080/api/v1/reload/save', {
                 method: 'POST',
                 headers: {
-                   "Authorization": `Bearer ${authToken}`,
+                    "Authorization": `Bearer ${authToken}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(reloadData)
@@ -344,7 +342,42 @@
                     return response.json();
                 })
                 .then(data => {
-                    alert("Payment successful!");
+                    // Create transaction data for email
+                    const emailData = {
+                        to: email,
+                        subject: "Your SLT Mobitel Payment Was Successful",
+                        phoneNumber: phoneNumber,
+                        amount: amount,
+                        transactionId: generateTransactionId(),
+                        timestamp: new Date().toISOString()
+                    };
+
+                    // Send confirmation email after successful payment
+                    return fetch('http://localhost:8080/api/v1/email/send-payment-confirmation', {
+                        method: 'POST',
+                        headers: {
+                            "Authorization": `Bearer ${authToken}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(emailData)
+                    });
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to send confirmation email');
+                    }
+                    // Check content type header to determine how to process the response
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        return response.json();
+                    } else {
+                        // Return a resolved promise with the status to continue the chain
+                        return Promise.resolve({ status: 'success' });
+                    }
+                })
+                .then(data => {
+                    // Success handling
+                    alert("Payment successful! A confirmation email has been sent to your email address.");
                     // Clear localStorage data
                     localStorage.removeItem('mobileNumber');
                     localStorage.removeItem('amount');
@@ -363,6 +396,11 @@
                 window.location.href = "pay2.html"; // Go back to first page
             }
         });
+
+        // Helper function to generate a transaction ID
+        function generateTransactionId() {
+            return 'TXN' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+        }
     });
 </script>
 </body>
