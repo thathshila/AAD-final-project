@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ReloadDTO {
-    private Double amount;
-    private int credit_bundle_id;
+    private String phoneNumber;
+    private double amount;
+    private String email;
+    private int credit_bundle_id = 2;
 }

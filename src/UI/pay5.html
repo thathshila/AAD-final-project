@@ -278,9 +278,92 @@
             <span>Total amount</span>
         </div>
 
-        <div class="total-amount">100.00 Rs</div>
+        <div class="total-amount"> Rs</div>
     </div>
 </div>
-<script src="assets/js/pay5.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!--<script src="assets/js/pay5a.js"></script>-->
+<!-- Replace the script section -->
+<script>
+    let authToken = localStorage.getItem("authToken");
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Display the amount from localStorage
+        const amount = localStorage.getItem("amount");
+        if (amount) {
+            document.querySelector(".total-amount").innerText = "Rs. " + amount;
+        }
+
+        // Add click event listener to the pay button
+        document.querySelector(".pay-btn").addEventListener("click", function(e) {
+            e.preventDefault();
+
+            // Basic validation
+            const cardType = document.querySelector('input[name="card-type"]:checked');
+            const cardNumber = document.getElementById("card-number").value;
+            const expMonth = document.getElementById("exp-month").value;
+            const expYear = document.getElementById("exp-year").value;
+            const cvv = document.getElementById("cvv").value;
+
+            if (!cardType || !cardNumber || !expMonth || !expYear || !cvv) {
+                alert("Please fill in all required payment fields");
+                return;
+            }
+
+            // Retrieve data from localStorage
+            const phoneNumber = localStorage.getItem('mobileNumber');
+            const amount = localStorage.getItem('amount');
+            const email = localStorage.getItem('email');
+
+            if (!phoneNumber || !amount || !email) {
+                alert("Missing required information. Please go back and fill in all details.");
+                return;
+            }
+
+            // Prepare the data to be sent as JSON
+            const reloadData = {
+                phoneNumber: phoneNumber,
+                amount: parseFloat(amount), // Convert to number
+                email: email,
+                credit_bundle_id: 2
+            };
+
+            // Send the data to the backend via fetch API
+            fetch('http://localhost:8080/api/v1/reload/save', {
+                method: 'POST',
+                headers: {
+                   "Authorization": `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reloadData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert("Payment successful!");
+                    // Clear localStorage data
+                    localStorage.removeItem('mobileNumber');
+                    localStorage.removeItem('amount');
+                    localStorage.removeItem('email');
+                    window.location.href = "success.html";
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Error processing the payment: " + error.message);
+                });
+        });
+
+        // Add click event listener to the cancel button
+        document.querySelector(".cancel-btn").addEventListener("click", function() {
+            if(confirm("Are you sure you want to cancel this payment?")) {
+                window.location.href = "pay2.html"; // Go back to first page
+            }
+        });
+    });
+</script>
 </body>
 </html>
