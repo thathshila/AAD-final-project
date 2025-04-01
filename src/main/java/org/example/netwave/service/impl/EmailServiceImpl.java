@@ -2,11 +2,15 @@ package org.example.netwave.service.impl;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.example.netwave.dto.PayEmailRequestDTO;
 import org.example.netwave.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -47,4 +51,85 @@ public class EmailServiceImpl implements EmailService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void sendPaymentConfirmationEmail(PayEmailRequestDTO emailRequest) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(emailRequest.getTo());
+        helper.setSubject(emailRequest.getSubject());
+
+        // Format the timestamp for better readability
+        String formattedDate = "";
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            SimpleDateFormat outputFormat = new SimpleDateFormat("MMMM dd, yyyy HH:mm:ss");
+            Date date = inputFormat.parse(emailRequest.getTimestamp());
+            formattedDate = outputFormat.format(date);
+        } catch (Exception e) {
+            formattedDate = emailRequest.getTimestamp();
+        }
+
+        // Create HTML email content
+        String htmlContent =
+                "<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "    <style>" +
+                        "        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }" +
+                        "        .container { width: 600px; margin: 0 auto; padding: 20px; }" +
+                        "        .header { background-color: #0066cc; color: white; padding: 10px 20px; }" +
+                        "        .content { padding: 20px; border: 1px solid #ddd; }" +
+                        "        .footer { font-size: 12px; color: #777; margin-top: 20px; }" +
+                        "        .details { margin: 20px 0; }" +
+                        "        .details table { width: 100%; border-collapse: collapse; }" +
+                        "        .details td { padding: 8px; border-bottom: 1px solid #eee; }" +
+                        "        .details td:first-child { font-weight: bold; width: 40%; }" +
+                        "        .amount { font-size: 24px; color: #0066cc; font-weight: bold; }" +
+                        "    </style>" +
+                        "</head>" +
+                        "<body>" +
+                        "    <div class='container'>" +
+                        "        <div class='header'>" +
+                        "            <h2>SLT Mobitel Payment Confirmation</h2>" +
+                        "        </div>" +
+                        "        <div class='content'>" +
+                        "            <p>Dear Customer,</p>" +
+                        "            <p>Thank you for your payment. Your transaction has been completed successfully.</p>" +
+                        "            <div class='details'>" +
+                        "                <table>" +
+                        "                    <tr>" +
+                        "                        <td>Transaction ID:</td>" +
+                        "                        <td>" + emailRequest.getTransactionId() + "</td>" +
+                        "                    </tr>" +
+                        "                    <tr>" +
+                        "                        <td>Phone Number:</td>" +
+                        "                        <td>" + emailRequest.getPhoneNumber() + "</td>" +
+                        "                    </tr>" +
+                        "                    <tr>" +
+                        "                        <td>Amount:</td>" +
+                        "                        <td class='amount'>Rs. " + emailRequest.getAmount() + "</td>" +
+                        "                    </tr>" +
+                        "                    <tr>" +
+                        "                        <td>Date & Time:</td>" +
+                        "                        <td>" + formattedDate + "</td>" +
+                        "                    </tr>" +
+                        "                </table>" +
+                        "            </div>" +
+                        "            <p>Your account has been recharged with the above amount. The balance will be reflected in your account shortly.</p>" +
+                        "            <p>If you have any questions, please contact our customer support at <a href='mailto:support@sltmobitel.lk'>support@sltmobitel.lk</a> or call our hotline at 1717.</p>" +
+                        "        </div>" +
+                        "        <div class='footer'>" +
+                        "            <p>This is an automated message. Please do not reply to this email.</p>" +
+                        "            <p>&copy; " + new SimpleDateFormat("yyyy").format(new Date()) + " SLT Mobitel. All rights reserved.</p>" +
+                        "        </div>" +
+                        "    </div>" +
+                        "</body>" +
+                        "</html>";
+
+        helper.setText(htmlContent, true);
+        mailSender.send(message);
+    }
 }
+
