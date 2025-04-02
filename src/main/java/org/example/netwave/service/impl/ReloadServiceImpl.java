@@ -57,4 +57,9 @@ public class ReloadServiceImpl implements ReloadService {
         // 6. Save and return the reload
         return reloadRepo.save(reload);
     }
+
+    @Override
+    public double getTotalReloadCount() {
+        return reloadRepo.countReload();
+    }
 }

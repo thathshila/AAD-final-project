@@ -1,5 +1,6 @@
 package org.example.netwave.service.impl;
 
+import org.example.netwave.advisor.ResourceNotFoundException;
 import org.example.netwave.dto.ConnectionDTO;
 import org.example.netwave.dto.UserDTO;
 
@@ -137,6 +138,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
             return true;
         }).orElse(false);
+    }
+
+    public int getTotalUserCount() {
+        return userRepo.countUsers();
     }
 
 }

@@ -66,6 +66,11 @@ public class ItemServiceImpl implements ItemService {
         return modelMapper.map(item, ItemDTO.class);
     }
 
+    @Override
+    public int getTotalItemCount() {
+        return itemRepo.countItem();
+    }
+
     @Transactional
     @Override
     public void updateItem(ItemDTO itemDTO) {

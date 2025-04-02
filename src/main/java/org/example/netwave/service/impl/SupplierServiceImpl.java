@@ -58,4 +58,9 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setDeleted(true);
         supplierRepo.save(supplier);
     }
+
+    @Override
+    public int getTotalSupplierCount() {
+        return supplierRepo.countSuppliers();
+    }
 }

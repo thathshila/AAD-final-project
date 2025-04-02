@@ -132,7 +132,7 @@
                     <i class="fas fa-users"></i> Total Users
                 </div>
                 <div class="card-body">
-                    <h4>1,200</h4>
+                    <h4 id="userCount">Loading...</h4>
                     <p>Users registered in the system.</p>
                 </div>
             </div>
@@ -151,7 +151,42 @@
         <div class="col-lg-4 col-md-6 col-sm-12">
             <div class="card shadow-sm">
                 <div class="card-header">
-                    <i class="fas fa-dollar-sign"></i> Revenue
+                    <i class="fas fa-truck"></i> Total Suppliers
+                </div>
+                <div class="card-body">
+                    <h4 id="totalSuppliers">Loading...</h4>
+                    <p>Suppliers in the system.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <i class="fas fa-box"></i> Total Items
+                </div>
+                <div class="card-body">
+                    <h4 id="totalItems">Loading...</h4>
+                    <p>Items available.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <i class="fas fa-dollar-sign"></i> Revenue (Reloads)
+                </div>
+                <div class="card-body">
+                    <h4 id="totalReloadAmount">Loading...</h4>
+                    <p>Monthly reload revenue.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <i class="fas fa-dollar-sign"></i> Revenue(Orders)
                 </div>
                 <div class="card-body">
                     <h4>$15,300</h4>
@@ -160,6 +195,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Recent Activity -->
     <div class="row">
@@ -191,6 +227,74 @@
 <!-- Bootstrap 5 JS and Popper.js -->
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    let authToken = localStorage.getItem("authToken");
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/dashboard/user-count",
+            type: "GET",
+            dataType: "json",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function(data) {
+                $("#userCount").text(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching user count:", error);
+                $("#userCount").text("Error");
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/dashboard/supplier-count",
+            type: "GET",
+            dataType: "json",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function(data) {
+                $("#totalSuppliers").text(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching user count:", error);
+                $("#totalSuppliers").text("Error");
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/dashboard/item-count",
+            type: "GET",
+            dataType: "json",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function(data) {
+                $("#totalItems").text(data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching user count:", error);
+                $("#totalItems").text("Error");
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/dashboard/reload-count",
+            type: "GET",
+            dataType: "json",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function(data) {
+                $("#totalReloadAmount").text("$"+data);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching user count:", error);
+                $("#totalReloadAmount").text("Error");
+            }
+        });
+    });
+
+</script>
 
 </body>
 </html>

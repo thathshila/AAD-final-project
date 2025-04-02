@@ -12,4 +12,7 @@ public interface UserService {
     UserDTO getUserById(int id);
     boolean updateUser(int id, UserDTO userDTO);
     boolean softDeleteUser(int id);
+
+    int getTotalUserCount();
+
 }

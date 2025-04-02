@@ -10,4 +10,6 @@ public interface ReloadService {
     void ReloadService(ReloadRepo reloadRepository, Credit_BundleRepo creditBundleRepository);
 
     Reload processReload(ReloadDTO reloadDTO);
+
+    double getTotalReloadCount();
 }

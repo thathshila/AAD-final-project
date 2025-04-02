@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +31,9 @@ public class User implements Serializable {
        private List<SIM> sims;
 
        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+       private List<Orders> orders;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
        private List<Payment> payments;
 
        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,7 +42,9 @@ public class User implements Serializable {
        @Column(name = "deleted", columnDefinition = "boolean default false")
        private boolean deleted;
 
-       @PrePersist
+
+
+    @PrePersist
        public void setDefaults() {
             if (this.role == null) {
              this.role = "User";

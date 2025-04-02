@@ -19,4 +19,6 @@ public interface ItemService {
     void deleteItem(int id);
 
     ItemDTO getItemById(int id);
+
+    int getTotalItemCount();
 }

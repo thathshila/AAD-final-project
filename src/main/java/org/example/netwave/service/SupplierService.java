@@ -16,4 +16,6 @@ public interface SupplierService {
     void updateSupplier(SupplierDTO supplierDTO);
 
     void deleteSupplier(int id);
+
+    int getTotalSupplierCount();
 }
