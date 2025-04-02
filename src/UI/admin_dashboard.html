@@ -136,51 +136,6 @@
             }
         }
 
-        /* Registration Form Styles */
-        .register-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: calc(100vh - 90px);
-            margin-top: 60px;
-        }
-
-        .register-form {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .form-control {
-            margin-bottom: 15px;
-        }
-
-        .social-login {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-        }
-
-        .social-btn {
-            flex: 1;
-            margin: 0 5px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .facebook-btn {
-            background-color: #3b5998;
-        }
-
-        .google-btn {
-            background-color: #db4437;
-        }
     </style>
 </head>
 <body>
@@ -265,10 +220,15 @@
         <div class="navbar-actions">
             <!-- User Icon for Login -->
             <i class="fas fa-user-circle" style="font-size: 25px; cursor: pointer;" onclick="window.location.href='login.html'"></i>
+
+            <!-- Notification Icon -->
+            <i class="fas fa-bell" style="font-size: 25px; cursor: pointer; margin: 0 10px;" onclick="window.location.href='adminChat.html'"></i>
+
             <!-- Logout Button -->
             <button class="btn-custom" onclick="window.location.href='index.html'">Logout</button>
         </div>
     </nav>
+
 
     <!-- Iframe for Dynamic Content -->
     <iframe id="contentFrame" class="iframe-container" src="dash.html"></iframe>
