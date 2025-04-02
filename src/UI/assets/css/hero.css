@@ -8,7 +8,7 @@
 }
 .carousel-item img {
     width: 100%;
-    height: auto;
+    height: 600px;
     filter: brightness(50%);
 }
 .carousel-caption {
@@ -43,4 +43,58 @@
 
 .continue:hover {
     background-color: #a1969c;
+}
+
+
+
+/*reload*/
+.bottom-nav1 {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    margin-top: -50px;
+    position: relative;
+    z-index: 20;
+    padding: 15px;
+}
+
+.nav-item1 {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-item1:hover {
+    color: #1dc593;
+}
+
+.nav-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: #48d6b5;
+}
+
+.paybill-section {
+    padding: 15px;
+    border-right: 1px solid #eee;
+}
+
+.search-input {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.search-btn {
+    background-color: #eee;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 25px;
+    color: #666;
+    font-weight: 500;
 }

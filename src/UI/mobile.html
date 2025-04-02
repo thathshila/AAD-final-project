@@ -6,165 +6,46 @@
     <title>Mobile Broadband Services</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .main-heading {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 2rem;
-            padding-top: 2rem;
-        }
-
-        .service-card {
-            border-radius: 10px;
-            padding: 2rem;
-            text-align: center;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .service-title {
-            font-size: 2rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #333;
-        }
-
-        .service-subtitle {
-            font-size: 1.75rem;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-            color: #333;
-        }
-
-        .learn-more-btn {
-            display: inline-block;
-            background-color: transparent;
-            color: #F0358E; /* Pink color for the buttons */
-            border: none;
-            font-weight: 700;
-            font-size: 1rem;
-            text-decoration: none;
-            letter-spacing: 1px;
-            padding: 0.5rem 0;
-            margin-bottom: 1.5rem;
-        }
-
-        .learn-more-btn:hover {
-            color: #d01c74;
-        }
-
-        .service-image-container {
-            overflow: hidden;
-            border-radius: 8px;
-            width: 100%;
-        }
-
-        .service-image {
-            width: 100%;
-            height: auto;
-            transition: transform 0.3s ease;
-        }
-
-        .dial-code {
-            background-color: #8E44AD;
-            color: #FFD700;
-            padding: 10px;
-            border-radius: 20px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            position: absolute;
-            right: 20px;
-            bottom: 100px;
-        }
-
-        .section-title {
-            color: #333;
-            text-align: center;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            font-size: 2.5rem;
-        }
-
-        .section-subtitle {
-            color: #777;
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 1.5rem;
-        }
-
-        .product-card {
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            overflow: hidden;
-            background-color: #fff;
-        }
-
-        .product-banner {
-            background-color: #ff8a65;
-            color: white;
-            text-align: center;
-            padding: 8px 0;
-            font-weight: 500;
-        }
-
-        .product-image {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-        }
-
-        .product-image img {
-            max-height: 100%;
-            max-width: 100%;
-        }
-
-        .product-title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            padding: 0 15px;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        .product-price {
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 0 15px;
-            margin-bottom: 20px;
-        }
-
-        .view-btn {
-            background-color: #e91e63;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            padding: 8px 40px;
-            font-weight: 500;
-            margin: 0 auto 20px;
-            display: block;
-            width: 80%;
-        }
-
-        .view-btn:hover {
-            background-color: #d81b60;
-        }
-
-        .products-container {
-            position: relative;
-            padding: 20px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/hero.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
+    <link rel="stylesheet" href="assets/css/mobile.css">
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container">
+        <a class="navbar-brand" href="#">NETWAVE<span class="text-success">.</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item"><a class="nav-link active" href="index.html">HOME</a></li>
+                <li class="nav-item"><a class="nav-link" href="mobile.html">MOBILE</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">HOME BROADBAND</a></li>
+                <!--                <li class="nav-item"><a class="nav-link" href="#">TELEVISION</a></li>-->
+                <!--                <li class="nav-item"><a class="nav-link" href="#">SHOP</a></li>-->
+                <li class="nav-item"><a class="nav-link" href="#">CATEGORY</a></li>
+                <li class="nav-item"><a class="nav-link" href="userChat.html">SUPPORT</a></li>
+                <li class="nav-item"><a class="nav-link" href="register.html">REGISTER</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html">SIGN IN</a></li>
+                <li class="nav-item"><button class="continue" onclick="window.location.href='reload.html'">Reload & Pay</button> </li>
+            </ul>
+            <div class="d-flex">
+                <!--                <a href="#" class="me-2"><i class="fab fa-facebook-f text-success"></i></a>-->
+                <!--                <a href="#" class="me-2"><i class="fab fa-twitter text-success"></i></a>-->
+                <!--                <a href="#"><i class="fab fa-instagram text-success"></i></a>-->
+                <a href="userprofileadd.html" class="me-2"><i class="fas fa-user text-success" style="font-size: 30px;"></i></a>
+            </div>
+            <form class="d-flex ms-3">
+                <input class="form-control me-2" type="search" placeholder="Search...">
+                <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>
+
 <div class="container">
     <h1 class="main-heading">Latest in Mobile Broadband</h1>
 
@@ -213,7 +94,165 @@
     </div>
 </div>
 
+<!--banner-->
+<section class="banner-section">
+    <div class="container banner-container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 text-content">
+                <h1 class="banner-title">Titanium.</h1>
+                <h2 class="banner-subtitle">So strong. So light. So Pro</h2>
+                <a href="#" class="btn buy-now-btn">BUY NOW</a>
+            </div>
+            <div class="col-lg-7">
+                <img src="assets/img/121032-iphone-16-pro-max.png" alt="iPhone Pro Titanium lineup showing multiple colors" class="phone-image">
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- Accessibility Button -->
+<div class="accessibility-button">
+    <i class="fas fa-universal-access"></i>
+</div>
+
+<!-- Feedback Button -->
+<div class="feedback-button">
+    <a href="userChat.html">
+        <i class="fas fa-comment-dots" style="color: white"></i>
+    </a>
+</div>
+
+<!--get sim-->
+<div class="container">
+    <h1 class="main-heading2">Get a new connection</h1>
+
+    <div class="row">
+        <!-- Service Cards -->
+        <div class="col-md-4">
+            <div class="service-card2">
+                <div class="service-title2">Buy Sim</div>
+                <div class="icon-container2">
+                    <svg class="icon2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12" y2="18"></line>
+                        <path d="M8 6h.01M8 10h.01M8 14h.01M16 6h.01M16 10h.01M16 14h.01M12 6h.01M12 10h.01M12 14h.01"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="service-card2">
+                <div class="service-title2">Buy Broadband</div>
+                <div class="icon-container2">
+                    <svg class="icon2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="10" width="20" height="8" rx="2" ry="2"></rect>
+                        <path d="M12 6v4M8 6v4M16 6v4"></path>
+                        <path d="M7 14h.01M12 14h.01M17 14h.01"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="service-card2">
+                <div class="service-title2">Buy Dialog TV</div>
+                <div class="icon-container2">
+                    <svg class="icon2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                        <path d="M17 2l-5 5-5-5"></path>
+                        <path d="M7 14h.01M12 14h.01M17 14h.01"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="esim-section">
+    <div class="container">
+        <h2 class="esim-heading">Convert your sim into an e-SIM</h2>
+        <p class="esim-subheading">Convert your sim into e-sim and never worry about losing your sim</p>
+        <a href="#" class="btn get-started-btn">GET STARTED</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <!-- Explore and Shop Column -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h4>Explore and Shop</h4>
+                <ul>
+                    <li><a href="#">Mobile</a></li>
+                    <li><a href="#">Mobile Broadband</a></li>
+                    <li><a href="#">Home Broadband</a></li>
+                    <li><a href="#">Television</a></li>
+                    <li><a href="#">International Roaming</a></li>
+                </ul>
+            </div>
+
+            <!-- Our Company Column -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h4>Our Company</h4>
+                <ul>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Core Principles</a></li>
+                    <li><a href="#">Dialog Foundation</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal Column -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">ABAC Policy</a></li>
+                    <li><a href="#">Legal Resources</a></li>
+                    <li><a href="#">Product and Services T&C</a></li>
+                </ul>
+            </div>
+
+            <!-- Support Column -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Coverage Map</a></li>
+                    <li><a href="#">Store Locator</a></li>
+                    <li><a href="#">Self-Help Channels</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Social Media Icons -->
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+            <div>
+                <p><strong>Email:</strong><br>
+                    service@dialog.lk</p>
+            </div>
+            <div>
+                <p><strong>Hotline:</strong><br>
+                    1777</p>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="copyright">
+            <p>© Dialog Axiata PLC. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
 <!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
