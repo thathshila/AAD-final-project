@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Broadband Services</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .main-heading {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 2rem;
+            padding-top: 2rem;
+        }
+
+        .service-card {
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .service-title {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .service-subtitle {
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            background-color: transparent;
+            color: #F0358E; /* Pink color for the buttons */
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            letter-spacing: 1px;
+            padding: 0.5rem 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .learn-more-btn:hover {
+            color: #d01c74;
+        }
+
+        .service-image-container {
+            overflow: hidden;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .service-image {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .dial-code {
+            background-color: #8E44AD;
+            color: #FFD700;
+            padding: 10px;
+            border-radius: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: absolute;
+            right: 20px;
+            bottom: 100px;
+        }
+
+        .section-title {
+            color: #333;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 2.5rem;
+        }
+
+        .section-subtitle {
+            color: #777;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .product-card {
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .product-banner {
+            background-color: #ff8a65;
+            color: white;
+            text-align: center;
+            padding: 8px 0;
+            font-weight: 500;
+        }
+
+        .product-image {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .product-image img {
+            max-height: 100%;
+            max-width: 100%;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 0 15px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
+
+        .view-btn {
+            background-color: #e91e63;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            padding: 8px 40px;
+            font-weight: 500;
+            margin: 0 auto 20px;
+            display: block;
+            width: 80%;
+        }
+
+        .view-btn:hover {
+            background-color: #d81b60;
+        }
+
+        .products-container {
+            position: relative;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="main-heading">Latest in Mobile Broadband</h1>
+
+    <div class="row g-4">
+        <!-- Get A New Connection Card -->
+        <div class="col-12 col-md-6">
+            <div class="service-card">
+                <div>
+                    <div class="service-title">Get A</div>
+                    <div class="service-subtitle">New Connection</div>
+                    <a href="#" class="learn-more-btn">LEARN MORE</a>
+                </div>
+                <div class="service-image-container">
+                    <img src="assets/img/mobile2.jpg" alt="Professional woman on phone" class="service-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- Dialog Reload Loan Card -->
+        <div class="col-12 col-md-6">
+            <div class="service-card">
+                <div>
+                    <div class="service-title">Dialog</div>
+                    <div class="service-subtitle">Reload Loan</div>
+                    <a href="#" class="learn-more-btn">LEARN MORE</a>
+                </div>
+                <div class="service-image-container position-relative">
+                    <img src="assets/img/moblepage.jpg" alt="Woman using mobile phone" class="service-image">
+                    <div class="dial-code">
+                        Dial<br>#356#
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="section-title">New arrivals</h1>
+        <h2 class="section-subtitle">Latest cutting-edge technology</h2>
+
+        <div class="products-container">
+            <div class="row" id="products-container">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jQuery (necessary for AJAX) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    let authToken = localStorage.getItem("authToken");
+    $(document).ready(function() {
+        $(document).ready(function () {
+            let authToken = localStorage.getItem("authToken");
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/item/getAll",
+                method: 'GET',
+                headers: {"Authorization": `Bearer ${authToken}`},
+                success: function (response) {
+                    console.log("API Success:", response); // Debugging
+
+                    // Ensure response.code is 200 and response.data is an array
+                    if (response.code === 200 && Array.isArray(response.data)) {
+                        let products = response.data;
+                        $('#products-container').empty(); // Clear before appending new products
+
+                        products.forEach(product => {
+                            let productCard = `
+                        <div class="col-md-3 col-sm-6">
+                            <div class="product-card">
+                                <div class="product-banner">${product.category || ''}</div>
+                                <div class="product-title">${product.name}</div>
+                                <div class="product-image">
+                                    <img src="http://localhost:8080/uploads/${product.image}" alt="${product.name}">
+                                </div>
+                                 <div class="product-price">Rs.${product.price}.00</div>
+                                <button class="view-btn">View</button>
+                            </div>
+                        </div>
+                    `;
+                            $('#products-container').append(productCard);
+                        });
+                    } else {
+                        console.warn("Unexpected API response format:", response);
+                    }
+                },
+                error: function (err) {
+                    console.error("Error fetching products:", err);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
