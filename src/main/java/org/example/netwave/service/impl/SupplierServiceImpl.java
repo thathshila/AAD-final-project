@@ -43,6 +43,12 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
+    public List<String> getSupplierNames() {
+        return supplierRepo.findAllSupplierNames();
+    }
+
+
+    @Override
     public void updateSupplier(SupplierDTO supplierDTO) {
         if (!supplierRepo.existsById(supplierDTO.getSupplierId())) {
             throw new RuntimeException("Supplier does not exist");

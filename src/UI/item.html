@@ -42,10 +42,18 @@
             <input type="number" id="stock" name="stock" class="form-control" required>
         </div>
 
+        <div class="form-group">
+            <label class="form-label">Supplier</label>
+            <select id="supplierName" class="form-control">
+                <option value="">Select Supplier</option>
+            </select>
+        </div>
+
         <div class="mb-3">
             <label for="supplierId" class="form-label">Supplier Id:</label>
-            <input type="text" id="supplierId" name="supplierId" class="form-control" required>
+            <input type="hidden" id="supplierId" name="supplierId" class="form-control" required>
         </div>
+
 
         <div class="mb-3">
             <label for="image" class="form-label">Upload Image:</label>
@@ -89,9 +97,67 @@
 </div>
 
 <script>
+    const AUTH_TOKEN = localStorage.getItem('authToken');
+
+    $(document).ready(function () {
+       loadSuppliers();
+        // Method to load suppliers
+        function loadSuppliers() {
+            $.ajax({
+                url: "http://localhost:8080/api/v1/supplier/getNames",
+                method: "GET",
+                dataType: "json",
+                headers: {"Authorization": `Bearer ${AUTH_TOKEN}`},
+                success: (resp) => {
+                    console.log("API Response:", resp);
+                    if (!Array.isArray(resp.data)) {
+                        console.error("Error: Response data is not an array", resp);
+                        return;
+                    }
+
+                    let supplierDropdown = $("#supplierName");
+                    supplierDropdown.empty().append('<option value="">Select Supplier</option>');
+                    resp.data.forEach(name => {
+                        supplierDropdown.append(`<option value="${name}">${name}</option>`);
+                    });
+                },
+                error: (err) => {
+                    console.error("Error loading suppliers:", err);
+                }
+            });
+        }
+
+        // On change of the supplier dropdown
+        $("#supplierName").change(function () {
+            let selectedSupplier = $(this).val();
+            if (selectedSupplier) {
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/supplier/getSupplierByName/${selectedSupplier}`,
+                    method: "GET",
+                    dataType: "json",
+                    headers: {"Authorization": `Bearer ${AUTH_TOKEN}`},
+                    success: function (resp) {
+                        console.log("Selected Supplier Data Response:", resp); // Debugging output
+
+                        if (resp && resp.data) {
+                            $("#supplierId").val(resp.data); // Set the supplier ID field
+                        } else {
+                            $("#supplierId").val(""); // Clear input if no data found
+                        }
+                    },
+                    error: function (error) {
+                        console.error("Error fetching selected supplier details:", error);
+                    }
+                });
+            } else {
+                console.log("No supplier selected.");
+                $("#supplierId").val("");
+            }
+        });
+    });
+
     // Constants
     const BASE_URL = "http://localhost:8080/api/v1/item";
-    const AUTH_TOKEN = localStorage.getItem('authToken');
 
     // Store all items in memory for quick access
     let allItems = [];

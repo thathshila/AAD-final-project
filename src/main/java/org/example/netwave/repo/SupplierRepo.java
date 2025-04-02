@@ -15,4 +15,8 @@ public interface SupplierRepo extends JpaRepository<Supplier, Integer> {
 
     @Query("SELECT COUNT(s) FROM Supplier s WHERE s.isDeleted = false")
     int countSuppliers();
+
+    @Query("SELECT s.name FROM Supplier s")
+    List<String> findAllSupplierNames();
+
 }

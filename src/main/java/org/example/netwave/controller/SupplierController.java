@@ -32,7 +32,14 @@ public class SupplierController {
         return new ResponseUtil(200, "Retrieved all suppliers", suppliers);
     }
 
-    @GetMapping("/getByName/{name}")
+    @GetMapping("/getNames")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseUtil getSupplierNames() {
+        return new ResponseUtil(200, "Supplier Names Retrieved Successfully",
+                supplierService.getSupplierNames());
+    }
+
+    @GetMapping("/getSupplierByName/{name}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil getSupplierByName(@PathVariable String name) {
         Integer supplierId = supplierService.getSupplierByName(name);

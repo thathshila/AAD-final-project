@@ -13,6 +13,8 @@ public interface SupplierService {
 
     Integer getSupplierByName(String name);
 
+    List<String> getSupplierNames();
+
     void updateSupplier(SupplierDTO supplierDTO);
 
     void deleteSupplier(int id);
