@@ -1,6 +1,28 @@
 let stompClient = null;
 let currentUser = null;
 
+// Open chat when clicking the button
+document.getElementById('chatButton').addEventListener('click', function() {
+    document.getElementById('chatModal').style.display = 'block';
+
+    // Connect if not already connected
+    if (stompClient === null || !stompClient.connected) {
+        connect();
+    }
+});
+
+// Close chat when clicking the X
+document.getElementById('closeChat').addEventListener('click', function() {
+    document.getElementById('chatModal').style.display = 'none';
+});
+
+// Send message when pressing Enter
+document.getElementById('message').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
 function connect() {
     currentUser = document.getElementById('username').textContent;
 
@@ -28,8 +50,6 @@ function connect() {
         console.error('Connection error: ', error);
     });
 }
-
-// Rest of your functions remain the same
 
 function disconnect() {
     if (stompClient !== null) {
