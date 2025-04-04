@@ -1,6 +1,7 @@
 package org.example.netwave.service;
 
 import org.example.netwave.dto.PackageDTO;
+import org.example.netwave.entity.Packages;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface PackageService {
     void deletePackage(int id);
     List<String> getPackageNames();
     Integer getPackageIdByNames(String name);
+
+    List<PackageDTO> getPackagesByType(String type);
 }

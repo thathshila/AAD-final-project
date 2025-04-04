@@ -20,4 +20,8 @@ public class PackageDTO {
     private int validityDays;
     private int creditBundleId;
     private boolean isDeleted = false;
+
+
+
 }
+

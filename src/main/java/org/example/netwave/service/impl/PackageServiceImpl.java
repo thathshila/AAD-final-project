@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class PackageServiceImpl implements PackageService {
 
@@ -33,40 +34,40 @@ public class PackageServiceImpl implements PackageService {
     @Autowired
     private ModelMapper modelMapper;
 
-//    @Override
+    //    @Override
 //    public void savePackage(PackageDTO packageDTO) {
 //        if (packageRepo.existsById(packageDTO.getPackageId())) {
 //            throw new RuntimeException("Package already exists!");
 //        }
 //        packageRepo.save(modelMapper.map(packageDTO, Packages.class));
 //    }
-@Override
-public void savePackage(PackageDTO packageDTO) {
-    if (packageRepo.existsById(packageDTO.getPackageId())) {
-        throw new RuntimeException("Package already exists!");
+    @Override
+    public void savePackage(PackageDTO packageDTO) {
+        if (packageRepo.existsById(packageDTO.getPackageId())) {
+            throw new RuntimeException("Package already exists!");
+        }
+
+        // Map DTO to Entity and save package
+        Packages newPackage = modelMapper.map(packageDTO, Packages.class);
+        packageRepo.save(newPackage);
+
+        // Fetch all registered users
+        List<User> users = userRepo.findAll();
+
+        // Send email notifications
+        for (User user : users) {
+            emailService.sendPackageNotification(
+                    user.getEmail(),
+                    newPackage.getPackageName(),
+                    newPackage.getPackageType(),
+                    newPackage.getPrice(),
+                    newPackage.getDataLimit(),
+                    newPackage.getCallMinutes(),
+                    newPackage.getSmsLimit(),
+                    newPackage.getValidityDays()
+            );
+        }
     }
-
-    // Map DTO to Entity and save package
-    Packages newPackage = modelMapper.map(packageDTO, Packages.class);
-    packageRepo.save(newPackage);
-
-    // Fetch all registered users
-    List<User> users = userRepo.findAll();
-
-    // Send email notifications
-    for (User user : users) {
-        emailService.sendPackageNotification(
-                user.getEmail(),
-                newPackage.getPackageName(),
-                newPackage.getPackageType(),
-                newPackage.getPrice(),
-                newPackage.getDataLimit(),
-                newPackage.getCallMinutes(),
-                newPackage.getSmsLimit(),
-                newPackage.getValidityDays()
-        );
-    }
-}
 
     @Override
     public void updatePackage(PackageDTO packageDTO) {
@@ -110,4 +111,12 @@ public void savePackage(PackageDTO packageDTO) {
     public Integer getPackageIdByNames(String name) {
         return packageRepo.findPackageIdByNames(name);
     }
+
+    @Override
+    public List<PackageDTO> getPackagesByType(String type) {
+        return packageRepo.findByPackageTypeAndIsDeletedFalse(type).stream()
+                .map(Packages -> modelMapper.map(Packages, PackageDTO.class))
+                .collect(Collectors.toList());
+    }
 }
+

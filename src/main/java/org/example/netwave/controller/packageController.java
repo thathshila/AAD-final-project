@@ -1,6 +1,7 @@
 package org.example.netwave.controller;
 
 import org.example.netwave.dto.PackageDTO;
+import org.example.netwave.entity.Packages;
 import org.example.netwave.service.PackageService;
 import org.example.netwave.utill.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,11 @@ public class packageController {
     public ResponseUtil getBundleByName(@PathVariable String name) {
         Integer packageId = packageService.getPackageIdByNames(name);
         return new ResponseUtil(200, "Bundle found",packageId);
+    }
+
+    @GetMapping("/getByType/{type}")
+    public ResponseUtil getPackagesByType(@PathVariable String type) {
+        return new ResponseUtil(200, "Get packages by type: " + type, packageService.getPackagesByType(type));
     }
 
 }
