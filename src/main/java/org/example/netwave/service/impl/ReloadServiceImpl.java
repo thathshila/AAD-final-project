@@ -3,21 +3,29 @@ package org.example.netwave.service.impl;
 import jakarta.transaction.Transactional;
 import org.example.netwave.advisor.InsufficientBalanceException;
 import org.example.netwave.advisor.ResourceNotFoundException;
+import org.example.netwave.dto.Credit_BundleDTO;
 import org.example.netwave.dto.ReloadDTO;
 import org.example.netwave.entity.CreditBundle;
 import org.example.netwave.entity.Reload;
 import org.example.netwave.repo.Credit_BundleRepo;
 import org.example.netwave.repo.ReloadRepo;
 import org.example.netwave.service.ReloadService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 @Transactional
 public class ReloadServiceImpl implements ReloadService {
     @Autowired
     private Credit_BundleRepo credit_BundleRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private ReloadRepo reloadRepo;
@@ -61,5 +69,11 @@ public class ReloadServiceImpl implements ReloadService {
     @Override
     public double getTotalReloadCount() {
         return reloadRepo.countReload();
+    }
+
+    @Override
+    public List<ReloadDTO> getAllReloads() {
+        return modelMapper.map(reloadRepo.findAll(),
+                new TypeToken<List<ReloadDTO>>() {}.getType());
     }
 }
