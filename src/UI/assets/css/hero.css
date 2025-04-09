@@ -1,3 +1,22 @@
+/* Logo styling */
+.navbar-brand svg {
+    width: 200px;
+    height: 65px;
+    vertical-align: middle;
+}
+
+/* Ensure logo is responsive */
+@media (max-width: 768px) {
+    .navbar-brand svg {
+        width: 150px;
+        height: 50px;
+    }
+}
+
+/* Keep navbar height consistent */
+.navbar {
+    min-height: 70px;
+}
 
 .navbar-brand {
     font-weight: bold;
@@ -55,17 +74,65 @@
     margin-top: -50px;
     position: relative;
     z-index: 20;
-    padding: 15px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
+.paybill-section {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Increased spacing between text, input, and button */
+    flex: 1;
+    min-width: 350px;
+    border-right: 1px solid #eee;
+    padding-right: 50px; /* Increased space between paybill and next section */
+}
+
+.search-input {
+    border-radius: 30px;
+    border: 1px solid #ddd;
+    padding: 12px 25px; /* Slightly more padding for better proportion */
+    width: 100%;
+    max-width: 320px; /* Increased width */
+    min-width: 250px;
+}
+
+.search-btn {
+    background-color: #1dc593; /* Highlighted primary color */
+    border: none;
+    border-radius: 30px;
+    padding: 10px 30px;
+    color: white;
+    font-weight: 600;
+    margin-left: 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.search-btn:hover {
+    background-color: #17b289; /* Slightly darker on hover */
+    transform: scale(1.05); /* Slight zoom effect */
+    cursor: pointer;
+}
+
+
 .nav-item1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     font-size: 0.9rem;
     color: #333;
     font-weight: 500;
-    padding: 10px;
+    padding: 10px 20px;
     cursor: pointer;
     transition: all 0.3s ease;
+    min-width: 120px;
 }
 
 .nav-item1:hover {
@@ -78,8 +145,9 @@
     color: #48d6b5;
 }
 
+
 .paybill-section {
-    padding: 15px;
+    padding: 25px;
     border-right: 1px solid #eee;
 }
 
@@ -98,3 +166,4 @@
     color: #666;
     font-weight: 500;
 }
+

@@ -16,9 +16,63 @@
 
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-    <div class="container">
-        <a class="navbar-brand" href="#">NETWAVE<span class="text-success">.</span></a>
+    <div class="container" style="height: 44px">
+        <a class="navbar-brand" href="#">
+            <!-- Replace text with SVG logo -->
+            <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Gradients and patterns -->
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#6200EA" />
+                        <stop offset="100%" stop-color="#00BFA5" />
+                    </linearGradient>
+
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00BFA5" />
+                        <stop offset="50%" stop-color="#1DE9B6" />
+                        <stop offset="100%" stop-color="#64FFDA" />
+                    </linearGradient>
+
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                <!-- Background circle -->
+                <circle cx="150" cy="100" r="90" fill="url(#logoGradient)" opacity="0.8" />
+
+                <!-- Signal wave lines -->
+                <g transform="translate(235, 100) scale(0.9)" filter="url(#glow)">
+                    <path d="M-100,0 C-75,-40 -50,40 -25,-20 C0,20 25,-40 50,0 C75,40 100,-20 125,10 C150,-30 175,20 200,0"
+                          stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />
+                    <path d="M-100,30 C-75,-10 -50,50 -25,10 C0,50 25,-10 50,30 C75,70 100,10 125,40 C150,0 175,50 200,30"
+                          stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7" />
+                </g>
+
+                <!-- Globe/Network icon -->
+                <g transform="translate(150, 100) scale(0.5)">
+                    <circle cx="0" cy="0" r="60" fill="none" stroke="white" stroke-width="6" />
+                    <ellipse cx="0" cy="0" rx="60" ry="25" fill="none" stroke="white" stroke-width="6" />
+                    <line x1="-60" y1="0" x2="60" y2="0" stroke="white" stroke-width="6" />
+                    <line x1="0" y1="-60" x2="0" y2="60" stroke="white" stroke-width="6" />
+                </g>
+
+                <!-- Company name -->
+                <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="48" fill="#2E2E2E">NET<tspan fill="#6200EA">WAVE</tspan></text>
+
+                <!-- Tagline -->
+                <text x="300" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#555555">GLOBAL CONNECTIVITY SOLUTIONS</text>
+
+                <!-- Decorative elements -->
+                <circle cx="450" cy="55" r="8" fill="#00BFA5" />
+                <circle cx="470" cy="40" r="5" fill="#6200EA" />
+                <circle cx="135" cy="155" r="6" fill="white" opacity="0.7" />
+                <circle cx="165" cy="160" r="4" fill="white" opacity="0.5" />
+            </svg>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,7 +83,7 @@
                 <li class="nav-item"><a class="nav-link" href="#">HOME BROADBAND</a></li>
 <!--                <li class="nav-item"><a class="nav-link" href="#">TELEVISION</a></li>-->
 <!--                <li class="nav-item"><a class="nav-link" href="#">SHOP</a></li>-->
-                <li class="nav-item"><a class="nav-link" href="#">CATEGORY</a></li>
+<!--                <li class="nav-item"><a class="nav-link" href="#">CATEGORY</a></li>-->
                 <li class="nav-item"><a class="nav-link" href="userChat.html">SUPPORT</a></li>
                 <li class="nav-item"><a class="nav-link" href="register.html">REGISTER</a></li>
                 <li class="nav-item"><a class="nav-link" href="login.html">SIGN IN</a></li>
@@ -88,7 +142,7 @@
 
 <!--reload-->
 
-<div class="container">7
+<div class="container">
     <div class="row bottom-nav1">
         <div class="col-lg-4 paybill-section">
             <div class="row align-items-center">
@@ -99,7 +153,7 @@
                     <input type="text" placeholder="Enter connection number" class="search-input">
                 </div>
                 <div class="col-lg-2">
-                    <button class="search-btn">GO</button>
+                    <button class="search-btn" onclick="window.location.href='reload.html'">GO</button>
                 </div>
             </div>
         </div>
@@ -124,15 +178,9 @@
                 <div>Buy Broadband</div>
             </div>
         </div>
-
-        <div class="col">
-            <div class="nav-item1">
-                <i class="fas fa-home nav-icon"></i>
-                <div>Smart home</div>
-            </div>
-        </div>
     </div>
 </div>
+
 <div class="container">
 
     <div class="package-card medium">
