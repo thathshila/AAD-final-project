@@ -4,9 +4,335 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Item Management</title>
-    <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Enhanced Item Management Styles - Green Theme with Background Image */
+
+        /* General Body Style */
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-image: url('assets/img/hero-carousel-1.jpg'); /* Using your image path */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 20px 0;
+            color: #333;
+        }
+
+        /* Main Container Card */
+        .container {
+            max-width: 1000px;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            padding: 30px;
+            margin-top: 20px;
+            border: none;
+        }
+
+        /* Headings */
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #38A169 0%, #2F855A 100%);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-top: 35px;
+            margin-bottom: 20px;
+        }
+
+        /* Form Card */
+        form.card {
+            background-color: #f0fff4;
+            border-radius: 16px;
+            padding: 30px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        form.card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Labels */
+        .form-label {
+            font-weight: 600;
+            color: #2F855A;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Inputs and Selects */
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #c6f6d5;
+            background-color: #ffffff;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        /* Focus States */
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #38A169;
+            box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.15);
+            outline: none;
+        }
+
+        /* Buttons */
+        .btn-action {
+            min-width: 130px;
+            margin-right: 12px;
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38A169 0%, #276749 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #2F855A 0%, #22543D 100%);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f5365c 0%, #f56036 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #5e636e 0%, #3e4146 100%);
+            color: white;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-action:active {
+            transform: translateY(1px);
+        }
+
+        /* Preview Image */
+        #imagePreview {
+            border-radius: 12px;
+            border: 2px solid #c6f6d5;
+            padding: 3px;
+            max-height: 120px;
+            object-fit: contain;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        #imagePreview:hover {
+            transform: scale(1.05);
+        }
+
+        /* Table Styles */
+        .table {
+            margin-top: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: none;
+        }
+
+        .table th {
+            background: linear-gradient(135deg, #38A169 0%, #2F855A 100%);
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            padding: 16px;
+            font-weight: 600;
+            border: none;
+        }
+
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 14px;
+            border-color: #f0f4f8;
+            font-size: 0.95rem;
+        }
+
+        .table tr:nth-child(even) td {
+            background-color: #f0fff4;
+        }
+
+        .table tr:nth-child(odd) td {
+            background-color: #ffffff;
+        }
+
+        .table tr:hover td {
+            background-color: #e6ffec;
+        }
+
+        .table img {
+            border-radius: 8px;
+            border: 1px solid #c6f6d5;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .table img:hover {
+            transform: scale(1.5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Action Buttons in Table */
+        .table .btn {
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-weight: 500;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .table .btn-warning {
+            background: linear-gradient(135deg, #68D391 0%, #38A169 100%);
+            border: none;
+            color: #fff;
+        }
+
+        .table .btn-danger {
+            background: linear-gradient(135deg, #f5365c 0%, #f56036 100%);
+            border: none;
+        }
+
+        .table .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Group spacing */
+        .mb-3 {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            form.card {
+                padding: 20px;
+            }
+
+            .btn-action {
+                margin-bottom: 10px;
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .table th,
+            .table td {
+                padding: 10px 8px;
+                font-size: 0.85rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #38A169;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #38A169 0%, #2F855A 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #2F855A 0%, #22543D 100%);
+        }
+
+        /* File Input Styling */
+        .form-control[type="file"] {
+            padding: 8px;
+        }
+
+        .form-control[type="file"]::file-selector-button {
+            border-radius: 8px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #38A169 0%, #2F855A 100%);
+            color: white;
+            border: none;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-control[type="file"]::file-selector-button:hover {
+            background: linear-gradient(135deg, #2F855A 0%, #22543D 100%);
+        }
+    </style>
 </head>
 <body class="bg-light">
 <div class="container mt-5 p-4 shadow bg-white rounded">
