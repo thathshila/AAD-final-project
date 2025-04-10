@@ -21,7 +21,5 @@ public class PackageDTO {
     private int creditBundleId;
     private boolean isDeleted = false;
 
-
-
 }
 

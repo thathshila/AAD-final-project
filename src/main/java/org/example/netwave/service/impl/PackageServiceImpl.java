@@ -112,11 +112,23 @@ public class PackageServiceImpl implements PackageService {
         return packageRepo.findPackageIdByNames(name);
     }
 
+//    @Override
+//    public List<PackageDTO> getPackagesByType(String type) {
+//        return packageRepo.findByPackageTypeAndIsDeletedFalse(type).stream()
+//                .map(Packages -> modelMapper.map(Packages, PackageDTO.class))
+//                .collect(Collectors.toList());
+//    }
+
     @Override
-    public List<PackageDTO> getPackagesByType(String type) {
-        return packageRepo.findByPackageTypeAndIsDeletedFalse(type).stream()
-                .map(Packages -> modelMapper.map(Packages, PackageDTO.class))
+    public List<PackageDTO> getPackagesByType(String packageType) {
+        return packageRepo.findByPackageType(packageType).stream()
+                .map(pkg -> {
+                    PackageDTO dto = modelMapper.map(pkg, PackageDTO.class);
+                    dto.setCreditBundleId(pkg.getCreditBundle().getBundleId());
+                    return dto;
+                })
                 .collect(Collectors.toList());
-    }
+}
+
 }
 

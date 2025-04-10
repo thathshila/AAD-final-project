@@ -19,4 +19,6 @@ public interface PackageRepo extends JpaRepository<Packages, Integer> {
     @Query("SELECT p FROM Packages p WHERE p.packageType = :packageType AND p.isDeleted = false")
     List<Packages> findByPackageTypeAndIsDeletedFalse(@Param("packageType") String packageType);
 
+    List<Packages> findByPackageType(String packageType);
+
 }

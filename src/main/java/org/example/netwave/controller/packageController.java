@@ -5,10 +5,13 @@ import org.example.netwave.entity.Packages;
 import org.example.netwave.service.PackageService;
 import org.example.netwave.utill.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -65,9 +68,19 @@ public class packageController {
         return new ResponseUtil(200, "Bundle found",packageId);
     }
 
-    @GetMapping("/getByType/{type}")
-    public ResponseUtil getPackagesByType(@PathVariable String type) {
-        return new ResponseUtil(200, "Get packages by type: " + type, packageService.getPackagesByType(type));
+//    @GetMapping("/getByType/{type}")
+//    public ResponseUtil getPackagesByType(@PathVariable String type) {
+//        return new ResponseUtil(200, "Get packages by type: " + type, packageService.getPackagesByType(type));
+//    }
+
+    @GetMapping("/getByType/{packageType}")
+    public ResponseEntity<Map<String, Object>> getPackagesByType(@PathVariable String packageType) {
+        List<PackageDTO> packageDTOs = packageService.getPackagesByType(packageType);
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "success");
+        response.put("data", packageDTOs);
+        return ResponseEntity.ok(response);
     }
+
 
 }
