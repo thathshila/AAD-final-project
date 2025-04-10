@@ -4,40 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reload Data</title>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f0fdf4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 128, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #28a745;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .table th {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background-color: #e6f4ea; /* light green */
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #ccf0d9; /* slightly darker green */
+        }
+
+        .table tbody tr:hover {
+            background-color: #b2e6c3 !important; /* hover effect */
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .table td, .table th {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+
+    </style>
 </head>
 <body>
+
 <div class="container mt-5">
     <h2>Reload Data</h2>
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Phone Number</th>
-            <th>Amount</th>
-            <th>Email</th>
-            <th>Credit Bundle ID</th>
-        </tr>
-        </thead>
-        <tbody id="reloadDataBody">
-        <!-- Data will be populated here -->
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Phone Number</th>
+                <th>Amount</th>
+                <th>Email</th>
+                <th>Credit Bundle ID</th>
+            </tr>
+            </thead>
+            <tbody id="reloadDataBody">
+            <!-- Data will be populated here -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
     let authToken = localStorage.getItem("authToken");
+
     $(document).ready(function() {
-        // Fetch data from the backend API
         $.ajax({
             url: "http://localhost:8080/api/v1/reload/getAll",
             type: "GET",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function(response) {
-                // Empty the table body before inserting new rows
                 $('#reloadDataBody').empty();
 
-                // Loop through the response and populate the table
                 response.data.forEach(function(reload) {
                     var row = `<tr>
                             <td>${reload.phoneNumber}</td>
@@ -54,5 +105,6 @@
         });
     });
 </script>
+
 </body>
 </html>
