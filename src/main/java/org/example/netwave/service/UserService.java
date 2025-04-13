@@ -15,4 +15,5 @@ public interface UserService {
 
     int getTotalUserCount();
 
+    boolean emailExists(String email);
 }

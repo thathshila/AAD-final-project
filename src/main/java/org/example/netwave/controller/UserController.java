@@ -1,8 +1,6 @@
 package org.example.netwave.controller;
 
-import org.example.netwave.dto.AuthDTO;
-import org.example.netwave.dto.ResponseDTO;
-import org.example.netwave.dto.UserDTO;
+import org.example.netwave.dto.*;
 import org.example.netwave.service.UserService;
 import org.example.netwave.utill.JwtUtil;
 import org.example.netwave.utill.VarList;
@@ -87,7 +85,18 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @PostMapping("/check-email")
+    public ResponseEntity<ApiResponseDTO<Boolean>> checkEmailExists(@RequestBody EmailCheckDTO emailCheckDto) {
+        boolean exists = userService.emailExists(emailCheckDto.getEmail());
 
+        ApiResponseDTO<Boolean> response = new ApiResponseDTO<>();
+        response.setCode(200);
+        response.setMessage(exists ? "Email exists" : "Email not found");
+        response.setStatus(true);
+        response.setData(exists);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 
 }

@@ -24,4 +24,5 @@ public interface UserRepo extends JpaRepository<User,Integer> {
     @Query("SELECT COUNT(u) FROM User u WHERE u.deleted = false")
     int countUsers();
 
+
 }
