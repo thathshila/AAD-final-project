@@ -259,52 +259,6 @@
 <!-- jQuery (necessary for AJAX) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!--<script>-->
-<!--    let authToken = localStorage.getItem("authToken");-->
-<!--    $(document).ready(function() {-->
-<!--        $(document).ready(function () {-->
-<!--            let authToken = localStorage.getItem("authToken");-->
-
-<!--            $.ajax({-->
-<!--                url: "http://localhost:8080/api/v1/item/getAll",-->
-<!--                method: 'GET',-->
-<!--                headers: {"Authorization": `Bearer ${authToken}`},-->
-<!--                success: function (response) {-->
-<!--                    console.log("API Success:", response); // Debugging-->
-
-<!--                    // Ensure response.code is 200 and response.data is an array-->
-<!--                    if (response.code === 200 && Array.isArray(response.data)) {-->
-<!--                        let products = response.data;-->
-<!--                        $('#products-container').empty(); // Clear before appending new products-->
-
-<!--                        products.forEach(product => {-->
-<!--                            let productCard = `-->
-<!--                        <div class="col-md-3 col-sm-6">-->
-<!--                            <div class="product-card">-->
-<!--                                <div class="product-banner">${product.category || ''}</div>-->
-<!--                                <div class="product-title">${product.name}</div>-->
-<!--                                <div class="product-image">-->
-<!--                                    <img src="http://localhost:8080/uploads/${product.image}" alt="${product.name}">-->
-<!--                                </div>-->
-<!--                                 <div class="product-price">Rs.${product.price}.00</div>-->
-<!--                                <button class="view-btn" onclick="window.location.href='itemDetails.html'">View</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    `;-->
-<!--                            $('#products-container').append(productCard);-->
-<!--                        });-->
-<!--                    } else {-->
-<!--                        console.warn("Unexpected API response format:", response);-->
-<!--                    }-->
-<!--                },-->
-<!--                error: function (err) {-->
-<!--                    console.error("Error fetching products:", err);-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
-
 <script>
     $(document).ready(function() {
         let authToken = localStorage.getItem("authToken");
