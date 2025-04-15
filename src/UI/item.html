@@ -7,9 +7,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
-        /* Enhanced Item Management Styles - Green Theme with Background Image */
-
-        /* General Body Style */
         body {
             font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-image: url('assets/img/hero-carousel-1.jpg'); /* Using your image path */
@@ -21,7 +18,6 @@
             color: #333;
         }
 
-        /* Main Container Card */
         .container {
             max-width: 1000px;
             background-color: #ffffff;
@@ -426,7 +422,7 @@
 
     $(document).ready(function () {
        loadSuppliers();
-        // Method to load suppliers
+
         function loadSuppliers() {
             $.ajax({
                 url: "http://localhost:8080/api/v1/supplier/getNames",
@@ -452,7 +448,6 @@
             });
         }
 
-        // On change of the supplier dropdown
         $("#supplierName").change(function () {
             let selectedSupplier = $(this).val();
             if (selectedSupplier) {
@@ -462,12 +457,12 @@
                     dataType: "json",
                     headers: {"Authorization": `Bearer ${AUTH_TOKEN}`},
                     success: function (resp) {
-                        console.log("Selected Supplier Data Response:", resp); // Debugging output
+                        console.log("Selected Supplier Data Response:", resp);
 
                         if (resp && resp.data) {
-                            $("#supplierId").val(resp.data); // Set the supplier ID field
+                            $("#supplierId").val(resp.data);
                         } else {
-                            $("#supplierId").val(""); // Clear input if no data found
+                            $("#supplierId").val("");
                         }
                     },
                     error: function (error) {
@@ -481,13 +476,8 @@
         });
     });
 
-    // Constants
     const BASE_URL = "http://localhost:8080/api/v1/item";
-
-    // Store all items in memory for quick access
     let allItems = [];
-
-    // Check Authentication
     function checkAuth() {
         if (!AUTH_TOKEN) {
             alert('You are not authenticated. Please login.');
@@ -495,7 +485,6 @@
         }
     }
 
-    // Image Preview
     function previewImage(event) {
         const input = event.target;
         const preview = document.getElementById('imagePreview');
@@ -512,15 +501,12 @@
         }
     }
 
-    // Save Item
     $("#itemForm").submit(function (event) {
         event.preventDefault();
         console.log("Form submitted");
 
-        // Create a FormData object
         let formData = new FormData();
 
-        // Get form values
         const name = $("#name").val();
         const description = $("#description").val();
         const price = parseFloat($("#price").val());
@@ -528,7 +514,6 @@
         const stockQuantity = parseInt($("#stock").val());
         const supplierId = parseInt($("#supplierId").val());
 
-        // Add the item data as JSON
         const itemData = {
             name: name,
             description: description,
@@ -540,12 +525,10 @@
 
         console.log("Item data to be sent:", itemData);
 
-        // Append as a blob with the correct content type
         formData.append('item', new Blob([JSON.stringify(itemData)], {
             type: 'application/json'
         }));
 
-        // Append the image file
         const imageFile = document.getElementById('image').files[0];
         if (imageFile) {
             formData.append('image', imageFile);
@@ -572,7 +555,6 @@
         });
     });
 
-    // Get All Items
     function getAllItems() {
         const tableBody = $('#itemList');
         tableBody.empty();
@@ -588,10 +570,7 @@
             success: function (response) {
                 console.log("Items received:", response);
                 tableBody.empty();
-
-                // Store items in memory for later use
                 allItems = response.data || [];
-
                 if (!response.data || response.data.length === 0) {
                     tableBody.append('<tr><td colspan="7" class="text-center text-muted">No items found</td></tr>');
                     return;
@@ -624,11 +603,8 @@
         });
     }
 
-    // Load Item for Edit - Using stored items instead of making a new API call
     function loadItemForEdit(itemId) {
         console.log("Loading item for edit, ID:", itemId);
-
-        // Find the item in our stored array
         const item = allItems.find(item => item.itemId === itemId);
 
         if (!item) {
@@ -636,12 +612,9 @@
             alert("Error: Could not find item data");
             return;
         }
-
-        // Store selected item ID for update/delete operations
         window.selectedItemId = itemId;
         console.log("Item data found:", item);
 
-        // Fill the form with item data
         document.getElementById('name').value = item.name;
         document.getElementById('description').value = item.description;
         document.getElementById('price').value = item.price;
@@ -649,7 +622,7 @@
         document.getElementById('stock').value = item.stockQuantity;
         document.getElementById('supplierId').value = item.supplierId;
 
-        // Handle the image preview
+
         const preview = document.getElementById('imagePreview');
         if (item.image) {
             preview.src = `http://localhost:8080/uploads/${item.image}`;
@@ -660,7 +633,6 @@
         }
     }
 
-    // Update Item
     function updateItem() {
         const itemId = window.selectedItemId;
         if (!itemId) {
@@ -672,7 +644,6 @@
 
         const formData = new FormData();
 
-        // Add form values
         const name = $("#name").val();
         const description = $("#description").val();
         const price = parseFloat($("#price").val());
@@ -680,7 +651,6 @@
         const stockQuantity = parseInt($("#stock").val());
         const supplierId = parseInt($("#supplierId").val());
 
-        // Add form fields to FormData
         formData.append('name', name);
         formData.append('description', description);
         formData.append('price', price);
@@ -692,7 +662,6 @@
             name, description, price, category, stockQuantity, supplierId
         });
 
-        // Add the image if available
         const imageFile = document.getElementById('image').files[0];
         if (imageFile) {
             formData.append('image', imageFile);
@@ -719,7 +688,7 @@
         });
     }
 
-    // Delete Item
+
     function deleteItem(itemId = window.selectedItemId) {
         if (!itemId) {
             alert('No item selected for deletion.');
@@ -747,7 +716,6 @@
         }
     }
 
-    // Clear Form
     function clearForm() {
         document.getElementById('itemForm').reset();
         document.getElementById('imagePreview').style.display = 'none';
@@ -755,7 +723,6 @@
         console.log("Form cleared");
     }
 
-    // Initialize
     $(document).ready(function () {
         console.log("Page initialized");
         checkAuth();

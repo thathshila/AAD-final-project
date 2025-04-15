@@ -268,13 +268,11 @@
             method: 'GET',
             headers: {"Authorization": `Bearer ${authToken}`},
             success: function(response) {
-                console.log("API Success:", response); // Debugging
+                console.log("API Success:", response);
 
-                // Ensure response.code is 200 and response.data is an array
                 if (response.code === 200 && Array.isArray(response.data)) {
                     let products = response.data;
-                    $('#products-container').empty(); // Clear before appending new products
-
+                    $('#products-container').empty();
                     products.forEach(product => {
                         let productCard = `
                 <div class="col-md-3 col-sm-6">

@@ -171,23 +171,14 @@
     </div>
 </div>
 
-<!-- Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-
-<!-- Improved Network Animation Script using Canvas - Changed colors to orange and red -->
-<!--<script src="assets/js/pay4.js"></script>-->
-<!-- Replace the script section -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Network animation code...
-
-        // Display the amount from localStorage
         const amount = localStorage.getItem("amount") || "0";
         document.querySelector(".amount-display").innerText = "Rs. " + amount;
 
-        // Set up the confirm button
         document.querySelector(".confirm-btn").addEventListener("click", function() {
-            window.location.href = "pay5.html"; // Redirect to payment page
+            window.location.href = "pay5.html";
         });
     });
 </script>

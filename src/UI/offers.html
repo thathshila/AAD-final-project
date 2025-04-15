@@ -161,9 +161,8 @@
             dataType: "json",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: (resp) => {
-                console.log("API Response:", resp); // Debugging
+                console.log("API Response:", resp);
 
-                // Check if `resp.data` is an array
                 if (!Array.isArray(resp.data)) {
                     console.error("Error: Response data is not an array", resp);
                     return;
@@ -171,7 +170,6 @@
 
                 let nameDropdown = $("#packageName");
 
-                // Loop through `resp.data`
                 resp.data.forEach(name => {
                     nameDropdown.append(`<option value="${name}">${name}</option>`);
                 });
@@ -191,12 +189,12 @@
                 dataType: "json",
                 headers: { "Authorization": `Bearer ${authToken}` },
                 success: function (resp) {
-                    console.log("Selected Name Data Response:", resp); // Debugging output
+                    console.log("Selected Name Data Response:", resp);
 
                     if (resp && resp.data) {
-                        $("#packageId").val(resp.data); // Set the credit ID field
+                        $("#packageId").val(resp.data);
                     } else {
-                        $("#packageId").val("");  // Clear input if no data found
+                        $("#packageId").val("");
                     }
                 },
                 error: function (error) {
@@ -217,7 +215,7 @@
         let discountPercentage = $("#discountPercentage").val().trim();
         let validFrom = $("#validFrom").val();
         let validUntil = $("#validUntil").val();
-        let packageId = $("#packageId").val().trim();  // Use packageId instead of packageName
+        let packageId = $("#packageId").val().trim();
 
         if (!offerName || !discountPercentage || !validFrom || !validUntil || !packageId) {
             alert("Please enter all required fields!");
@@ -230,13 +228,13 @@
             discountPercentage: discountPercentage,
             validFrom: validFrom,
             validUntil: validUntil,
-            packageId: parseInt(packageId) // Ensure packageId is sent correctly
+            packageId: parseInt(packageId)
         };
 
         let apiUrl = "http://localhost:8080/api/v1/offers/save";
         let methodType = "POST";
 
-        if (offerId) { // If updating
+        if (offerId) {
             apiUrl = `http://localhost:8080/api/v1/offers/update/${offerId}`;
             methodType = "PUT";
             requestData.offerId = parseInt(offerId);
@@ -249,9 +247,8 @@
             data: JSON.stringify(requestData),
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (resp) {
-                //  alert(resp.message);
                 alert(offerId ? "Bundle updated successfully!" : "Bundle saved successfully!");
-                viewOffers();  // Refresh offer list
+                viewOffers();
                 clearForm();
             },
             error: function (error) {
@@ -261,7 +258,7 @@
         });
     });
 
-    // Delete Offer
+
     $(".btn-danger").click(function () {
         let offerId = $("#offerId").val().trim();
 
@@ -295,9 +292,9 @@
             type: "GET",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (response) {
-                $("#offerList").empty(); // Clear existing offers
+                $("#offerList").empty();
 
-                console.log("Offer Response Data:", response.data); // Debugging
+                console.log("Offer Response Data:", response.data);
                 if (!Array.isArray(response.data)) {
                     console.error("Unexpected response format:", response);
                     alert("Error fetching offers.");
@@ -334,7 +331,6 @@
         $("#packageId").val(packageId)
     }
 
-    // Clear Form
     function clearForm() {
         $("#offerForm")[0].reset();
         $("#offerId").val("");

@@ -111,3 +111,18 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "pay5.html"; // Redirect to pay3.html
     });
 });
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    let amount = localStorage.getItem("paymentAmount") || "0"; // Default to 0 if not found
+    document.querySelector(".amount-display").innerText = "Rs " + amount;
+});
+
+
+document.querySelector(".confirm-btn").addEventListener("click", function() {
+    let amount = document.querySelector(".amount-display").innerText;
+    localStorage.setItem("paymentAmount", amount); // Store amount
+    window.location.href = "pay5.html"; // Redirect to pay5.html
+});

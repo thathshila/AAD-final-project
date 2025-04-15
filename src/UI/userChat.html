@@ -1,29 +1,291 @@
+<!--<svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">-->
+<!--    &lt;!&ndash; Gradients and patterns &ndash;&gt;-->
+<!--    <defs>-->
+<!--        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">-->
+<!--            <stop offset="0%" stop-color="#6200EA" />-->
+<!--            <stop offset="100%" stop-color="#00BFA5" />-->
+<!--        </linearGradient>-->
+
+<!--        <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">-->
+<!--            <stop offset="0%" stop-color="#00BFA5" />-->
+<!--            <stop offset="50%" stop-color="#1DE9B6" />-->
+<!--            <stop offset="100%" stop-color="#64FFDA" />-->
+<!--        </linearGradient>-->
+
+<!--        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">-->
+<!--            <feGaussianBlur stdDeviation="4" result="blur" />-->
+<!--            <feComposite in="SourceGraphic" in2="blur" operator="over" />-->
+<!--        </filter>-->
+<!--    </defs>-->
+
+<!--    &lt;!&ndash; Background circle &ndash;&gt;-->
+<!--    <circle cx="150" cy="100" r="90" fill="url(#logoGradient)" opacity="0.8" />-->
+
+<!--    &lt;!&ndash; Signal wave lines &ndash;&gt;-->
+<!--    <g transform="translate(235, 100) scale(0.9)" filter="url(#glow)">-->
+<!--        <path d="M-100,0 C-75,-40 -50,40 -25,-20 C0,20 25,-40 50,0 C75,40 100,-20 125,10 C150,-30 175,20 200,0"-->
+<!--              stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />-->
+<!--        <path d="M-100,30 C-75,-10 -50,50 -25,10 C0,50 25,-10 50,30 C75,70 100,10 125,40 C150,0 175,50 200,30"-->
+<!--              stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7" />-->
+<!--    </g>-->
+
+<!--    &lt;!&ndash; Globe/Network icon &ndash;&gt;-->
+<!--    <g transform="translate(150, 100) scale(0.5)">-->
+<!--        <circle cx="0" cy="0" r="60" fill="none" stroke="white" stroke-width="6" />-->
+<!--        <ellipse cx="0" cy="0" rx="60" ry="25" fill="none" stroke="white" stroke-width="6" />-->
+<!--        <line x1="-60" y1="0" x2="60" y2="0" stroke="white" stroke-width="6" />-->
+<!--        <line x1="0" y1="-60" x2="0" y2="60" stroke="white" stroke-width="6" />-->
+<!--    </g>-->
+
+<!--    &lt;!&ndash; Company name &ndash;&gt;-->
+<!--    <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="48" fill="#2E2E2E">NET<tspan fill="#6200EA">WAVE</tspan></text>-->
+
+<!--    &lt;!&ndash; Tagline &ndash;&gt;-->
+<!--    <text x="300" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#555555">GLOBAL CONNECTIVITY SOLUTIONS</text>-->
+
+<!--    &lt;!&ndash; Decorative elements &ndash;&gt;-->
+<!--    <circle cx="450" cy="55" r="8" fill="#00BFA5" />-->
+<!--    <circle cx="470" cy="40" r="5" fill="#6200EA" />-->
+<!--    <circle cx="135" cy="155" r="6" fill="white" opacity="0.7" />-->
+<!--    <circle cx="165" cy="160" r="4" fill="white" opacity="0.5" />-->
+<!--</svg>-->
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>User Chat</title>-->
+<!--    <link rel="stylesheet" href="assets/css/chat.css">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>-->
+<!--    <script src="assets/js/chat.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="chat-container">-->
+<!--    <div class="chat-header">-->
+<!--        <h2>Chat with Admin</h2>-->
+<!--        <div class="user-info">-->
+<!--            You are: <span id="username" th:text="${username}"></span>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="chat-messages" id="messageArea">-->
+<!--        &lt;!&ndash; Messages will appear here &ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <div class="chat-input">-->
+<!--        <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>-->
+<!--        <button onclick="sendMessage()">Send</button>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        connect();-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Chat</title>
+    <title>Support - NetWave</title>
     <link rel="stylesheet" href="assets/css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #2E2E2E;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .support-main {
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        .chat-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: linear-gradient(to right, #6200EA, #00BFA5);
+            color: white;
+            padding: 15px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            height: 300px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            background: #fafafa;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: #00BFA5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-bottom: 12px;
+        }
+
+        .message .user {
+            font-weight: bold;
+        }
+
+        .message .time {
+            color: #888;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .faq, .ticket-form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .ticket-form input, .ticket-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .ticket-form button {
+            background-color: #6200EA;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .contact-info {
+            margin-top: 40px;
+            font-size: 14px;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <script src="assets/js/chat.js"></script>
 </head>
 <body>
-<div class="chat-container">
-    <div class="chat-header">
-        <h2>Chat with Admin</h2>
-        <div class="user-info">
-            You are: <span id="username" th:text="${username}"></span>
+
+<div class="container">
+    <div class="sidebar">
+        <h3>Support</h3>
+        <ul>
+            <li>Live Chat</li>
+            <li>FAQs</li>
+            <li>Submit a Ticket</li>
+            <li>Contact Info</li>
+        </ul>
+    </div>
+
+    <div class="support-main">
+        <!-- Live Chat Box -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Live Chat Support</h2>
+                <div class="user-info">
+                    You are: <span id="username" th:text="${username}"></span>
+                </div>
+            </div>
+            <div class="chat-messages" id="messageArea">
+                <!-- Dynamic messages here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
+                <button onclick="sendMessage()">Send</button>
+            </div>
         </div>
-    </div>
 
-    <div class="chat-messages" id="messageArea">
-        <!-- Messages will appear here -->
-    </div>
+        <!-- FAQ Section -->
+        <div class="faq">
+            <h3>Frequently Asked Questions</h3>
+            <p><strong>Q1:</strong> How do I check my data balance?</p>
+            <p><strong>A:</strong> Login to your account and navigate to "Usage" tab.</p>
+            <p><strong>Q2:</strong> How can I change my current plan?</p>
+            <p><strong>A:</strong> Go to "Plans", choose a new one and click "Switch".</p>
+        </div>
 
-    <div class="chat-input">
-        <input type="text" id="message" placeholder="Type a message..." autocomplete="off"/>
-        <button onclick="sendMessage()">Send</button>
+        <!-- Ticket Form -->
+        <div class="ticket-form">
+            <h3>Submit a Support Ticket</h3>
+            <input type="text" placeholder="Full Name" />
+            <input type="email" placeholder="Email Address" />
+            <textarea rows="5" placeholder="Describe your issue..."></textarea>
+            <button type="submit">Submit</button>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <h4>Customer Support:</h4>
+            <p><i class="fas fa-phone"></i> 011-123-4567</p>
+            <p><i class="fas fa-envelope"></i> support@netwave.lk</p>
+            <p><i class="fas fa-clock"></i> Available: 8am – 10pm (Mon–Sat)</p>
+        </div>
     </div>
 </div>
 
@@ -31,6 +293,11 @@
     document.addEventListener('DOMContentLoaded', function() {
         connect();
     });
+
+    function sendMessage() {
+        // Your existing chat.js logic here
+    }
 </script>
+
 </body>
 </html>

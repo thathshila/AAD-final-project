@@ -6,6 +6,8 @@ import org.example.netwave.dto.UserDTO;
 import java.util.List;
 
 public interface UserService {
+    UserDTO searchUser(String email);
+
     int saveUser(UserDTO userDTO);
     List<UserDTO> getAllUsers();
     UserDTO getUserById(int id);

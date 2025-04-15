@@ -187,9 +187,8 @@
 <script>
     $(document).ready(function () {
         $("#register").submit(function (event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
-            // Get form data
             var userData = {
                 name: $("#username").val(),
                 email: $("#email").val(),
@@ -199,7 +198,7 @@
             };
 
             $.ajax({
-                url: "http://localhost:8080/api/v1/user/register", // Replace with your backend API URL
+                url: "http://localhost:8080/api/v1/user/register",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(userData),

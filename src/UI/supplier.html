@@ -135,9 +135,8 @@
     let authToken = localStorage.getItem("authToken");
 
     $(document).ready(function () {
-        viewSuppliers(); // Load suppliers when page loads
+        viewSuppliers();
 
-        // Save or Update Supplier
         $("#supplierForm").submit(function (event) {
             event.preventDefault();
 
@@ -155,7 +154,7 @@
             let methodType = "POST";
             let requestData = { name, contactEmail, contactPhone };
 
-            if (supplierId) { // If supplierId exists, update instead of saving
+            if (supplierId) {
                 apiUrl = `http://localhost:8080/api/v1/supplier/update/${supplierId}`;
                 methodType = "PUT";
                 requestData.supplierId = supplierId;
@@ -179,7 +178,7 @@
         });
     });
 
-    // Delete Supplier
+
     function deleteSupplier() {
         let supplierId = $("#supplierId").val().trim();
 
@@ -207,7 +206,6 @@
         });
     }
 
-    // View Suppliers (Read)
     function viewSuppliers() {
         $.ajax({
             url: "http://localhost:8080/api/v1/supplier/getAll",

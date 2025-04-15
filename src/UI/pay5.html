@@ -286,17 +286,14 @@
     document.addEventListener("DOMContentLoaded", function() {
         let authToken = localStorage.getItem("authToken");
 
-        // Display the amount from localStorage
         const amount = localStorage.getItem("amount");
         if (amount) {
             document.querySelector(".total-amount").innerText = "Rs. " + amount;
         }
 
-        // Add click event listener to the pay button
         document.querySelector(".pay-btn").addEventListener("click", function(e) {
             e.preventDefault();
 
-            // Basic validation
             const cardType = document.querySelector('input[name="card-type"]:checked');
             const cardNumber = document.getElementById("card-number").value;
             const expMonth = document.getElementById("exp-month").value;
@@ -308,7 +305,6 @@
                 return;
             }
 
-            // Retrieve data from localStorage
             const phoneNumber = localStorage.getItem('mobileNumber');
             const amount = localStorage.getItem('amount');
             const email = localStorage.getItem('email');
@@ -318,15 +314,13 @@
                 return;
             }
 
-            // Prepare the data to be sent as JSON
             const reloadData = {
                 phoneNumber: phoneNumber,
-                amount: parseFloat(amount), // Convert to number
+                amount: parseFloat(amount),
                 email: email,
                 credit_bundle_id: 2
             };
 
-            // Send the data to the backend via fetch API
             fetch('http://localhost:8080/api/v1/reload/save', {
                 method: 'POST',
                 headers: {
@@ -342,7 +336,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Create transaction data for email
                     const emailData = {
                         to: email,
                         subject: "Your SLT Mobitel Payment Was Successful",
@@ -352,7 +345,6 @@
                         timestamp: new Date().toISOString()
                     };
 
-                    // Send confirmation email after successful payment
                     return fetch('http://localhost:8080/api/v1/email/send-payment-confirmation', {
                         method: 'POST',
                         headers: {
@@ -366,19 +358,15 @@
                     if (!response.ok) {
                         throw new Error('Failed to send confirmation email');
                     }
-                    // Check content type header to determine how to process the response
                     const contentType = response.headers.get('content-type');
                     if (contentType && contentType.includes('application/json')) {
                         return response.json();
                     } else {
-                        // Return a resolved promise with the status to continue the chain
                         return Promise.resolve({ status: 'success' });
                     }
                 })
                 .then(data => {
-                    // Success handling
                     alert("Payment successful! A confirmation email has been sent to your email address.");
-                    // Clear localStorage data
                     localStorage.removeItem('mobileNumber');
                     localStorage.removeItem('amount');
                     localStorage.removeItem('email');
@@ -390,14 +378,12 @@
                 });
         });
 
-        // Add click event listener to the cancel button
         document.querySelector(".cancel-btn").addEventListener("click", function() {
             if(confirm("Are you sure you want to cancel this payment?")) {
-                window.location.href = "pay2.html"; // Go back to first page
+                window.location.href = "pay2.html";
             }
         });
 
-        // Helper function to generate a transaction ID
         function generateTransactionId() {
             return 'TXN' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
         }

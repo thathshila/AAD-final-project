@@ -143,3 +143,56 @@ body {
     max-height: 80px;
     object-fit: contain;
 }
+
+header {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: var(--primary-color);
+    gap: 10px;
+}
+
+.logo svg {
+    width: 200px; /* Adjust as needed */
+    height: auto;
+}
+
+
+.encryption-badge {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #28a745;
+}
+
+.encryption-badge i {
+    margin-right: 5px;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+    margin-left: 5px;
+}

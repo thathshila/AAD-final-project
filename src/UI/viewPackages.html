@@ -126,14 +126,13 @@
         </div>
     </section>
 </main>
-<!-- Script to Fetch & Display Packages -->
 <script>
     $(document).ready(function () {
         let authToken = localStorage.getItem("authToken");
         console.log(authToken )
         if (!authToken) {
             alert("Unauthorized access. Please log in.");
-            window.location.href = "login.html"; // Redirect to login
+            window.location.href = "login.html";
             return;
         }
 
@@ -164,9 +163,8 @@
                                         <li>📶 ${pkg.dataLimit !== undefined && pkg.dataLimit !== null ? pkg.dataLimit : 'N/A'}GB With Data Rollover & Sharing</li>
                                     </ul>
                                     <div class="promo-badge">🔥 Special promotion</div>
-<!--                                    <button class="btn btn-package w-100 mt-3" onclick="activatePackage('${pkg.name}')">GET PACKAGE</button>-->
-                                    <button class="btn btn-package w-100 mt-3" onclick="activatePackage('${pkg.packageId}', ${pkg.price})">GET PACKAGE</button>
-
+                                    <button class="btn btn-package w-100 mt-3"
+                                    onclick="activatePackage('${pkg.packageId}', ${pkg.price})">GET PACKAGE</button>
                                 </div>
                             </div>
                         `);

@@ -73,7 +73,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Get the item ID from URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const itemId = urlParams.get('id');
 
@@ -81,11 +80,8 @@
             showError("No item selected");
             return;
         }
-
-        // Get auth token from localStorage
         let authToken = localStorage.getItem("authToken");
 
-        // Fetch item details
         $.ajax({
             url: `http://localhost:8080/api/v1/item/getById/${itemId}`,
             method: 'GET',
@@ -102,39 +98,29 @@
                 showError("Error loading product details");
             }
         });
-
-        // Add to Cart button event - fixed to add item first, then navigate
         $(document).on('click', '#add-to-cart', function() {
             if (!itemId) return;
 
             const selectedColor = $('.color-option.selected').data('color') || '';
             const selectedStorage = $('.storage-option.selected').data('storage') || '';
 
-            // Add item to cart
             addToCart({
                 itemId: itemId,
                 quantity: 1,
                 color: selectedColor,
                 storage: selectedStorage
             });
-
-            // Navigate to cart page after adding item
             window.location.href = 'cart2.html';
         });
     });
 
     function displayItemDetails(item) {
-        // Set product name and category
         $('#product-name').text(item.name);
         $('#product-category').text(item.category);
-
-        // Set product price
         $('#product-price').text(`Rs. ${item.price.toFixed(2)}`);
-
-        // Set product description
         $('#product-description').text(item.description);
 
-        // Display product image
+
         const imageUrl = `http://localhost:8080/uploads/${item.image}`;
         $('#product-images').html(`
         <div class="main-image mb-3">
@@ -153,7 +139,7 @@
         </div>
     `);
 
-        // Set default color options (for demo)
+
         $('#color-choices').html(`
         <div class="color-option selected" data-color="Starry Blue">
             <div class="color-circle bg-primary"></div>
@@ -165,7 +151,6 @@
         </div>
     `);
 
-        // Set default storage options (for demo)
         $('#storage-choices').html(`
         <div class="storage-option selected" data-storage="256GB">
             <div class="storage-box border rounded p-3 text-center">
@@ -174,7 +159,7 @@
         </div>
     `);
 
-        // Set features based on category (for demo)
+
         let featuresList = [
             "Comes with Ai",
             "50MP Dual Camera co-engineered with Zeiss optics",
@@ -189,7 +174,6 @@
 
         $('#features-list').html(featuresHtml);
 
-        // Set up event listeners for color and storage options
         $('.color-option').click(function() {
             $('.color-option').removeClass('selected');
             $(this).addClass('selected');
@@ -209,12 +193,10 @@
     `);
     }
 
-    // Function to add item to cart
     function addToCart(item) {
         let cartItems = localStorage.getItem('cartItems');
         cartItems = cartItems ? JSON.parse(cartItems) : [];
 
-        // Check if item already exists in cart
         const existingItemIndex = cartItems.findIndex(cartItem =>
             cartItem.itemId === item.itemId &&
             cartItem.color === item.color &&
@@ -222,17 +204,11 @@
         );
 
         if (existingItemIndex !== -1) {
-            // Update quantity if item already exists
             cartItems[existingItemIndex].quantity += item.quantity;
         } else {
-            // Add new item to cart
             cartItems.push(item);
         }
-
-        // Save updated cart to localStorage
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-        // Optional: Show a confirmation message
         alert("Item added to cart!");
     }
 </script>

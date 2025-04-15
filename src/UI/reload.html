@@ -159,10 +159,8 @@
     let authToken = localStorage.getItem("authToken");
     loadAllContactNumbers();
 
-    let validNumbers = []; // Store numbers from API
+    let validNumbers = [];
 
-
-    // Load numbers into hidden dropdown
     function loadAllContactNumbers() {
         $.ajax({
             url: "http://localhost:8080/api/v1/connections/getAll",
@@ -172,7 +170,7 @@
             success: (resp) => {
                 if (resp && Array.isArray(resp.data)) {
                     let numberDropdown = $("#numberDropdown");
-                    validNumbers = resp.data; // Store valid numbers in array
+                    validNumbers = resp.data;
                     resp.data.forEach(number => {
                         numberDropdown.append(`<option value="${number}">${number}</option>`);
                     });
@@ -191,26 +189,19 @@
     function validateNumber() {
         let inputNumber = $("#numberInput").val().trim();
 
-        // Remove leading zero if it exists
         if (inputNumber.startsWith("0")) {
             inputNumber = inputNumber.substring(1);
         }
-
-        // Ensure numbers in validNumbers are treated as strings for comparison
         let validNumberList = validNumbers.map(String);
 
-        console.log("Valid numbers:", validNumberList); // Debugging output
+        console.log("Valid numbers:", validNumberList);
         console.log("User input:", inputNumber);
-
-        // Check format: Must start with 52 and be 9 digits long
         if (!/^52\d{7}$/.test(inputNumber)) {
             alert("Invalid number! Must start with 52 and have 9 digits.");
             return;
         }
-
-        // Check if number exists in database
         if (validNumberList.includes(inputNumber)) {
-            window.location.href = "pay1.html"; // Redirect if valid
+            window.location.href = "pay1.html";
         } else {
             alert("Number not found in database.");
         }

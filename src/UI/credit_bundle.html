@@ -142,9 +142,8 @@
     let authToken = localStorage.getItem("authToken");
 
     $(document).ready(function () {
-        viewBundles(); // Load bundles when page loads
+        viewBundles();
 
-        // Save Bundle (Create)
         $("#creditForm").submit(function (event) {
             event.preventDefault();
 
@@ -161,7 +160,7 @@
             let methodType = "POST";
             let requestData = { bundleName, amount };
 
-            if (bundleId) { // If bundleId exists, update instead of saving
+            if (bundleId) {
                 apiUrl = `http://localhost:8080/api/v1/credit_bundle/update/${bundleId}`;
                 methodType = "PUT";
                 requestData.bundleId = bundleId;
@@ -184,7 +183,6 @@
             });
         });
 
-        // Delete Bundle
         $(".btn-danger").click(function () {
             let bundleId = $("#bundleId").val().trim();
 
@@ -213,7 +211,6 @@
         });
     });
 
-    // View Bundles (Read)
     function viewBundles() {
         $.ajax({
             url: "http://localhost:8080/api/v1/credit_bundle/getAll",
@@ -230,7 +227,8 @@
 
                 response.data.forEach(bundle => {
                     $("#bundleList").append(`
-                        <div class="credit-card" onclick="fillForm('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
+                        <div class="credit-card" onclick="fillForm
+                        ('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
                             <h5>${bundle.bundleName}</h5>
                             <p>Amount: $${bundle.amount}</p>
                         </div>
@@ -244,14 +242,12 @@
         });
     }
 
-    // Fill form when clicking a bundle card
     function fillForm(bundleId, bundleName, amount) {
         $("#bundleId").val(bundleId);
         $("#bundleName").val(bundleName);
         $("#amount").val(amount);
     }
 
-    // Clear form fields
     function clearForm() {
         $("#bundleId").val("");
         $("#bundleName").val("");

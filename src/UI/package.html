@@ -276,7 +276,7 @@
                 headers: {"Authorization": `Bearer ${authToken}`},
                 success: function (resp) {
                     alert(packageId ? "Package updated successfully!" : "Package saved successfully!");
-                    viewPackages();  // Refresh package list
+                    viewPackages();
                     clearForm();
                 },
                 error: function (error) {
@@ -286,8 +286,6 @@
             });
         });
 
-
-// Delete Package
         $(".btn-danger").click(function () {
             let packageId = $("#packageId").val().trim();
 
@@ -295,7 +293,6 @@
                 alert("Please select a package to delete.");
                 return;
             }
-
             if (!confirm("Are you sure you want to delete this package?")) {
                 return;
             }
@@ -332,15 +329,20 @@
 
                     response.data.forEach(pkg => {
                         const packageCard = `
-        <div class="package-card" data-package-id="${pkg.packageId}" data-package-name="${pkg.packageName}" data-package-type="${pkg.packageType}" data-price="${pkg.price}" data-data-limit="${pkg.dataLimit}" data-call-minutes="${pkg.callMinutes}" data-sms-limit="${pkg.smsLimit}" data-validity-days="${pkg.validityDays}" data-credit-bundle-id="${pkg.creditBundleId}">
-            <h5>${pkg.packageName}</h5>
-            <p>Type: ${pkg.packageType}</p>
-            <p>Data Limit: ${pkg.dataLimit}</p>
-            <p>Price: LKR ${pkg.price}</p>
-            <p>Validity: ${pkg.validityDays} days</p>
-            <p>SMS: ${pkg.smsLimit}</p>
-            <p>Call: ${pkg.callMinutes}</p>
-        </div>
+                                <div class="package-card"
+                                data-package-id="${pkg.packageId}" data-package-name="${pkg.packageName}"
+                                 data-package-type="${pkg.packageType}" data-price="${pkg.price}"
+                                 data-data-limit="${pkg.dataLimit}" data-call-minutes="${pkg.callMinutes}"
+                                  data-sms-limit="${pkg.smsLimit}" data-validity-days="${pkg.validityDays}"
+                                  data-credit-bundle-id="${pkg.creditBundleId}">
+                                    <h5>${pkg.packageName}</h5>
+                                    <p>Type: ${pkg.packageType}</p>
+                                    <p>Data Limit: ${pkg.dataLimit}</p>
+                                    <p>Price: LKR ${pkg.price}</p>
+                                    <p>Validity: ${pkg.validityDays} days</p>
+                                    <p>SMS: ${pkg.smsLimit}</p>
+                                    <p>Call: ${pkg.callMinutes}</p>
+                                </div>
     `;
                         $("#packageList").append(packageCard);
                     });
@@ -377,7 +379,8 @@
             clearForm();
         });
 
-        function fillForm(packageId, packageName, packageType, price, dataLimit, callMinutes, smsLimit, validityDays, creditBundleId) {
+        function fillForm(packageId, packageName, packageType, price, dataLimit,
+                          callMinutes, smsLimit, validityDays, creditBundleId) {
             $("#packageId").val(packageId);
             $("#packageName").val(packageName);
             $("#packageType").val(packageType);

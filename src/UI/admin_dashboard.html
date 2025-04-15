@@ -245,24 +245,17 @@
     function loadPage(page, element) {
         let iframe = document.getElementById('contentFrame');
 
-        // Add fade-out effect
         iframe.style.opacity = 0;
-
-        // Delay before changing the source
         setTimeout(() => {
             iframe.src = page;
-
-            // Add fade-in effect after loading new content
             setTimeout(() => {
                 iframe.style.opacity = 1;
             }, 300);
         }, 300);
 
-        // Update active link
         document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
         element.classList.add('active');
     }
-
 
 </script>
 </body>
