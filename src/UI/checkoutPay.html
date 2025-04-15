@@ -158,17 +158,15 @@
 </div>
 
 <script>
-    // Add this to the existing script in checkoutpay.html
+
     document.getElementById('payment-form').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        // Get card details
         const cardName = document.getElementById('card-name').value;
         const cardNumber = document.getElementById('card-number').value;
         const expiryDate = document.getElementById('expiry-date').value;
         const cvv = document.getElementById('cvv').value;
 
-        // Determine card type from selection
         let cardType = '';
         if (document.getElementById('visa').classList.contains('selected')) {
             cardType = 'visa';
@@ -178,12 +176,10 @@
             cardType = 'amex';
         }
 
-        // Get order details from localStorage
         const orderId = localStorage.getItem('checkout_order_id');
         const amount = parseFloat(localStorage.getItem('checkout_amount'));
         const email = localStorage.getItem('checkout_email');
 
-        // Process payment via API
         fetch('http://localhost:8080/payment/process', {
             method: 'POST',
             headers: {
@@ -204,12 +200,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.code === 200) {
-                    // Store payment details for success page
+
                     localStorage.setItem('payment_id', data.data.paymentId);
                     localStorage.setItem('payment_date', data.data.paymentDate);
                     localStorage.setItem('payment_method', cardType);
 
-                    // Redirect to success page
                     window.location.href = `success.html?orderId=${orderId}&cardName=${cardName}&cardNumber=${cardNumber.slice(-4)}`;
                 } else {
                     alert("Payment failed: " + data.message);
@@ -220,7 +215,7 @@
                 alert('Error processing payment. Please try again.');
             });
     });
-    // Function to handle card selection
+
     function selected(cardType) {
         const cards = document.querySelectorAll('.card-icons div');
         cards.forEach(card => {
@@ -229,21 +224,8 @@
 
         document.getElementById(cardType).classList.add('selected');
     }
-    //
-    // // Handle form submission and redirect to success page
-    // document.getElementById('payment-form').addEventListener('submit', function(event) {
-    //     event.preventDefault();
-    //
-    //     // Get the payment details
-    //     const cardName = document.getElementById('card-name').value;
-    //     const cardNumber = document.getElementById('card-number').value;
-    //     const expiryDate = document.getElementById('expiry-date').value;
-    //     const cvv = document.getElementById('cvv').value;
-    //
-    //     // Redirect to the success page
-    //     window.location.href = `success.html?cardName=${cardName}&cardNumber=${cardNumber}&expiryDate=${expiryDate}&cvv=${cvv}`;
-    // });
-</script>
 
+
+</script>
 </body>
 </html>
