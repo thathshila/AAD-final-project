@@ -1,5 +1,11 @@
 package org.example.netwave.controller;
 
+import jakarta.transaction.Transactional;
+import org.example.netwave.dto.OrderResponseDTO;
+import org.example.netwave.dto.PaymentDTO;
+import org.example.netwave.dto.ResponseDTO;
+import org.example.netwave.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -23,19 +29,58 @@ public class PaymentController {
     @Value("${MERCHANT_SECRET}")
     private String MERCHANT_SECRET;
 
+    @Autowired
+    private  OrderService orderService;
+
+    @PostMapping("/complete")
+    @Transactional
+    public ResponseEntity<ResponseDTO> completePayment(@RequestBody PaymentDTO paymentDTO) {
+        try {
+            System.out.println("Received payment request: " + paymentDTO);
+            OrderResponseDTO response = orderService.saveOrderAndDetails(paymentDTO);
+            System.out.println("Order processed successfully: " + response.getOrderId());
+
+            return new ResponseEntity<>(
+                    new ResponseDTO(
+                            200,
+                            "Payment processed successfully",
+                            response
+                    ),
+                    HttpStatus.OK
+            );
+        } catch (Exception e) {
+            System.err.println("Error processing payment: " + e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(
+                    new ResponseDTO(
+                            500,
+                            "Error processing payment: " + e.getMessage(),
+                            null
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    @PostMapping("/notify")
+    public ResponseEntity<String> handlePaymentNotification(@RequestBody PaymentDTO notification) {
+        orderService.updateOrderStatus(notification.getOrder_id(), notification.getStatus_code());
+
+        return ResponseEntity.ok("Notification received");
+    }
 
     @GetMapping("/generate-hash")
     public ResponseEntity<Map<String, String>> generateHash(@RequestParam String orderId, @RequestParam String amount) {
-        String currency = "LKR"; // Fixed currency
+        String currency = "LKR";
         BigDecimal parsedAmount = new BigDecimal(amount);
-        String formattedAmount = String.format("%.2f", parsedAmount); // Ensure 2 decimal places
+        String formattedAmount = String.format("%.2f", parsedAmount);
 
         Map<String, String> response = new HashMap<>();
 
         try {
-            String merchantHash = hashMD5(MERCHANT_SECRET); // Hash the secret first
+            String merchantHash = hashMD5(MERCHANT_SECRET);
             String hashString = MERCHANT_ID + orderId + formattedAmount + currency + merchantHash;
-            String hash = hashMD5(hashString).toUpperCase(); // Generate hash
+            String hash = hashMD5(hashString).toUpperCase();
 
             response.put("hash", hash);
             response.put("merchant_id", MERCHANT_ID);
@@ -65,42 +110,6 @@ public class PaymentController {
 
         return hexString.toString();
     }
-
-
-    @PostMapping(value = "/notify", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<String> handlePaymentNotification(@RequestParam Map<String, String> payload) {
-
-        System.out.println("Received notification with payload: " + payload);
-
-        System.out.println("Received PayHere Notification: " + payload);
-
-        String merchantId = payload.get("merchant_id");
-        String orderId = payload.get("order_id");
-        String paymentId = payload.get("payment_id");
-        String payhereAmount = payload.get("payhere_amount");
-        String payhereCurrency = payload.get("payhere_currency");
-        String statusCode = payload.get("status_code");
-        String receivedMd5sig = payload.get("md5sig");
-
-        if (!MERCHANT_ID.equals(merchantId)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid merchant");
-        }
-
-        String generatedMd5sig = generateMd5Signature(merchantId, orderId, paymentId, payhereAmount, payhereCurrency, statusCode, MERCHANT_SECRET);
-
-        if (!receivedMd5sig.equals(generatedMd5sig)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid signature");
-        }
-        if ("2".equals(statusCode)) {
-            System.out.println("Payment Success for Order ID: " + orderId);
-        } else if ("0".equals(statusCode)) {
-            System.out.println("Payment Pending for Order ID: " + orderId);
-        } else {
-            System.out.println("Payment Failed for Order ID: " + orderId + " with status: " + statusCode);
-        }
-        return ResponseEntity.ok("Notification received");
-    }
-
     @GetMapping("/success")
     public ResponseEntity<String> paymentSuccess(@RequestParam Map<String, String> params) {
         String orderId = params.get("order_id");
@@ -114,18 +123,5 @@ public class PaymentController {
         System.out.println("Payment cancelled for Order ID: " + orderId);
         return ResponseEntity.ok("Payment cancelled for order: " + orderId);
     }
-
-    private String generateMd5Signature(String merchantId, String orderId, String paymentId, String amount, String currency, String statusCode, String secret) {
-        try {
-            String md5Secret = hashMD5(secret);
-            String data = merchantId + orderId + paymentId + amount + currency + statusCode + md5Secret;
-            System.out.println("Received MD5 signature: " + md5Secret);
-            return hashMD5(data).toUpperCase();
-        } catch (Exception e) {
-            throw new RuntimeException("Error generating MD5 signature", e);
-        }
-
-    }
-
 
 }
