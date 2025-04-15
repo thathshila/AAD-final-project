@@ -1,3 +1,224 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    &lt;!&ndash; Required meta tags &ndash;&gt;-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+<!--    <title>Corona Admin</title>-->
+
+<!--    &lt;!&ndash; Bootstrap 5 CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Custom Styles &ndash;&gt;-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Arial', sans-serif;-->
+<!--            background-image: url('assets/img/register.jpg'); /* Add your image URL here */-->
+<!--            background-size: cover;-->
+<!--            background-position: center center;-->
+<!--            background-attachment: fixed;-->
+<!--            min-height: 100vh;-->
+<!--        }-->
+
+<!--        .container-scroller {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            height: 100vh;-->
+<!--        }-->
+
+<!--        .content-wrapper {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            padding: 3rem;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            border-radius: 15px;-->
+<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);-->
+<!--            border: none;-->
+<!--        }-->
+
+<!--        .card-body {-->
+<!--            padding: 2rem;-->
+<!--        }-->
+
+<!--        .card-title {-->
+<!--            font-size: 1.8rem;-->
+<!--            font-weight: bold;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        .form-control {-->
+<!--            border-radius: 10px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            margin-bottom: 1.5rem;-->
+<!--            font-size: 1rem;-->
+<!--        }-->
+
+<!--        .form-check-label {-->
+<!--            font-size: 0.9rem;-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            background-color: #4e73df;-->
+<!--            border: none;-->
+<!--            border-radius: 50px;-->
+<!--            font-size: 1rem;-->
+<!--            padding: 0.8rem 2rem;-->
+<!--        }-->
+
+<!--        .btn-primary:hover {-->
+<!--            background-color: #375aab;-->
+<!--        }-->
+
+<!--        .forgot-pass, .sign-up a {-->
+<!--            font-size: 0.9rem;-->
+<!--            color: #007bff;-->
+<!--        }-->
+
+<!--        .forgot-pass:hover, .sign-up a:hover {-->
+<!--            text-decoration: underline;-->
+<!--        }-->
+
+<!--        .d-flex button {-->
+<!--            font-size: 0.9rem;-->
+<!--            padding: 0.6rem 1.5rem;-->
+<!--            border-radius: 50px;-->
+<!--        }-->
+
+<!--        .btn-facebook {-->
+<!--            background-color: #3b5998;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-google {-->
+<!--            background-color: #db4437;-->
+<!--            color: white;-->
+<!--        }-->
+
+<!--        .btn-facebook:hover {-->
+<!--            background-color: #2d4373;-->
+<!--        }-->
+
+<!--        .btn-google:hover {-->
+<!--            background-color: #c1351d;-->
+<!--        }-->
+
+<!--        .terms {-->
+<!--            font-size: 0.8rem;-->
+<!--            color: #777;-->
+<!--        }-->
+
+<!--        .terms a {-->
+<!--            color: #007bff;-->
+<!--        }-->
+
+<!--        /* Mobile Responsiveness */-->
+<!--        @media (max-width: 576px) {-->
+<!--            .card {-->
+<!--                width: 90%;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container-scroller">-->
+<!--    <div class="container-fluid page-body-wrapper full-page-wrapper">-->
+<!--        <div class="row w-100 m-0">-->
+<!--            <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">-->
+<!--                <div class="card col-lg-4 mx-auto">-->
+<!--                    <div class="card-body px-5 py-5">-->
+<!--                        <h3 class="card-title text-left mb-3">Register</h3>-->
+<!--                        <form id="register">-->
+<!--                            <div class="form-group">-->
+<!--                                <label>Username</label>-->
+<!--                                <input type="text" class="form-control p_input" id="username">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label>Email</label>-->
+<!--                                <input type="email" class="form-control p_input" id="email">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label>Phone Number</label>-->
+<!--                                <input type="text" class="form-control p_input" id="phone_number">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <label>Password</label>-->
+<!--                                <input type="password" class="form-control p_input" id="password">-->
+<!--                            </div>-->
+<!--                            <div class="form-group">-->
+<!--                                <input type="hidden" class="form-control p_input" id="role" value="ADMIN">-->
+<!--                            </div>-->
+<!--                            <div class="form-group d-flex align-items-center justify-content-between">-->
+<!--                                <div class="form-check">-->
+<!--                                    <label class="form-check-label">-->
+<!--                                        <input type="checkbox" class="form-check-input"> Remember me-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                                <a href="#" class="forgot-pass">Forgot password</a>-->
+<!--                            </div>-->
+<!--                            <div class="text-center">-->
+<!--                                <button type="submit" class="btn btn-primary btn-block enter-btn">Register</button>-->
+<!--                            </div>-->
+<!--                            <div class="d-flex mb-3">-->
+<!--                                <button class="btn btn-facebook col mr-2">-->
+<!--                                    <i class="mdi mdi-facebook"></i> Facebook-->
+<!--                                </button>-->
+<!--                                <button class="btn btn-google col">-->
+<!--                                    <i class="mdi mdi-google-plus"></i> Google plus-->
+<!--                                </button>-->
+<!--                            </div>-->
+<!--                            <p class="sign-up text-center">Already have an Account? <a href="#">Sign Up</a></p>-->
+<!--                            <p class="terms">By creating an account you are accepting our <a href="#">Terms & Conditions</a></p>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; content-wrapper ends &ndash;&gt;-->
+<!--        </div>-->
+<!--        &lt;!&ndash; row ends &ndash;&gt;-->
+<!--    </div>-->
+<!--    &lt;!&ndash; page-body-wrapper ends &ndash;&gt;-->
+<!--</div>-->
+
+<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $("#register").submit(function (event) {-->
+<!--            event.preventDefault();-->
+
+<!--            var userData = {-->
+<!--                name: $("#username").val(),-->
+<!--                email: $("#email").val(),-->
+<!--                phoneNumber: $("#phone_number").val(),-->
+<!--                password: $("#password").val(),-->
+<!--                role: $("#role").val(),-->
+<!--            };-->
+
+<!--            $.ajax({-->
+<!--                url: "http://localhost:8080/api/v1/user/register",-->
+<!--                type: "POST",-->
+<!--                contentType: "application/json",-->
+<!--                data: JSON.stringify(userData),-->
+<!--                success: function (response) {-->
+<!--                    alert("Registration successful!");-->
+<!--                    if (userData.role === "ADMIN") {-->
+<!--                        window.location.href = "admin_dashboard.html";-->
+<!--                    } else {-->
+<!--                        window.location.href = "index.html";-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function (xhr, status, error) {-->
+<!--                    alert("Registration failed: " + xhr.responseText);-->
+<!--                },-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +230,14 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <!-- Custom Styles -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url('assets/img/register.jpg'); /* Add your image URL here */
+            background-image: url('assets/img/register.jpg');
             background-size: cover;
             background-position: center center;
             background-attachment: fixed;
@@ -36,29 +260,40 @@
 
         .card {
             border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             border: none;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
         }
 
         .card-body {
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
         .card-title {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #333;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
         }
 
         .form-control {
             border-radius: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
             margin-bottom: 1.5rem;
             font-size: 1rem;
+            padding: 0.8rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
         }
 
         .form-check-label {
             font-size: 0.9rem;
+            color: #555;
         }
 
         .btn-primary {
@@ -67,25 +302,34 @@
             border-radius: 50px;
             font-size: 1rem;
             padding: 0.8rem 2rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
             background-color: #375aab;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
         }
 
         .forgot-pass, .sign-up a {
             font-size: 0.9rem;
-            color: #007bff;
+            color: #4e73df;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
         .forgot-pass:hover, .sign-up a:hover {
+            color: #375aab;
             text-decoration: underline;
         }
 
         .d-flex button {
             font-size: 0.9rem;
-            padding: 0.6rem 1.5rem;
+            padding: 0.7rem 1.5rem;
             border-radius: 50px;
+            transition: all 0.3s ease;
         }
 
         .btn-facebook {
@@ -100,25 +344,51 @@
 
         .btn-facebook:hover {
             background-color: #2d4373;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 89, 152, 0.3);
         }
 
         .btn-google:hover {
             background-color: #c1351d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(219, 68, 55, 0.3);
         }
 
         .terms {
             font-size: 0.8rem;
             color: #777;
+            margin-top: 1.5rem;
         }
 
         .terms a {
-            color: #007bff;
+            color: #4e73df;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .terms a:hover {
+            color: #375aab;
+            text-decoration: underline;
         }
 
         /* Mobile Responsiveness */
         @media (max-width: 576px) {
             .card {
                 width: 90%;
+                margin: 0 auto;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            .d-flex {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .d-flex button {
+                width: 100%;
             }
         }
     </style>
@@ -130,23 +400,23 @@
             <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
                 <div class="card col-lg-4 mx-auto">
                     <div class="card-body px-5 py-5">
-                        <h3 class="card-title text-left mb-3">Register</h3>
+                        <h3 class="card-title text-left mb-3">Create Your Account</h3>
                         <form id="register">
                             <div class="form-group">
                                 <label>Username</label>
-                                <input type="text" class="form-control p_input" id="username">
+                                <input type="text" class="form-control p_input" id="username" placeholder="Enter your username">
                             </div>
                             <div class="form-group">
                                 <label>Email</label>
-                                <input type="email" class="form-control p_input" id="email">
+                                <input type="email" class="form-control p_input" id="email" placeholder="Enter your email">
                             </div>
                             <div class="form-group">
                                 <label>Phone Number</label>
-                                <input type="text" class="form-control p_input" id="phone_number">
+                                <input type="text" class="form-control p_input" id="phone_number" placeholder="Enter your phone number">
                             </div>
                             <div class="form-group">
                                 <label>Password</label>
-                                <input type="password" class="form-control p_input" id="password">
+                                <input type="password" class="form-control p_input" id="password" placeholder="Create a password">
                             </div>
                             <div class="form-group">
                                 <input type="hidden" class="form-control p_input" id="role" value="ADMIN">
@@ -154,48 +424,147 @@
                             <div class="form-group d-flex align-items-center justify-content-between">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input"> Remember me
+                                        <input type="checkbox" class="form-check-input" id="termsCheck"> I agree to the <a href="#" id="termsLink">Terms & Conditions</a>
                                     </label>
                                 </div>
-                                <a href="#" class="forgot-pass">Forgot password</a>
                             </div>
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block enter-btn">Register</button>
                             </div>
-                            <div class="d-flex mb-3">
-                                <button class="btn btn-facebook col mr-2">
+                            <div class="d-flex mb-3 mt-4">
+                                <button type="button" class="btn btn-facebook col mr-2">
                                     <i class="mdi mdi-facebook"></i> Facebook
                                 </button>
-                                <button class="btn btn-google col">
-                                    <i class="mdi mdi-google-plus"></i> Google plus
+                                <button type="button" class="btn btn-google col">
+                                    <i class="mdi mdi-google-plus"></i> Google
                                 </button>
                             </div>
-                            <p class="sign-up text-center">Already have an Account? <a href="#">Sign Up</a></p>
-                            <p class="terms">By creating an account you are accepting our <a href="#">Terms & Conditions</a></p>
+                            <p class="sign-up text-center">Already have an Account? <a href="#">Sign In</a></p>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- content-wrapper ends -->
         </div>
-        <!-- row ends -->
     </div>
-    <!-- page-body-wrapper ends -->
 </div>
 
+<!-- jQuery and SweetAlert JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function () {
+        // Terms & Conditions modal
+        $("#termsLink").click(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Terms & Conditions',
+                html: `
+                    <div style="text-align: left; max-height: 400px; overflow-y: auto; padding: 0 10px;">
+                        <h5 style="color: #4e73df;">1. Acceptance of Terms</h5>
+                        <p>By registering for an account, you agree to be bound by these Terms and Conditions.</p>
+
+                        <h5 style="color: #4e73df;">2. Account Registration</h5>
+                        <p>You must provide accurate and complete information when creating an account.</p>
+
+                        <h5 style="color: #4e73df;">3. Privacy Policy</h5>
+                        <p>Your personal information will be handled in accordance with our Privacy Policy.</p>
+
+                        <h5 style="color: #4e73df;">4. User Responsibilities</h5>
+                        <p>You are responsible for maintaining the confidentiality of your account credentials.</p>
+
+                        <h5 style="color: #4e73df;">5. Service Modifications</h5>
+                        <p>We reserve the right to modify or discontinue the service at any time.</p>
+                    </div>
+                `,
+                confirmButtonColor: '#4e73df',
+                confirmButtonText: 'I Understand',
+                width: '800px'
+            });
+        });
+
+        // Form submission
         $("#register").submit(function (event) {
             event.preventDefault();
 
-            var userData = {
-                name: $("#username").val(),
-                email: $("#email").val(),
-                phoneNumber: $("#phone_number").val(),
-                password: $("#password").val(),
-                role: $("#role").val(),
+            // Validate terms checkbox
+            if (!$("#termsCheck").is(":checked")) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terms Not Accepted',
+                    text: 'You must agree to the Terms & Conditions to register.',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            const username = $("#username").val().trim();
+            const email = $("#email").val().trim();
+            const phoneNumber = $("#phone_number").val().trim();
+            const password = $("#password").val().trim();
+            const role = $("#role").val();
+
+            // Basic validation
+            if (!username || !email || !phoneNumber || !password) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Missing Information',
+                    text: 'Please fill in all required fields.',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Email',
+                    text: 'Please enter a valid email address.',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            // Phone number validation
+            if (phoneNumber.length < 8 || !/^\d+$/.test(phoneNumber)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Phone Number',
+                    text: 'Please enter a valid phone number with at least 8 digits.',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            // Password validation
+            if (password.length < 6) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Weak Password',
+                    text: 'Password must be at least 6 characters long.',
+                    confirmButtonColor: '#4e73df'
+                });
+                return;
+            }
+
+            const userData = {
+                name: username,
+                email: email,
+                phoneNumber: phoneNumber,
+                password: password,
+                role: role
             };
+
+            // Show loading indicator
+            Swal.fire({
+                title: 'Creating Your Account',
+                html: 'Please wait while we set up your account...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
             $.ajax({
                 url: "http://localhost:8080/api/v1/user/register",
@@ -203,16 +572,65 @@
                 contentType: "application/json",
                 data: JSON.stringify(userData),
                 success: function (response) {
-                    alert("Registration successful!");
-                    if (userData.role === "ADMIN") {
-                        window.location.href = "admin_dashboard.html";
-                    } else {
-                        window.location.href = "index.html";
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registration Successful!',
+                        html: `
+                            <div style="text-align: center;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#4e73df" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                </svg>
+                                <h4 class="mt-3" style="color: #4e73df;">Welcome, ${username}!</h4>
+                                <p>Your account has been successfully created.</p>
+                                ${role === "ADMIN" ?
+                            '<p>You will be redirected to the admin dashboard.</p>' :
+                            '<p>You will be redirected to the home page.</p>'}
+                            </div>
+                        `,
+                        confirmButtonColor: '#4e73df',
+                        confirmButtonText: 'Continue'
+                    }).then(() => {
+                        if (role === "ADMIN") {
+                            window.location.href = "admin_dashboard.html";
+                        } else {
+                            window.location.href = "index.html";
+                        }
+                    });
+                },
+                error: function (xhr) {
+                    let errorMessage = "Registration failed. Please try again.";
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    } else if (xhr.status === 409) {
+                        errorMessage = "This email is already registered. Please use a different email or login.";
                     }
-                },
-                error: function (xhr, status, error) {
-                    alert("Registration failed: " + xhr.responseText);
-                },
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        text: errorMessage,
+                        confirmButtonColor: '#4e73df'
+                    });
+                }
+            });
+        });
+
+        // Social login buttons
+        $(".btn-facebook").click(function() {
+            Swal.fire({
+                title: 'Facebook Login',
+                text: 'This feature is coming soon!',
+                icon: 'info',
+                confirmButtonColor: '#4e73df'
+            });
+        });
+
+        $(".btn-google").click(function() {
+            Swal.fire({
+                title: 'Google Login',
+                text: 'This feature is coming soon!',
+                icon: 'info',
+                confirmButtonColor: '#4e73df'
             });
         });
     });

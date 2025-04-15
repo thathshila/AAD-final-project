@@ -1,3 +1,219 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Product Details</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="assets/css/styles.css">-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="container mt-5">-->
+<!--    <div class="row">-->
+<!--        &lt;!&ndash; Product Images Section &ndash;&gt;-->
+<!--        <div class="col-md-6" id="product-images">-->
+<!--            &lt;!&ndash; Images will be loaded here &ndash;&gt;-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Product Details Section &ndash;&gt;-->
+<!--        <div class="col-md-6">-->
+<!--            <h1 id="product-name" class="mb-3"></h1>-->
+<!--            <div id="product-category" class="badge bg-secondary mb-3"></div>-->
+
+<!--            <div class="color-options mb-4" id="color-options">-->
+<!--                <h5>Choose your colour <span class="text-danger">*</span></h5>-->
+<!--                <div class="d-flex gap-3" id="color-choices">-->
+<!--                    &lt;!&ndash; Color options will be loaded here &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="storage-options mb-4" id="storage-options">-->
+<!--                <h5>Choose your storage <span class="text-danger">*</span></h5>-->
+<!--                <div class="d-flex gap-3" id="storage-choices">-->
+<!--                    &lt;!&ndash; Storage options will be loaded here &ndash;&gt;-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="price-section mb-4">-->
+<!--                <h5>Price</h5>-->
+<!--                <h2 id="product-price"></h2>-->
+<!--            </div>-->
+
+<!--            <div class="d-flex gap-3 mb-4">-->
+<!--                &lt;!&ndash; Remove onclick attribute to prevent immediate navigation &ndash;&gt;-->
+<!--                <button id="add-to-cart" class="btn btn-primary" style="background-color: #0a7567">ADD TO CART</button>-->
+<!--                <button id="compare" class="btn btn-outline-secondary">COMPARE PHONE</button>-->
+<!--            </div>-->
+
+<!--            <div class="login-notice bg-light p-3 rounded">-->
+<!--                <p>Login to see personalized offers for you.</p>-->
+<!--            </div>-->
+
+<!--            <div class="bank-offers mt-4">-->
+<!--                <h5>Available bank offers</h5>-->
+<!--                <hr>-->
+<!--            </div>-->
+
+<!--            <div class="features mt-4">-->
+<!--                <h3>Features</h3>-->
+<!--                <ul id="features-list">-->
+<!--                    &lt;!&ndash; Features will be loaded here &ndash;&gt;-->
+<!--                </ul>-->
+<!--            </div>-->
+
+<!--            <div class="description mt-4">-->
+<!--                <h3>Description</h3>-->
+<!--                <p id="product-description"></p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        const urlParams = new URLSearchParams(window.location.search);-->
+<!--        const itemId = urlParams.get('id');-->
+
+<!--        if (!itemId) {-->
+<!--            showError("No item selected");-->
+<!--            return;-->
+<!--        }-->
+<!--        let authToken = localStorage.getItem("authToken");-->
+
+<!--        $.ajax({-->
+<!--            url: `http://localhost:8080/api/v1/item/getById/${itemId}`,-->
+<!--            method: 'GET',-->
+<!--            headers: {"Authorization": `Bearer ${authToken}`},-->
+<!--            success: function(response) {-->
+<!--                if (response.code === 200 && response.data) {-->
+<!--                    displayItemDetails(response.data);-->
+<!--                } else {-->
+<!--                    showError("Failed to load product details");-->
+<!--                }-->
+<!--            },-->
+<!--            error: function(err) {-->
+<!--                console.error("Error fetching item details:", err);-->
+<!--                showError("Error loading product details");-->
+<!--            }-->
+<!--        });-->
+<!--        $(document).on('click', '#add-to-cart', function() {-->
+<!--            if (!itemId) return;-->
+
+<!--            const selectedColor = $('.color-option.selected').data('color') || '';-->
+<!--            const selectedStorage = $('.storage-option.selected').data('storage') || '';-->
+
+<!--            addToCart({-->
+<!--                itemId: itemId,-->
+<!--                quantity: 1,-->
+<!--                color: selectedColor,-->
+<!--                storage: selectedStorage-->
+<!--            });-->
+<!--            window.location.href = 'cart.html';-->
+<!--        });-->
+<!--    });-->
+
+<!--    function displayItemDetails(item) {-->
+<!--        $('#product-name').text(item.name);-->
+<!--        $('#product-category').text(item.category);-->
+<!--        $('#product-price').text(`Rs. ${item.price.toFixed(2)}`);-->
+<!--        $('#product-description').text(item.description);-->
+
+
+<!--        const imageUrl = `http://localhost:8080/uploads/${item.image}`;-->
+<!--        $('#product-images').html(`-->
+<!--        <div class="main-image mb-3">-->
+<!--            <img src="${imageUrl}" alt="${item.name}" class="img-fluid rounded">-->
+<!--        </div>-->
+<!--        <div class="thumbnails d-flex gap-2">-->
+<!--            <div class="thumbnail selected">-->
+<!--                <img src="${imageUrl}" alt="${item.name}" class="img-thumbnail">-->
+<!--            </div>-->
+<!--            <div class="thumbnail">-->
+<!--                <img src="${imageUrl}" alt="Side view" class="img-thumbnail">-->
+<!--            </div>-->
+<!--            <div class="thumbnail">-->
+<!--                <img src="${imageUrl}" alt="Back view" class="img-thumbnail">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    `);-->
+
+
+<!--        $('#color-choices').html(`-->
+<!--        <div class="color-option selected" data-color="Starry Blue">-->
+<!--            <div class="color-circle bg-primary"></div>-->
+<!--            <span>Starry Blue</span>-->
+<!--        </div>-->
+<!--        <div class="color-option" data-color="Satin Black">-->
+<!--            <div class="color-circle bg-dark"></div>-->
+<!--            <span>Satin Black</span>-->
+<!--        </div>-->
+<!--    `);-->
+
+<!--        $('#storage-choices').html(`-->
+<!--        <div class="storage-option selected" data-storage="256GB">-->
+<!--            <div class="storage-box border rounded p-3 text-center">-->
+<!--                256GB-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    `);-->
+
+
+<!--        let featuresList = [-->
+<!--            "Comes with Ai",-->
+<!--            "50MP Dual Camera co-engineered with Zeiss optics",-->
+<!--            "Qualcomm SM7550-AB Snapdragon 7 Gen 3 (4 nm)",-->
+<!--            "6000 mAh Battery"-->
+<!--        ];-->
+
+<!--        let featuresHtml = '';-->
+<!--        featuresList.forEach(feature => {-->
+<!--            featuresHtml += `<li>${feature}</li>`;-->
+<!--        });-->
+
+<!--        $('#features-list').html(featuresHtml);-->
+
+<!--        $('.color-option').click(function() {-->
+<!--            $('.color-option').removeClass('selected');-->
+<!--            $(this).addClass('selected');-->
+<!--        });-->
+
+<!--        $('.storage-option').click(function() {-->
+<!--            $('.storage-option').removeClass('selected');-->
+<!--            $(this).addClass('selected');-->
+<!--        });-->
+<!--    }-->
+
+<!--    function showError(message) {-->
+<!--        $('.container').html(`-->
+<!--        <div class="alert alert-danger mt-5" role="alert">-->
+<!--            ${message}-->
+<!--        </div>-->
+<!--    `);-->
+<!--    }-->
+
+<!--    function addToCart(item) {-->
+<!--        let cartItems = localStorage.getItem('cartItems');-->
+<!--        cartItems = cartItems ? JSON.parse(cartItems) : [];-->
+
+<!--        const existingItemIndex = cartItems.findIndex(cartItem =>-->
+<!--            cartItem.itemId === item.itemId &&-->
+<!--            cartItem.color === item.color &&-->
+<!--            cartItem.storage === item.storage-->
+<!--        );-->
+
+<!--        if (existingItemIndex !== -1) {-->
+<!--            cartItems[existingItemIndex].quantity += item.quantity;-->
+<!--        } else {-->
+<!--            cartItems.push(item);-->
+<!--        }-->
+<!--        localStorage.setItem('cartItems', JSON.stringify(cartItems));-->
+<!--        alert("Item added to cart!");-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +222,8 @@
     <title>Product Details</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -41,7 +259,6 @@
             </div>
 
             <div class="d-flex gap-3 mb-4">
-                <!-- Remove onclick attribute to prevent immediate navigation -->
                 <button id="add-to-cart" class="btn btn-primary" style="background-color: #0a7567">ADD TO CART</button>
                 <button id="compare" class="btn btn-outline-secondary">COMPARE PHONE</button>
             </div>
@@ -70,7 +287,11 @@
     </div>
 </div>
 
+<!-- Bootstrap JS Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     $(document).ready(function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -82,11 +303,22 @@
         }
         let authToken = localStorage.getItem("authToken");
 
+        // Show loading indicator while fetching product details
+        Swal.fire({
+            title: 'Loading Product',
+            html: 'Please wait while we load the product details...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
         $.ajax({
             url: `http://localhost:8080/api/v1/item/getById/${itemId}`,
             method: 'GET',
             headers: {"Authorization": `Bearer ${authToken}`},
             success: function(response) {
+                Swal.close();
                 if (response.code === 200 && response.data) {
                     displayItemDetails(response.data);
                 } else {
@@ -94,23 +326,37 @@
                 }
             },
             error: function(err) {
+                Swal.close();
                 console.error("Error fetching item details:", err);
                 showError("Error loading product details");
             }
         });
+
         $(document).on('click', '#add-to-cart', function() {
             if (!itemId) return;
 
             const selectedColor = $('.color-option.selected').data('color') || '';
             const selectedStorage = $('.storage-option.selected').data('storage') || '';
 
-            addToCart({
-                itemId: itemId,
-                quantity: 1,
-                color: selectedColor,
-                storage: selectedStorage
+            // Show confirmation dialog
+            Swal.fire({
+                title: 'Add to Cart',
+                text: 'Are you sure you want to add this item to your cart?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0a7567',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, add to cart!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    addToCart({
+                        itemId: itemId,
+                        quantity: 1,
+                        color: selectedColor,
+                        storage: selectedStorage
+                    });
+                }
             });
-            window.location.href = 'cart.html';
         });
     });
 
@@ -120,45 +366,42 @@
         $('#product-price').text(`Rs. ${item.price.toFixed(2)}`);
         $('#product-description').text(item.description);
 
-
         const imageUrl = `http://localhost:8080/uploads/${item.image}`;
         $('#product-images').html(`
-        <div class="main-image mb-3">
-            <img src="${imageUrl}" alt="${item.name}" class="img-fluid rounded">
-        </div>
-        <div class="thumbnails d-flex gap-2">
-            <div class="thumbnail selected">
-                <img src="${imageUrl}" alt="${item.name}" class="img-thumbnail">
+            <div class="main-image mb-3">
+                <img src="${imageUrl}" alt="${item.name}" class="img-fluid rounded">
             </div>
-            <div class="thumbnail">
-                <img src="${imageUrl}" alt="Side view" class="img-thumbnail">
+            <div class="thumbnails d-flex gap-2">
+                <div class="thumbnail selected">
+                    <img src="${imageUrl}" alt="${item.name}" class="img-thumbnail">
+                </div>
+                <div class="thumbnail">
+                    <img src="${imageUrl}" alt="Side view" class="img-thumbnail">
+                </div>
+                <div class="thumbnail">
+                    <img src="${imageUrl}" alt="Back view" class="img-thumbnail">
+                </div>
             </div>
-            <div class="thumbnail">
-                <img src="${imageUrl}" alt="Back view" class="img-thumbnail">
-            </div>
-        </div>
-    `);
-
+        `);
 
         $('#color-choices').html(`
-        <div class="color-option selected" data-color="Starry Blue">
-            <div class="color-circle bg-primary"></div>
-            <span>Starry Blue</span>
-        </div>
-        <div class="color-option" data-color="Satin Black">
-            <div class="color-circle bg-dark"></div>
-            <span>Satin Black</span>
-        </div>
-    `);
+            <div class="color-option selected" data-color="Starry Blue">
+                <div class="color-circle bg-primary"></div>
+                <span>Starry Blue</span>
+            </div>
+            <div class="color-option" data-color="Satin Black">
+                <div class="color-circle bg-dark"></div>
+                <span>Satin Black</span>
+            </div>
+        `);
 
         $('#storage-choices').html(`
-        <div class="storage-option selected" data-storage="256GB">
-            <div class="storage-box border rounded p-3 text-center">
-                256GB
+            <div class="storage-option selected" data-storage="256GB">
+                <div class="storage-box border rounded p-3 text-center">
+                    256GB
+                </div>
             </div>
-        </div>
-    `);
-
+        `);
 
         let featuresList = [
             "Comes with Ai",
@@ -186,11 +429,14 @@
     }
 
     function showError(message) {
-        $('.container').html(`
-        <div class="alert alert-danger mt-5" role="alert">
-            ${message}
-        </div>
-    `);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message,
+            confirmButtonColor: '#0a7567'
+        }).then(() => {
+            window.location.href = 'index.html';
+        });
     }
 
     function addToCart(item) {
@@ -208,8 +454,23 @@
         } else {
             cartItems.push(item);
         }
+
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
-        alert("Item added to cart!");
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Added to Cart!',
+            text: 'Your item has been added to the cart',
+            showCancelButton: true,
+            confirmButtonColor: '#0a7567',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'View Cart',
+            cancelButtonText: 'Continue Shopping'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'cart.html';
+            }
+        });
     }
 </script>
 </body>

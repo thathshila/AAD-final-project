@@ -1,9 +1,405 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>SLT Mobitel Payment Form</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            background-color: #f9f9f9;-->
+<!--        }-->
+
+<!--        .header {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            padding: 20px 10%;-->
+<!--            background-color: white;-->
+<!--            border-bottom: 1px solid #eee;-->
+<!--        }-->
+
+<!--        .logo img {-->
+<!--            height: 40px;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            padding: 30px 10%;-->
+<!--            gap: 20px;-->
+<!--        }-->
+
+<!--        .payment-form {-->
+<!--            flex: 2;-->
+<!--            background-color: white;-->
+<!--            border-radius: 8px;-->
+<!--            padding: 20px;-->
+<!--            box-shadow: 0 1px 3px rgba(0,0,0,0.1);-->
+<!--        }-->
+
+<!--        .order-summary {-->
+<!--            flex: 1;-->
+<!--            background-color: white;-->
+<!--            border-radius: 8px;-->
+<!--            padding: 20px;-->
+<!--            box-shadow: 0 1px 3px rgba(0,0,0,0.1);-->
+<!--        }-->
+
+<!--        .form-title {-->
+<!--            color: #0066cc;-->
+<!--            margin-bottom: 20px;-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            font-size: 18px;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .form-title .lock-icon {-->
+<!--            margin-left: 10px;-->
+<!--            color: #f9a825;-->
+<!--        }-->
+
+<!--        .form-row {-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .form-row label {-->
+<!--            display: block;-->
+<!--            margin-bottom: 8px;-->
+<!--            color: #444;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .form-row input, .form-row select {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 4px;-->
+<!--            box-sizing: border-box;-->
+<!--        }-->
+
+<!--        .required-field {-->
+<!--            color: #0066cc;-->
+<!--            font-size: 12px;-->
+<!--            text-align: right;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .asterisk {-->
+<!--            color: #0066cc;-->
+<!--        }-->
+
+<!--        .card-options {-->
+<!--            display: flex;-->
+<!--            gap: 30px;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .card-option {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 10px;-->
+<!--        }-->
+
+<!--        .card-logo {-->
+<!--            height: 25px;-->
+<!--        }-->
+
+<!--        .cvv-help {-->
+<!--            display: flex;-->
+<!--            align-items: center;-->
+<!--            gap: 10px;-->
+<!--        }-->
+
+<!--        .cvv-text {-->
+<!--            font-size: 12px;-->
+<!--            color: #0066cc;-->
+<!--        }-->
+
+<!--        .cvv-img {-->
+<!--            height: 30px;-->
+<!--        }-->
+
+<!--        .exp-date {-->
+<!--            display: flex;-->
+<!--            gap: 20px;-->
+<!--        }-->
+
+<!--        .exp-month, .exp-year {-->
+<!--            flex: 1;-->
+<!--        }-->
+
+<!--        .cvv-field {-->
+<!--            width: 80px !important;-->
+<!--        }-->
+
+<!--        .button-row {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            margin-top: 30px;-->
+<!--        }-->
+
+<!--        .cancel-btn {-->
+<!--            padding: 10px 20px;-->
+<!--            background-color: white;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 4px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .pay-btn {-->
+<!--            padding: 10px 50px;-->
+<!--            background-color: #f0f7fd;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 4px;-->
+<!--            color: #0066cc;-->
+<!--            font-weight: bold;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        .order-title {-->
+<!--            color: #0066cc;-->
+<!--            border-bottom: 1px solid #eee;-->
+<!--            padding-bottom: 10px;-->
+<!--            margin-bottom: 20px;-->
+<!--            font-size: 18px;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .total-row {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            margin-bottom: 10px;-->
+<!--            color: #555;-->
+<!--        }-->
+
+<!--        .total-amount {-->
+<!--            font-size: 24px;-->
+<!--            color: #0066cc;-->
+<!--            text-align: right;-->
+<!--            margin-top: 10px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="header">-->
+<!--    <div class="logo">-->
+<!--        <img src="/api/placeholder/150/50" alt="SLT Mobitel Logo">-->
+<!--    </div>-->
+<!--    <div class="logo">-->
+<!--        <img src="/api/placeholder/100/50" alt="HNB IPG Logo">-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="container">-->
+<!--    <div class="payment-form">-->
+<!--        <div class="form-title">-->
+<!--            Payment Details <span class="lock-icon">🔒</span>-->
+<!--        </div>-->
+
+<!--        <div class="required-field">* Required field</div>-->
+
+<!--        <div class="form-row">-->
+<!--            <label for="card-type">Card Type <span class="asterisk">*</span></label>-->
+<!--            <div class="card-options">-->
+<!--                <div class="card-option">-->
+<!--                    <input type="radio" id="visa" name="card-type" value="visa">-->
+<!--                    <img src="/api/placeholder/40/25" alt="Visa" class="card-logo">-->
+<!--                    <label for="visa">Visa</label>-->
+<!--                </div>-->
+<!--                <div class="card-option">-->
+<!--                    <input type="radio" id="mastercard" name="card-type" value="mastercard">-->
+<!--                    <img src="/api/placeholder/40/25" alt="Mastercard" class="card-logo">-->
+<!--                    <label for="mastercard">Mastercard</label>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="form-row">-->
+<!--            <label for="card-number">Card Number <span class="asterisk">*</span></label>-->
+<!--            <input type="text" id="card-number" name="card-number" placeholder="">-->
+<!--        </div>-->
+
+<!--        <div class="form-row exp-date">-->
+<!--            <div class="exp-month">-->
+<!--                <label for="exp-month">Expiration Month <span class="asterisk">*</span></label>-->
+<!--                <select id="exp-month" name="exp-month">-->
+<!--                    <option value="">Month</option>-->
+<!--                    <option value="01">01</option>-->
+<!--                    <option value="02">02</option>-->
+<!--                    <option value="03">03</option>-->
+<!--                    <option value="04">04</option>-->
+<!--                    <option value="05">05</option>-->
+<!--                    <option value="06">06</option>-->
+<!--                    <option value="07">07</option>-->
+<!--                    <option value="08">08</option>-->
+<!--                    <option value="09">09</option>-->
+<!--                    <option value="10">10</option>-->
+<!--                    <option value="11">11</option>-->
+<!--                    <option value="12">12</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <div class="exp-year">-->
+<!--                <label for="exp-year">Expiration Year <span class="asterisk">*</span></label>-->
+<!--                <select id="exp-year" name="exp-year">-->
+<!--                    <option value="">Year</option>-->
+<!--                    <option value="2025">2025</option>-->
+<!--                    <option value="2026">2026</option>-->
+<!--                    <option value="2027">2027</option>-->
+<!--                    <option value="2028">2028</option>-->
+<!--                    <option value="2029">2029</option>-->
+<!--                    <option value="2030">2030</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="form-row">-->
+<!--            <label for="cvv">CVN <span class="asterisk">*</span></label>-->
+<!--            <div class="cvv-help">-->
+<!--                <input type="text" id="cvv" name="cvv" class="cvv-field">-->
+<!--                <img src="/api/placeholder/50/30" alt="CVV Help" class="cvv-img">-->
+<!--                <span class="cvv-text">This code is a three or four digit number printed on the back or front of credit cards.</span>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="button-row">-->
+<!--            <button class="cancel-btn">Cancel</button>-->
+<!--            <button class="pay-btn">Pay</button>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="order-summary">-->
+<!--        <div class="order-title">Your Order</div>-->
+
+<!--        <div class="total-row">-->
+<!--            <span>Total amount</span>-->
+<!--        </div>-->
+
+<!--        <div class="total-amount"> Rs</div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--<script>-->
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+<!--        let authToken = localStorage.getItem("authToken");-->
+
+<!--        const amount = localStorage.getItem("amount");-->
+<!--        if (amount) {-->
+<!--            document.querySelector(".total-amount").innerText = "Rs. " + amount;-->
+<!--        }-->
+
+<!--        document.querySelector(".pay-btn").addEventListener("click", function(e) {-->
+<!--            e.preventDefault();-->
+
+<!--            const cardType = document.querySelector('input[name="card-type"]:checked');-->
+<!--            const cardNumber = document.getElementById("card-number").value;-->
+<!--            const expMonth = document.getElementById("exp-month").value;-->
+<!--            const expYear = document.getElementById("exp-year").value;-->
+<!--            const cvv = document.getElementById("cvv").value;-->
+
+<!--            if (!cardType || !cardNumber || !expMonth || !expYear || !cvv) {-->
+<!--                alert("Please fill in all required payment fields");-->
+<!--                return;-->
+<!--            }-->
+
+<!--            const phoneNumber = localStorage.getItem('mobileNumber');-->
+<!--            const amount = localStorage.getItem('amount');-->
+<!--            const email = localStorage.getItem('email');-->
+
+<!--            if (!phoneNumber || !amount || !email) {-->
+<!--                alert("Missing required information. Please go back and fill in all details.");-->
+<!--                return;-->
+<!--            }-->
+
+<!--            const reloadData = {-->
+<!--                phoneNumber: phoneNumber,-->
+<!--                amount: parseFloat(amount),-->
+<!--                email: email,-->
+<!--                credit_bundle_id: 2-->
+<!--            };-->
+
+<!--            fetch('http://localhost:8080/api/v1/reload/save', {-->
+<!--                method: 'POST',-->
+<!--                headers: {-->
+<!--                    "Authorization": `Bearer ${authToken}`,-->
+<!--                    'Content-Type': 'application/json'-->
+<!--                },-->
+<!--                body: JSON.stringify(reloadData)-->
+<!--            })-->
+<!--                .then(response => {-->
+<!--                    if (!response.ok) {-->
+<!--                        throw new Error('Network response was not ok');-->
+<!--                    }-->
+<!--                    return response.json();-->
+<!--                })-->
+<!--                .then(data => {-->
+<!--                    const emailData = {-->
+<!--                        to: email,-->
+<!--                        subject: "Your SLT Mobitel Payment Was Successful",-->
+<!--                        phoneNumber: phoneNumber,-->
+<!--                        amount: amount,-->
+<!--                        transactionId: generateTransactionId(),-->
+<!--                        timestamp: new Date().toISOString()-->
+<!--                    };-->
+
+<!--                    return fetch('http://localhost:8080/api/v1/email/send-payment-confirmation', {-->
+<!--                        method: 'POST',-->
+<!--                        headers: {-->
+<!--                            "Authorization": `Bearer ${authToken}`,-->
+<!--                            'Content-Type': 'application/json'-->
+<!--                        },-->
+<!--                        body: JSON.stringify(emailData)-->
+<!--                    });-->
+<!--                })-->
+<!--                .then(response => {-->
+<!--                    if (!response.ok) {-->
+<!--                        throw new Error('Failed to send confirmation email');-->
+<!--                    }-->
+<!--                    const contentType = response.headers.get('content-type');-->
+<!--                    if (contentType && contentType.includes('application/json')) {-->
+<!--                        return response.json();-->
+<!--                    } else {-->
+<!--                        return Promise.resolve({ status: 'success' });-->
+<!--                    }-->
+<!--                })-->
+<!--                .then(data => {-->
+<!--                    alert("Payment successful! A confirmation email has been sent to your email address.");-->
+<!--                    localStorage.removeItem('mobileNumber');-->
+<!--                    localStorage.removeItem('amount');-->
+<!--                    localStorage.removeItem('email');-->
+<!--                    window.location.href = "success.html";-->
+<!--                })-->
+<!--                .catch(error => {-->
+<!--                    console.error('Error:', error);-->
+<!--                    alert("Error processing the payment: " + error.message);-->
+<!--                });-->
+<!--        });-->
+
+<!--        document.querySelector(".cancel-btn").addEventListener("click", function() {-->
+<!--            if(confirm("Are you sure you want to cancel this payment?")) {-->
+<!--                window.location.href = "pay2.html";-->
+<!--            }-->
+<!--        });-->
+
+<!--        function generateTransactionId() {-->
+<!--            return 'TXN' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SLT Mobitel Payment Form</title>
+    <!-- Add SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -148,16 +544,26 @@
             border: 1px solid #ddd;
             border-radius: 4px;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background-color: #f5f5f5;
         }
 
         .pay-btn {
             padding: 10px 50px;
-            background-color: #f0f7fd;
-            border: 1px solid #ddd;
+            background-color: #0066cc;
+            border: 1px solid #0066cc;
             border-radius: 4px;
-            color: #0066cc;
+            color: white;
             font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pay-btn:hover {
+            background-color: #0055aa;
         }
 
         .order-title {
@@ -181,16 +587,17 @@
             color: #0066cc;
             text-align: right;
             margin-top: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 <div class="header">
     <div class="logo">
-        <img src="/api/placeholder/150/50" alt="SLT Mobitel Logo">
+        <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo">
     </div>
     <div class="logo">
-        <img src="/api/placeholder/100/50" alt="HNB IPG Logo">
+        <img src="https://www.hnb.net/images/hnb-logo.png" alt="HNB IPG Logo" style="height: 50px;">
     </div>
 </div>
 
@@ -207,12 +614,12 @@
             <div class="card-options">
                 <div class="card-option">
                     <input type="radio" id="visa" name="card-type" value="visa">
-                    <img src="/api/placeholder/40/25" alt="Visa" class="card-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa" class="card-logo">
                     <label for="visa">Visa</label>
                 </div>
                 <div class="card-option">
                     <input type="radio" id="mastercard" name="card-type" value="mastercard">
-                    <img src="/api/placeholder/40/25" alt="Mastercard" class="card-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" class="card-logo">
                     <label for="mastercard">Mastercard</label>
                 </div>
             </div>
@@ -220,7 +627,7 @@
 
         <div class="form-row">
             <label for="card-number">Card Number <span class="asterisk">*</span></label>
-            <input type="text" id="card-number" name="card-number" placeholder="">
+            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" maxlength="16">
         </div>
 
         <div class="form-row exp-date">
@@ -259,15 +666,15 @@
         <div class="form-row">
             <label for="cvv">CVN <span class="asterisk">*</span></label>
             <div class="cvv-help">
-                <input type="text" id="cvv" name="cvv" class="cvv-field">
-                <img src="/api/placeholder/50/30" alt="CVV Help" class="cvv-img">
+                <input type="text" id="cvv" name="cvv" class="cvv-field" placeholder="123" maxlength="4">
+                <img src="https://www.cvvnumber.com/cvv.jpg" alt="CVV Help" class="cvv-img" style="height: 40px;">
                 <span class="cvv-text">This code is a three or four digit number printed on the back or front of credit cards.</span>
             </div>
         </div>
 
         <div class="button-row">
-            <button class="cancel-btn">Cancel</button>
-            <button class="pay-btn">Pay</button>
+            <button class="cancel-btn" id="cancelBtn">Cancel</button>
+            <button class="pay-btn" id="payBtn">Pay</button>
         </div>
     </div>
 
@@ -278,20 +685,35 @@
             <span>Total amount</span>
         </div>
 
-        <div class="total-amount"> Rs</div>
+        <div class="total-amount" id="totalAmount">Rs. 0.00</div>
     </div>
 </div>
+
+<!-- Add jQuery and SweetAlert JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let authToken = localStorage.getItem("authToken");
 
+        // Load amount from localStorage
         const amount = localStorage.getItem("amount");
         if (amount) {
-            document.querySelector(".total-amount").innerText = "Rs. " + amount;
+            document.getElementById("totalAmount").innerText = "Rs. " + parseFloat(amount).toFixed(2);
         }
 
-        document.querySelector(".pay-btn").addEventListener("click", function(e) {
+        // Format card number input
+        $('#card-number').on('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Format CVV input
+        $('#cvv').on('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Pay button click handler
+        document.getElementById("payBtn").addEventListener("click", function(e) {
             e.preventDefault();
 
             const cardType = document.querySelector('input[name="card-type"]:checked');
@@ -300,8 +722,54 @@
             const expYear = document.getElementById("exp-year").value;
             const cvv = document.getElementById("cvv").value;
 
-            if (!cardType || !cardNumber || !expMonth || !expYear || !cvv) {
-                alert("Please fill in all required payment fields");
+            // Validate form fields
+            if (!cardType) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Card Type Required',
+                    text: 'Please select your card type (Visa or Mastercard)',
+                    confirmButtonColor: '#0066cc'
+                });
+                return;
+            }
+
+            if (!cardNumber || cardNumber.length < 16) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Card Number',
+                    text: 'Please enter a valid 16-digit card number',
+                    confirmButtonColor: '#0066cc'
+                });
+                return;
+            }
+
+            if (!expMonth) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Expiration Month Required',
+                    text: 'Please select your card\'s expiration month',
+                    confirmButtonColor: '#0066cc'
+                });
+                return;
+            }
+
+            if (!expYear) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Expiration Year Required',
+                    text: 'Please select your card\'s expiration year',
+                    confirmButtonColor: '#0066cc'
+                });
+                return;
+            }
+
+            if (!cvv || (cvv.length !== 3 && cvv.length !== 4)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid CVV',
+                    text: 'Please enter a valid 3 or 4 digit CVV code',
+                    confirmButtonColor: '#0066cc'
+                });
                 return;
             }
 
@@ -310,9 +778,64 @@
             const email = localStorage.getItem('email');
 
             if (!phoneNumber || !amount || !email) {
-                alert("Missing required information. Please go back and fill in all details.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Missing Information',
+                    text: 'Required information is missing. Please go back and fill in all details.',
+                    confirmButtonColor: '#0066cc'
+                });
                 return;
             }
+
+            // Show processing dialog
+            Swal.fire({
+                title: 'Processing Payment',
+                html: `
+                    <div style="text-align: center;">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3">Please wait while we process your payment...</p>
+                        <div class="progress mt-3" style="height: 5px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+                        </div>
+                    </div>
+                `,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    // Simulate payment processing
+                    setTimeout(() => {
+                        processPayment();
+                    }, 3000);
+                }
+            });
+        });
+
+        // Cancel button click handler
+        document.getElementById("cancelBtn").addEventListener("click", function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: 'Cancel Payment?',
+                text: 'Are you sure you want to cancel this payment?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0066cc',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel',
+                cancelButtonText: 'No, continue'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "pay2.html";
+                }
+            });
+        });
+
+        function processPayment() {
+            const phoneNumber = localStorage.getItem('mobileNumber');
+            const amount = localStorage.getItem('amount');
+            const email = localStorage.getItem('email');
 
             const reloadData = {
                 phoneNumber: phoneNumber,
@@ -336,13 +859,14 @@
                     return response.json();
                 })
                 .then(data => {
+                    const transactionId = generateTransactionId();
                     const emailData = {
                         to: email,
                         subject: "Your SLT Mobitel Payment Was Successful",
                         phoneNumber: phoneNumber,
                         amount: amount,
-                        transactionId: generateTransactionId(),
-                        timestamp: new Date().toISOString()
+                        transactionId: transactionId,
+                        timestamp: new Date().toLocaleString()
                     };
 
                     return fetch('http://localhost:8080/api/v1/email/send-payment-confirmation', {
@@ -352,40 +876,61 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify(emailData)
-                    });
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to send confirmation email');
-                    }
-                    const contentType = response.headers.get('content-type');
-                    if (contentType && contentType.includes('application/json')) {
-                        return response.json();
-                    } else {
-                        return Promise.resolve({ status: 'success' });
-                    }
+                    })
+                        .then(() => {
+                            return { transactionId: transactionId }; // Return transaction ID for success message
+                        });
                 })
                 .then(data => {
-                    alert("Payment successful! A confirmation email has been sent to your email address.");
-                    localStorage.removeItem('mobileNumber');
-                    localStorage.removeItem('amount');
-                    localStorage.removeItem('email');
-                    window.location.href = "success.html";
+                    // Show success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Payment Successful!',
+                        html: `
+                        <div style="text-align: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#0066cc" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                            </svg>
+                            <h4 class="mt-3" style="color: #0066cc;">Thank you for your payment!</h4>
+                            <div style="text-align: left; margin-top: 20px;">
+                                <p><strong>Amount:</strong> Rs. ${parseFloat(amount).toFixed(2)}</p>
+                                <p><strong>Mobile Number:</strong> ${phoneNumber}</p>
+                                <p><strong>Transaction ID:</strong> ${data.transactionId}</p>
+                                <p>A confirmation email has been sent to ${email}</p>
+                            </div>
+                        </div>
+                    `,
+                        confirmButtonColor: '#0066cc',
+                        confirmButtonText: 'Finish'
+                    }).then(() => {
+                        // Clear localStorage and redirect to home
+                        localStorage.removeItem('mobileNumber');
+                        localStorage.removeItem('amount');
+                        localStorage.removeItem('email');
+                        window.location.href = "success.html";
+                    });
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("Error processing the payment: " + error.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Payment Failed',
+                        html: `
+                        <div style="text-align: center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#d33" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                            </svg>
+                            <h4 class="mt-3" style="color: #d33;">Payment Processing Error</h4>
+                            <p>${error.message || 'An error occurred while processing your payment. Please try again.'}</p>
+                        </div>
+                    `,
+                        confirmButtonColor: '#0066cc'
+                    });
                 });
-        });
-
-        document.querySelector(".cancel-btn").addEventListener("click", function() {
-            if(confirm("Are you sure you want to cancel this payment?")) {
-                window.location.href = "pay2.html";
-            }
-        });
+        }
 
         function generateTransactionId() {
-            return 'TXN' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+            return 'MOB' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
         }
     });
 </script>

@@ -1,3 +1,256 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Supplier Management</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--            background-image: url('assets/img/hero-carousel-1.jpg');-->
+<!--            background-size: cover;-->
+<!--            background-position: center;-->
+<!--            background-attachment: fixed;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        .content-container {-->
+<!--            margin-top: 80px;-->
+<!--            padding: 20px;-->
+<!--        }-->
+
+<!--        .form-container {-->
+<!--            background: rgba(255, 255, 255, 0.9);-->
+<!--            padding: 30px;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .form-container h3 {-->
+<!--            text-align: center;-->
+<!--            margin-bottom: 20px;-->
+<!--            color: #00695c;-->
+<!--        }-->
+
+<!--        .btn-container button {-->
+<!--            width: 100%;-->
+<!--            margin-top: 10px;-->
+<!--            transition: opacity 0.3s ease;-->
+<!--        }-->
+
+<!--        .btn-container button:hover {-->
+<!--            opacity: 0.8;-->
+<!--        }-->
+
+<!--        .card-container {-->
+<!--            display: flex;-->
+<!--            flex-wrap: wrap;-->
+<!--            gap: 20px;-->
+<!--            justify-content: start;-->
+<!--        }-->
+
+<!--        .supplier-card {-->
+<!--            background: rgba(255, 255, 255, 0.9);-->
+<!--            color: #333;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 10px;-->
+<!--            width: calc(33.333% - 20px);-->
+<!--            text-align: center;-->
+<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);-->
+<!--            cursor: pointer;-->
+<!--            transition: all 0.3s ease;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .supplier-card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);-->
+<!--        }-->
+
+<!--        .supplier-card h5 {-->
+<!--            color: #00695c;-->
+<!--        }-->
+
+<!--        .supplier-card p {-->
+<!--            color: #666;-->
+<!--        }-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .supplier-card {-->
+<!--                width: 100%;-->
+<!--            }-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash; Content Container &ndash;&gt;-->
+<!--<div class="content-container">-->
+<!--    <div class="form-container">-->
+<!--        <h3>MANAGE SUPPLIERS</h3>-->
+<!--        <form id="supplierForm">-->
+<!--            <input type="hidden" id="supplierId">-->
+<!--            <div class="mb-3">-->
+<!--                <label class="form-label">Supplier Name</label>-->
+<!--                <input type="text" id="name" class="form-control" placeholder="Enter supplier name">-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--                <label class="form-label">Contact Email</label>-->
+<!--                <input type="email" id="contactEmail" class="form-control" placeholder="Enter email">-->
+<!--            </div>-->
+<!--            <div class="mb-3">-->
+<!--                <label class="form-label">Contact Phone</label>-->
+<!--                <input type="text" id="contactPhone" class="form-control" placeholder="Enter phone number">-->
+<!--            </div>-->
+<!--            <div class="btn-container">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-6 mb-2">-->
+<!--                        <button type="submit" class="btn btn-success">Save</button>-->
+<!--                    </div>-->
+<!--                    <div class="col-6 mb-2">-->
+<!--                        <button type="button" class="btn btn-danger" onclick="deleteSupplier()">Delete</button>-->
+<!--                    </div>-->
+<!--                    <div class="col-6 mb-2">-->
+<!--                        <button type="button" class="btn btn-info" onclick="viewSuppliers()">View</button>-->
+<!--                    </div>-->
+<!--                    <div class="col-6 mb-2">-->
+<!--                        <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--    <div class="card-container" id="supplierList">-->
+<!--        &lt;!&ndash; Suppliers will be displayed here dynamically &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    let authToken = localStorage.getItem("authToken");-->
+
+<!--    $(document).ready(function () {-->
+<!--        viewSuppliers();-->
+
+<!--        $("#supplierForm").submit(function (event) {-->
+<!--            event.preventDefault();-->
+
+<!--            let supplierId = $("#supplierId").val();-->
+<!--            let name = $("#name").val().trim();-->
+<!--            let contactEmail = $("#contactEmail").val().trim();-->
+<!--            let contactPhone = $("#contactPhone").val().trim();-->
+
+<!--            if (!name || !contactEmail || !contactPhone) {-->
+<!--                alert("Please enter all fields!");-->
+<!--                return;-->
+<!--            }-->
+
+<!--            let apiUrl = "http://localhost:8080/api/v1/supplier/save";-->
+<!--            let methodType = "POST";-->
+<!--            let requestData = { name, contactEmail, contactPhone };-->
+
+<!--            if (supplierId) {-->
+<!--                apiUrl = `http://localhost:8080/api/v1/supplier/update/${supplierId}`;-->
+<!--                methodType = "PUT";-->
+<!--                requestData.supplierId = supplierId;-->
+<!--            }-->
+
+<!--            $.ajax({-->
+<!--                url: apiUrl,-->
+<!--                type: methodType,-->
+<!--                contentType: "application/json",-->
+<!--                data: JSON.stringify(requestData),-->
+<!--                headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--                success: function () {-->
+<!--                    alert(supplierId ? "Supplier updated successfully!" : "Supplier saved successfully!");-->
+<!--                    clearForm();-->
+<!--                    viewSuppliers();-->
+<!--                },-->
+<!--                error: function (xhr) {-->
+<!--                    alert("Operation failed: " + xhr.responseText);-->
+<!--                },-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+
+
+<!--    function deleteSupplier() {-->
+<!--        let supplierId = $("#supplierId").val().trim();-->
+
+<!--        if (!supplierId) {-->
+<!--            alert("Please select a supplier to delete.");-->
+<!--            return;-->
+<!--        }-->
+
+<!--        if (!confirm("Are you sure you want to delete this supplier?")) {-->
+<!--            return;-->
+<!--        }-->
+
+<!--        $.ajax({-->
+<!--            url: `http://localhost:8080/api/v1/supplier/delete/${supplierId}`,-->
+<!--            type: "DELETE",-->
+<!--            headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--            success: function () {-->
+<!--                alert("Supplier deleted successfully!");-->
+<!--                clearForm();-->
+<!--                viewSuppliers();-->
+<!--            },-->
+<!--            error: function (xhr) {-->
+<!--                alert("Delete failed: " + xhr.responseText);-->
+<!--            },-->
+<!--        });-->
+<!--    }-->
+
+<!--    function viewSuppliers() {-->
+<!--        $.ajax({-->
+<!--            url: "http://localhost:8080/api/v1/supplier/getAll",-->
+<!--            type: "GET",-->
+<!--            headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--            success: function (response) {-->
+<!--                $("#supplierList").empty();-->
+
+<!--                if (!Array.isArray(response.data)) {-->
+<!--                    console.error("Unexpected response format:", response);-->
+<!--                    alert("Error fetching suppliers. Check console for details.");-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                response.data.forEach(supplier => {-->
+<!--                    $("#supplierList").append(`-->
+<!--                        <div class="supplier-card" onclick="fillForm('${supplier.supplierId}', '${supplier.name}', '${supplier.contactEmail}', '${supplier.contactPhone}')">-->
+<!--                            <h5>${supplier.name}</h5>-->
+<!--                            <p>Email: ${supplier.contactEmail}</p>-->
+<!--                            <p>Phone: ${supplier.contactPhone}</p>-->
+<!--                        </div>-->
+<!--                    `);-->
+<!--                });-->
+<!--            },-->
+<!--            error: function (xhr) {-->
+<!--                console.error("Failed to load suppliers:", xhr.responseText);-->
+<!--                alert("Failed to fetch suppliers.");-->
+<!--            },-->
+<!--        });-->
+<!--    }-->
+
+<!--    function fillForm(supplierId, name, contactEmail, contactPhone) {-->
+<!--        $("#supplierId").val(supplierId);-->
+<!--        $("#name").val(name);-->
+<!--        $("#contactEmail").val(contactEmail);-->
+<!--        $("#contactPhone").val(contactPhone);-->
+<!--    }-->
+
+<!--    function clearForm() {-->
+<!--        $("#supplierId, #name, #contactEmail, #contactPhone").val("");-->
+<!--    }-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +258,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -24,27 +279,31 @@
         }
 
         .form-container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .form-container h3 {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #00695c;
+            font-weight: 600;
         }
 
         .btn-container button {
             width: 100%;
             margin-top: 10px;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .btn-container button:hover {
-            opacity: 0.8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .card-container {
@@ -55,35 +314,78 @@
         }
 
         .supplier-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             color: #333;
             padding: 20px;
             border-radius: 10px;
             width: calc(33.333% - 20px);
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .supplier-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .supplier-card h5 {
             color: #00695c;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .supplier-card p {
-            color: #666;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #00695c;
+            box-shadow: 0 0 0 0.25rem rgba(0, 105, 92, 0.25);
+        }
+
+        @media (max-width: 992px) {
+            .supplier-card {
+                width: calc(50% - 20px);
+            }
         }
 
         @media (max-width: 768px) {
             .supplier-card {
                 width: 100%;
             }
+
+            .btn-container .col-6 {
+                width: 50%;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border: 4px solid rgba(0, 105, 92, 0.1);
+            border-top: 4px solid #00695c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -113,13 +415,13 @@
                         <button type="submit" class="btn btn-success">Save</button>
                     </div>
                     <div class="col-6 mb-2">
-                        <button type="button" class="btn btn-danger" onclick="deleteSupplier()">Delete</button>
+                        <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
                     </div>
                     <div class="col-6 mb-2">
-                        <button type="button" class="btn btn-info" onclick="viewSuppliers()">View</button>
+                        <button type="button" class="btn btn-info" id="viewBtn">View</button>
                     </div>
                     <div class="col-6 mb-2">
-                        <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
+                        <button type="button" class="btn btn-warning" id="clearBtn">Clear</button>
                     </div>
                 </div>
             </div>
@@ -127,9 +429,14 @@
     </div>
 
     <div class="card-container" id="supplierList">
-        <!-- Suppliers will be displayed here dynamically -->
+        <!-- Loading spinner will appear here during API calls -->
+        <div class="spinner" id="loadingSpinner"></div>
     </div>
 </div>
+
+<!-- jQuery, Bootstrap and SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     let authToken = localStorage.getItem("authToken");
@@ -146,7 +453,24 @@
             let contactPhone = $("#contactPhone").val().trim();
 
             if (!name || !contactEmail || !contactPhone) {
-                alert("Please enter all fields!");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Missing Information',
+                    text: 'Please fill in all required fields.',
+                    confirmButtonColor: '#00695c'
+                });
+                return;
+            }
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(contactEmail)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Email',
+                    text: 'Please enter a valid email address.',
+                    confirmButtonColor: '#00695c'
+                });
                 return;
             }
 
@@ -160,6 +484,16 @@
                 requestData.supplierId = supplierId;
             }
 
+            // Show loading indicator
+            Swal.fire({
+                title: supplierId ? 'Updating Supplier...' : 'Saving Supplier...',
+                html: 'Please wait while we process your request',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 url: apiUrl,
                 type: methodType,
@@ -167,72 +501,166 @@
                 data: JSON.stringify(requestData),
                 headers: { "Authorization": `Bearer ${authToken}` },
                 success: function () {
-                    alert(supplierId ? "Supplier updated successfully!" : "Supplier saved successfully!");
-                    clearForm();
-                    viewSuppliers();
+                    Swal.fire({
+                        icon: 'success',
+                        title: supplierId ? 'Supplier Updated!' : 'Supplier Saved!',
+                        text: supplierId ? 'Your supplier has been updated successfully.' : 'Your supplier has been saved successfully.',
+                        confirmButtonColor: '#00695c',
+                        timer: 1500,
+                        timerProgressBar: true
+                    }).then(() => {
+                        clearForm();
+                        viewSuppliers();
+                    });
                 },
                 error: function (xhr) {
-                    alert("Operation failed: " + xhr.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Operation Failed',
+                        text: xhr.responseText || 'An error occurred while processing your request.',
+                        confirmButtonColor: '#00695c'
+                    });
                 },
             });
         });
-    });
 
+        // Delete button click handler
+        $("#deleteBtn").click(function() {
+            deleteSupplier();
+        });
+
+        // View button click handler
+        $("#viewBtn").click(function() {
+            viewSuppliers();
+        });
+
+        // Clear button click handler
+        $("#clearBtn").click(function() {
+            clearForm();
+            Swal.fire({
+                icon: 'success',
+                title: 'Form Cleared',
+                showConfirmButton: false,
+                timer: 1000
+            });
+        });
+    });
 
     function deleteSupplier() {
         let supplierId = $("#supplierId").val().trim();
 
         if (!supplierId) {
-            alert("Please select a supplier to delete.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'No Supplier Selected',
+                text: 'Please select a supplier to delete.',
+                confirmButtonColor: '#00695c'
+            });
             return;
         }
 
-        if (!confirm("Are you sure you want to delete this supplier?")) {
-            return;
-        }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#00695c',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading indicator
+                Swal.fire({
+                    title: 'Deleting Supplier...',
+                    html: 'Please wait while we delete the supplier',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
 
-        $.ajax({
-            url: `http://localhost:8080/api/v1/supplier/delete/${supplierId}`,
-            type: "DELETE",
-            headers: { "Authorization": `Bearer ${authToken}` },
-            success: function () {
-                alert("Supplier deleted successfully!");
-                clearForm();
-                viewSuppliers();
-            },
-            error: function (xhr) {
-                alert("Delete failed: " + xhr.responseText);
-            },
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/supplier/delete/${supplierId}`,
+                    type: "DELETE",
+                    headers: { "Authorization": `Bearer ${authToken}` },
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Supplier has been deleted successfully.',
+                            confirmButtonColor: '#00695c',
+                            timer: 1500,
+                            timerProgressBar: true
+                        }).then(() => {
+                            clearForm();
+                            viewSuppliers();
+                        });
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Delete Failed',
+                            text: xhr.responseText || 'Failed to delete supplier.',
+                            confirmButtonColor: '#00695c'
+                        });
+                    },
+                });
+            }
         });
     }
 
     function viewSuppliers() {
+        // Show loading spinner
+        $("#loadingSpinner").show();
+        $("#supplierList").find(".supplier-card").remove();
+
         $.ajax({
             url: "http://localhost:8080/api/v1/supplier/getAll",
             type: "GET",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (response) {
-                $("#supplierList").empty();
+                $("#loadingSpinner").hide();
 
                 if (!Array.isArray(response.data)) {
                     console.error("Unexpected response format:", response);
-                    alert("Error fetching suppliers. Check console for details.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Unexpected response from server. Please try again.',
+                        confirmButtonColor: '#00695c'
+                    });
+                    return;
+                }
+
+                if (response.data.length === 0) {
+                    $("#supplierList").append(`
+                        <div class="col-12 text-center py-4">
+                            <p class="text-muted">No suppliers found. Add a new supplier to get started.</p>
+                        </div>
+                    `);
                     return;
                 }
 
                 response.data.forEach(supplier => {
                     $("#supplierList").append(`
-                        <div class="supplier-card" onclick="fillForm('${supplier.supplierId}', '${supplier.name}', '${supplier.contactEmail}', '${supplier.contactPhone}')">
+                        <div class="supplier-card" onclick="fillForm('${supplier.supplierId}', '${supplier.name.replace(/'/g, "\\'")}', '${supplier.contactEmail}', '${supplier.contactPhone}')">
                             <h5>${supplier.name}</h5>
-                            <p>Email: ${supplier.contactEmail}</p>
-                            <p>Phone: ${supplier.contactPhone}</p>
+                            <p><strong>Email:</strong> ${supplier.contactEmail}</p>
+                            <p><strong>Phone:</strong> ${supplier.contactPhone}</p>
                         </div>
                     `);
                 });
             },
             error: function (xhr) {
+                $("#loadingSpinner").hide();
                 console.error("Failed to load suppliers:", xhr.responseText);
-                alert("Failed to fetch suppliers.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed to Load Suppliers',
+                    text: xhr.responseText || 'An error occurred while loading suppliers.',
+                    confirmButtonColor: '#00695c'
+                });
             },
         });
     }
@@ -242,6 +670,11 @@
         $("#name").val(name);
         $("#contactEmail").val(contactEmail);
         $("#contactPhone").val(contactPhone);
+
+        // Scroll to form for better UX
+        $('html, body').animate({
+            scrollTop: $(".form-container").offset().top - 20
+        }, 300);
     }
 
     function clearForm() {

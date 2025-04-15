@@ -1,3 +1,345 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns="http://www.w3.org/1999/html">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Offer Form</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;-->
+<!--            background-image: url('assets/img/hero-carousel-1.jpg');-->
+<!--            background-size: cover;-->
+<!--            background-position: center;-->
+<!--            background-attachment: fixed;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        .form-container {-->
+<!--            background: rgba(255, 255, 255, 0.9);-->
+<!--            padding: 20px;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);-->
+<!--            text-align: center;-->
+<!--            max-width: 500px;-->
+<!--            margin: auto;-->
+<!--            margin-top: 80px;-->
+<!--        }-->
+
+<!--        .form-container input,-->
+<!--        .form-container select {-->
+<!--            width: 100%;-->
+<!--            padding: 10px;-->
+<!--            font-size: 14px;-->
+<!--            border: 1px solid #ccc;-->
+<!--            border-radius: 5px;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .btn-container {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            gap: 12px;-->
+<!--            margin-top: 20px;-->
+<!--        }-->
+
+<!--        .btn-row {-->
+<!--            display: flex;-->
+<!--            gap: 15px;-->
+<!--            justify-content: center;-->
+<!--        }-->
+
+<!--        .btn-row button {-->
+<!--            flex: 1;-->
+<!--            padding: 12px;-->
+<!--            font-size: 16px;-->
+<!--            border-radius: 6px;-->
+<!--            transition: 0.3s;-->
+<!--        }-->
+
+<!--        .btn-row:first-child {-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+
+<!--        .btn-row button:hover {-->
+<!--            opacity: 0.8;-->
+<!--        }-->
+
+<!--        .card-container {-->
+<!--            display: flex;-->
+<!--            flex-wrap: wrap;-->
+<!--            gap: 25px;-->
+<!--            justify-content: start;-->
+<!--            margin-top: 25px;-->
+<!--            margin-left: 65px;-->
+<!--        }-->
+
+<!--        .offer-card {-->
+<!--            background: rgba(255, 255, 255, 0.9);-->
+<!--            color: #333;-->
+<!--            padding: 20px;-->
+<!--            border-radius: 10px;-->
+<!--            width: calc(33.333% - 20px);-->
+<!--            text-align: center;-->
+<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);-->
+<!--            cursor: pointer;-->
+<!--            transition: all 0.3s ease;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .offer-card:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);-->
+<!--        }-->
+
+<!--        .offer-card h5 {-->
+<!--            color: #00695c;-->
+<!--        }-->
+
+<!--        .offer-card p {-->
+<!--            color: #666;-->
+<!--        }-->
+<!--    </style>-->
+
+<!--</head>-->
+<!--<body>-->
+
+<!--&lt;!&ndash; Content Container &ndash;&gt;-->
+<!--<div class="content-container">-->
+<!--    <div class="form-container">-->
+<!--        <h3>MANAGE OFFERS</h3>-->
+<!--        <form id="offerForm">-->
+<!--            <div class="row">-->
+<!--                <label class="form-label">Offer Name</label>-->
+<!--                <input type="text" id="offerName" class="form-control" placeholder="Offer Name">-->
+<!--                <label class="form-label">Discount</label>-->
+<!--                <input type="number" id="discountPercentage" class="form-control" placeholder="Discount">-->
+<!--                <label class="form-label">Valid From</label>-->
+<!--                <input type="date" id="validFrom" class="form-control" placeholder="validFrom">-->
+<!--                <label class="form-label">Valid Until</label>-->
+<!--                <input type="date" id="validUntil" class="form-control" placeholder="validUntil">-->
+<!--                <label class="form-label">Package Name</label>-->
+<!--                <select class="form-select" id="packageName">-->
+<!--                    <option selected>Select a package</option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <input type="text" id="offerId" class="form-control" placeholder="offerId">-->
+<!--            <input type="text" id="packageId" class="form-control" placeholder="packageId">-->
+<!--            <div class="btn-container">-->
+<!--                <div class="btn-row">-->
+<!--                    <button type="submit" class="btn btn-success">Save</button>-->
+<!--                    <button type="button" class="btn btn-danger">Delete</button>-->
+<!--                </div>-->
+<!--                <div class="btn-row">-->
+<!--                    <button type="button" class="btn btn-info" onclick="viewOffers()">View</button>-->
+<!--                    <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+
+<!--    <div class="card-container" id="offerList">-->
+<!--        &lt;!&ndash; Offers will be displayed here dynamically &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--<script>-->
+<!--    let authToken = localStorage.getItem("authToken");-->
+<!--    loadAllPackageNames();-->
+<!--    viewOffers();-->
+
+
+<!--    function loadAllPackageNames() {-->
+<!--        $.ajax({-->
+<!--            url: "http://localhost:8080/api/v1/packages/getNames",-->
+<!--            method: "GET",-->
+<!--            dataType: "json",-->
+<!--            headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--            success: (resp) => {-->
+<!--                console.log("API Response:", resp);-->
+
+<!--                if (!Array.isArray(resp.data)) {-->
+<!--                    console.error("Error: Response data is not an array", resp);-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                let nameDropdown = $("#packageName");-->
+
+<!--                resp.data.forEach(name => {-->
+<!--                    nameDropdown.append(`<option value="${name}">${name}</option>`);-->
+<!--                });-->
+<!--            },-->
+<!--            error: (err) => {-->
+<!--                console.error("Error loading package names:", err);-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+<!--    $("#packageName").change(function () {-->
+<!--        let selectedName = $(this).val();-->
+<!--        if (selectedName) {-->
+<!--            $.ajax({-->
+<!--                url: `http://localhost:8080/api/v1/packages/getPackageId/${selectedName}`,-->
+<!--                method: "GET",-->
+<!--                dataType: "json",-->
+<!--                headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--                success: function (resp) {-->
+<!--                    console.log("Selected Name Data Response:", resp);-->
+
+<!--                    if (resp && resp.data) {-->
+<!--                        $("#packageId").val(resp.data);-->
+<!--                    } else {-->
+<!--                        $("#packageId").val("");-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function (error) {-->
+<!--                    console.error("Error fetching selected name details:", error);-->
+<!--                }-->
+<!--            });-->
+<!--        } else {-->
+<!--            console.log("No name selected.");-->
+<!--            $("#packageId").val("");-->
+<!--        }-->
+<!--    });-->
+
+<!--    $("#offerForm").submit(function (event) {-->
+<!--        event.preventDefault();-->
+
+<!--        let offerId = $("#offerId").val().trim();-->
+<!--        let offerName = $("#offerName").val().trim();-->
+<!--        let discountPercentage = $("#discountPercentage").val().trim();-->
+<!--        let validFrom = $("#validFrom").val();-->
+<!--        let validUntil = $("#validUntil").val();-->
+<!--        let packageId = $("#packageId").val().trim();-->
+
+<!--        if (!offerName || !discountPercentage || !validFrom || !validUntil || !packageId) {-->
+<!--            alert("Please enter all required fields!");-->
+<!--            return;-->
+<!--        }-->
+
+<!--        let requestData = {-->
+<!--            offerId:offerId,-->
+<!--            offerName: offerName,-->
+<!--            discountPercentage: discountPercentage,-->
+<!--            validFrom: validFrom,-->
+<!--            validUntil: validUntil,-->
+<!--            packageId: parseInt(packageId)-->
+<!--        };-->
+
+<!--        let apiUrl = "http://localhost:8080/api/v1/offers/save";-->
+<!--        let methodType = "POST";-->
+
+<!--        if (offerId) {-->
+<!--            apiUrl = `http://localhost:8080/api/v1/offers/update/${offerId}`;-->
+<!--            methodType = "PUT";-->
+<!--            requestData.offerId = parseInt(offerId);-->
+<!--        }-->
+
+<!--        $.ajax({-->
+<!--            url: apiUrl,-->
+<!--            type: methodType,-->
+<!--            contentType: "application/json",-->
+<!--            data: JSON.stringify(requestData),-->
+<!--            headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--            success: function (resp) {-->
+<!--                alert(offerId ? "Bundle updated successfully!" : "Bundle saved successfully!");-->
+<!--                viewOffers();-->
+<!--                clearForm();-->
+<!--            },-->
+<!--            error: function (error) {-->
+<!--                console.error("Error saving/updating offer:", error);-->
+<!--                alert("Failed to save/update offer!");-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+
+
+<!--    $(".btn-danger").click(function () {-->
+<!--        let offerId = $("#offerId").val().trim();-->
+
+<!--        if (!offerId) {-->
+<!--            alert("Please select an offer to delete.");-->
+<!--            return;-->
+<!--        }-->
+
+<!--        if (!confirm("Are you sure you want to delete this offer?")) {-->
+<!--            return;-->
+<!--        }-->
+
+<!--        $.ajax({-->
+<!--            url: `http://localhost:8080/api/v1/offers/delete/${offerId}`,-->
+<!--            type: "DELETE",-->
+<!--            headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--            success: function () {-->
+<!--                alert("Offer deleted successfully!");-->
+<!--                clearForm();-->
+<!--                viewOffers();-->
+<!--            },-->
+<!--            error: function (xhr) {-->
+<!--                alert("Delete failed: " + xhr.responseText);-->
+<!--            },-->
+<!--        });-->
+<!--    });-->
+
+<!--    function viewOffers() {-->
+<!--        $.ajax({-->
+<!--            url: "http://localhost:8080/api/v1/offers/getAll",-->
+<!--            type: "GET",-->
+<!--            headers: { "Authorization": `Bearer ${authToken}` },-->
+<!--            success: function (response) {-->
+<!--                $("#offerList").empty();-->
+
+<!--                console.log("Offer Response Data:", response.data);-->
+<!--                if (!Array.isArray(response.data)) {-->
+<!--                    console.error("Unexpected response format:", response);-->
+<!--                    alert("Error fetching offers.");-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                response.data.forEach(offer => {-->
+<!--                    $("#offerList").append(`-->
+<!--                    <div class="offer-card" onclick="fillForm('${offer.offerId}', '${offer.offerName}',-->
+<!--                    '${offer.discountPercentage}', '${offer.validFrom}', '${offer.validUntil}','${offer.packageId}')">-->
+<!--                        <h5>${offer.offerName}</h5>-->
+<!--                        <p>Discount: ${offer.discountPercentage} %</p>-->
+<!--                        <p>Valid From: ${offer.validFrom}</p>-->
+<!--                        <p>Valid Until: ${offer.validUntil}</p>-->
+<!--                        <p>Package Id: ${offer.packageId}</p>-->
+<!--                    </div>-->
+<!--                `);-->
+<!--                });-->
+<!--            },-->
+<!--            error: function (xhr) {-->
+<!--                console.error("Failed to load offers:", xhr.responseText);-->
+<!--                alert("Failed to fetch offers.");-->
+<!--            },-->
+<!--        });-->
+<!--    }-->
+<!--    function fillForm(offerId, offerName, discountPercentage, validFrom, validUntil, packageId) {-->
+<!--        console.log("Filling form with:", offerId, offerName, discountPercentage, validFrom, validUntil);-->
+
+<!--        $("#offerId").val(offerId);-->
+<!--        $("#offerName").val(offerName);-->
+<!--        $("#discountPercentage").val(discountPercentage);-->
+<!--        $("#validFrom").val(validFrom);-->
+<!--        $("#validUntil").val(validUntil);-->
+<!--        $("#packageId").val(packageId)-->
+<!--    }-->
+
+<!--    function clearForm() {-->
+<!--        $("#offerForm")[0].reset();-->
+<!--        $("#offerId").val("");-->
+<!--        $("#packageName").val("Select a package");-->
+<!--    }-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -5,6 +347,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Offer Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
@@ -126,8 +469,8 @@
                     <option selected>Select a package</option>
                 </select>
             </div>
-            <input type="text" id="offerId" class="form-control" placeholder="offerId">
-            <input type="text" id="packageId" class="form-control" placeholder="packageId">
+            <input type="hidden" id="offerId" class="form-control" placeholder="offerId">
+            <input type="hidden" id="packageId" class="form-control" placeholder="packageId">
             <div class="btn-container">
                 <div class="btn-row">
                     <button type="submit" class="btn btn-success">Save</button>
@@ -148,6 +491,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let authToken = localStorage.getItem("authToken");
     loadAllPackageNames();
@@ -176,6 +520,11 @@
             },
             error: (err) => {
                 console.error("Error loading package names:", err);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Failed to load package names',
+                });
             }
         });
     }
@@ -199,6 +548,11 @@
                 },
                 error: function (error) {
                     console.error("Error fetching selected name details:", error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to fetch package details',
+                    });
                 }
             });
         } else {
@@ -218,7 +572,11 @@
         let packageId = $("#packageId").val().trim();
 
         if (!offerName || !discountPercentage || !validFrom || !validUntil || !packageId) {
-            alert("Please enter all required fields!");
+            Swal.fire({
+                icon: 'error',
+                title: 'Missing fields',
+                text: 'Please enter all required fields!',
+            });
             return;
         }
 
@@ -247,13 +605,23 @@
             data: JSON.stringify(requestData),
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (resp) {
-                alert(offerId ? "Bundle updated successfully!" : "Bundle saved successfully!");
+                Swal.fire({
+                    icon: 'success',
+                    title: offerId ? 'Offer updated!' : 'Offer saved!',
+                    text: offerId ? 'Your offer has been updated successfully.' : 'Your offer has been saved successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 viewOffers();
                 clearForm();
             },
             error: function (error) {
                 console.error("Error saving/updating offer:", error);
-                alert("Failed to save/update offer!");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to save/update offer!',
+                });
             }
         });
     });
@@ -263,26 +631,46 @@
         let offerId = $("#offerId").val().trim();
 
         if (!offerId) {
-            alert("Please select an offer to delete.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'No offer selected',
+                text: 'Please select an offer to delete.',
+            });
             return;
         }
 
-        if (!confirm("Are you sure you want to delete this offer?")) {
-            return;
-        }
-
-        $.ajax({
-            url: `http://localhost:8080/api/v1/offers/delete/${offerId}`,
-            type: "DELETE",
-            headers: { "Authorization": `Bearer ${authToken}` },
-            success: function () {
-                alert("Offer deleted successfully!");
-                clearForm();
-                viewOffers();
-            },
-            error: function (xhr) {
-                alert("Delete failed: " + xhr.responseText);
-            },
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/offers/delete/${offerId}`,
+                    type: "DELETE",
+                    headers: { "Authorization": `Bearer ${authToken}` },
+                    success: function () {
+                        Swal.fire(
+                            'Deleted!',
+                            'Your offer has been deleted.',
+                            'success'
+                        );
+                        clearForm();
+                        viewOffers();
+                    },
+                    error: function (xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Delete failed',
+                            text: xhr.responseText,
+                        });
+                    },
+                });
+            }
         });
     });
 
@@ -297,7 +685,11 @@
                 console.log("Offer Response Data:", response.data);
                 if (!Array.isArray(response.data)) {
                     console.error("Unexpected response format:", response);
-                    alert("Error fetching offers.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Unexpected response format from server',
+                    });
                     return;
                 }
 
@@ -316,10 +708,15 @@
             },
             error: function (xhr) {
                 console.error("Failed to load offers:", xhr.responseText);
-                alert("Failed to fetch offers.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Failed to fetch offers',
+                    text: 'An error occurred while loading offers.',
+                });
             },
         });
     }
+
     function fillForm(offerId, offerName, discountPercentage, validFrom, validUntil, packageId) {
         console.log("Filling form with:", offerId, offerName, discountPercentage, validFrom, validUntil);
 
