@@ -144,7 +144,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Add this in the head section of your HTML -->
+
 <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 <script>
 
@@ -171,118 +171,23 @@
         $(document).on('change', '.item-select', function() {
             calculateSelectedTotal();
         });
-
-        // // Update the checkout button click event
-        // $('#checkout-btn').off('click').on('click', function() {
-        //     const selectedItems = getSelectedItems();
-        //     console.log("Selected items for checkout:", selectedItems);
-        //
-        //     if (selectedItems.length === 0) {
-        //         alert('No items selected for checkout!');
-        //         return;
-        //     }
-        //
-        //     // Save selected items to localStorage for checkout
-        //     localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
-        //
-        //     // Show the email verification modal
-        //     const emailModal = new bootstrap.Modal(document.getElementById('emailVerificationModal'));
-        //     emailModal.show();
-        // });
-        //
-        // // Handle email verification
-        // $('#verifyEmailBtn').on('click', function() {
-        //     const email = $('#userEmail').val().trim();
-        //
-        //     // Basic client-side validation
-        //     if (!isValidEmail(email)) {
-        //         $('#userEmail').addClass('is-invalid');
-        //         return;
-        //     }
-        //
-        //     $('#userEmail').removeClass('is-invalid');
-        //     $('#emailVerificationMessage').html('<div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Verifying email...');
-        //
-        //     // Get auth token from localStorage
-        //     let authToken = localStorage.getItem("authToken");
-        //
-        //     // Check if email exists in database
-        //     $.ajax({
-        //         url: 'http://localhost:8080/api/v1/user/check-email',
-        //         method: 'POST',
-        //         contentType: 'application/json',
-        //         headers: {"Authorization": `Bearer ${authToken}`},
-        //         data: JSON.stringify({ email: email }),
-        //         success: function(response) {
-        //             if (response.code === 200) {
-        //                 // Store the email for the checkout process
-        //                 localStorage.setItem('checkoutEmail', email);
-        //
-        //                 // Clear message
-        //                 $('#emailVerificationMessage').html('');
-        //
-        //                 // Close modal
-        //                 bootstrap.Modal.getInstance(document.getElementById('emailVerificationModal')).hide();
-        //
-        //                 // Redirect based on email existence
-        //                 if (response.data === true) {
-        //                     // Email exists, go to payment page
-        //                     window.location.href = 'pay.html';
-        //                 } else {
-        //                     // Email doesn't exist, go to registration page
-        //                     window.location.href = 'register.html';
-        //                 }
-        //             } else {
-        //                 $('#emailVerificationMessage').html('<div class="alert alert-danger">Error verifying email. Please try again.</div>');
-        //             }
-        //         },
-        //         error: function(xhr, status, error) {
-        //             $('#emailVerificationMessage').html('<div class="alert alert-danger">Error connecting to the server. Please try again later.</div>');
-        //             console.error('Error checking email:', error);
-        //         }
-        //     });
-        // });
-
-        // Modified initiatePayHerePayment function with proper hash generation
         function initiatePayHerePayment(items, email) {
-            // Calculate total amount
             let totalAmount = 0;
             items.forEach(item => {
                 totalAmount += item.price * item.quantity;
             });
 
-            // Generate order ID
             const orderId = "Order_" + new Date().getTime();
 
-            // Setup PayHere payment parameters
-            let payment = {
-                sandbox: true,
-                merchant_id: "1229893",
-                return_url: window.location.origin + "/return.html",
-                cancel_url: window.location.origin + "/cart.html",
-                notify_url: "http://localhost:8080/api/v1/payment/notify",
-                order_id: orderId,
-                items: items.map(item => item.name || "Product").join(", "),
-                amount: totalAmount.toFixed(2),
-                currency: "LKR",
-                first_name: "",
-                last_name: "",
-                email: email,
-                phone: "",
-                address: "",
-                city: "",
-                country: "Sri Lanka",
-                delivery_address: "",
-                delivery_city: "",
-                delivery_country: "Sri Lanka",
-                custom_1: "",
-                custom_2: ""
-            };
+            localStorage.setItem('checkout_email', email);
+            localStorage.setItem('checkout_amount', totalAmount.toFixed(2));
+            localStorage.setItem('checkout_order_id', orderId);
+            localStorage.setItem('checkout_items', items.map(item => item.name || "Product").join(", "));
+            localStorage.setItem('checkout_item_details', JSON.stringify(items));
 
-            // Initialize PayHere checkout
-            payhere.startPayment(payment);
+            window.location.href = 'checkout.html';
         }
-// Update your checkout button handler
+
         $('#checkout-btn').off('click').on('click', function() {
             const selectedItems = getSelectedItems();
             console.log("Selected items for checkout:", selectedItems);
@@ -292,31 +197,25 @@
                 return;
             }
 
-            // Save selected items to localStorage for checkout
             localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
 
-            // Show the email verification modal
             const emailModal = new bootstrap.Modal(document.getElementById('emailVerificationModal'));
             emailModal.show();
         });
 
-// Update verifyEmailBtn handler
         $('#verifyEmailBtn').on('click', function() {
             const email = $('#userEmail').val().trim();
-
-            // Basic client-side validation
             if (!isValidEmail(email)) {
                 $('#userEmail').addClass('is-invalid');
                 return;
             }
 
             $('#userEmail').removeClass('is-invalid');
-            $('#emailVerificationMessage').html('<div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Verifying email...');
+            $('#emailVerificationMessage').html
+            ('<div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Verifying email...');
 
-            // Get auth token from localStorage
             let authToken = localStorage.getItem("authToken");
 
-            // Check if email exists in database
             $.ajax({
                 url: 'http://localhost:8080/api/v1/user/check-email',
                 method: 'POST',
@@ -325,16 +224,10 @@
                 data: JSON.stringify({ email: email }),
                 success: function(response) {
                     if (response.code === 200) {
-                        // Store the email for the checkout process
                         localStorage.setItem('checkoutEmail', email);
 
-                        // Clear message
                         $('#emailVerificationMessage').html('');
-
-                        // Close modal
                         bootstrap.Modal.getInstance(document.getElementById('emailVerificationModal')).hide();
-
-                        // Get the selected items with prices
                         fetchItemDetailsForPayment(getSelectedItems(), email);
                     } else {
                         $('#emailVerificationMessage').html('<div class="alert alert-danger">Error verifying email. Please try again.</div>');
@@ -347,7 +240,6 @@
             });
         });
 
-// Function to fetch full item details with prices for payment
         function fetchItemDetailsForPayment(selectedItems, email) {
             let authToken = localStorage.getItem("authToken");
             let itemsWithPrices = [];
@@ -377,12 +269,10 @@
             });
 
             Promise.all(fetchPromises).then(() => {
-                // Now we have all item details with prices
                 initiatePayHerePayment(itemsWithPrices, email);
             });
         }
 
-        // Add event listener for Enter key in email input
         $('#userEmail').on('keyup', function(e) {
             if (e.key === 'Enter') {
                 $('#verifyEmailBtn').click();
@@ -390,13 +280,11 @@
         });
     });
 
-    // Email validation function
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
 
-    // Get selected cart items - Fixed to handle string IDs correctly
     function getSelectedItems() {
         const selectedItems = [];
         console.log("Checking for selected items...");
@@ -409,7 +297,6 @@
             const cartItems = getCartItems();
             console.log("Cart items:", cartItems);
 
-            // Convert both to strings for comparison
             const selectedItem = cartItems.find(item => String(item.itemId) === String(itemId));
             console.log("Matched item:", selectedItem);
 
@@ -422,7 +309,6 @@
         return selectedItems;
     }
 
-    // Calculate total for selected items
     function calculateSelectedTotal() {
         let totalAmount = 0;
 
@@ -451,12 +337,9 @@
         $('#empty-cart-message').hide();
         $('#checkout-btn').prop('disabled', false);
 
-        // Get auth token from localStorage
         let authToken = localStorage.getItem("authToken");
 
-        // Fetch details for each cart item
         let cartItemsHtml = '';
-
         const fetchPromises = cartItems.map(cartItem => {
             return $.ajax({
                 url: `http://localhost:8080/api/v1/item/getById/${cartItem.itemId}`,
@@ -492,7 +375,9 @@
                             <span>Rs. ${item.price.toFixed(2)}</span>
                         </div>
                         <div class="col-md-2">
-                            <select class="form-select item-quantity" data-item-id="${cartItem.itemId}" id="quantity-${cartItem.itemId}">
+                            <select
+                             class="form-select item-quantity" data-item-id="${cartItem.itemId}"
+                             id="quantity-${cartItem.itemId}">
                                 ${generateQuantityOptions(cartItem.quantity)}
                             </select>
                         </div>
@@ -515,7 +400,6 @@
         });
 
         Promise.all(fetchPromises).then(itemsHtml => {
-            // Add headers row
             cartItemsHtml = `
         <div class="cart-header mb-3 pb-2 border-bottom d-none d-md-block">
             <div class="row">
@@ -531,14 +415,8 @@
 
             cartItemsHtml += itemsHtml.join('');
             $('#cart-items').html(cartItemsHtml);
-
-            // Force update to ensure checkboxes are checked by default
             $('.item-select').prop('checked', true);
-
-            // Calculate total for selected items (default all selected)
             calculateSelectedTotal();
-
-            // Debug: Count checked items after loading
             console.log("Checked items after loading:", $('.item-select:checked').length);
         });
     }
@@ -552,7 +430,6 @@
     }
 
     function updateOrderSummary(total) {
-        // Only show the final total, no shipping or tax
         $('#total').text(`Rs. ${total.toFixed(2)}`);
     }
 
@@ -569,24 +446,18 @@
             cartItems[itemIndex].quantity = quantity;
             localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
-            // Update the UI
             const price = $('.item-select[data-item-id="' + itemId + '"]').data('price');
             const newTotal = price * quantity;
             $(`#cart-item-${itemId} .item-total`).text(`Rs. ${newTotal.toFixed(2)}`);
-
-            // Recalculate total
             calculateSelectedTotal();
         }
     }
 
     function removeFromCart(itemId) {
         let cartItems = getCartItems();
-
-        // Fixed strict equality comparison
         cartItems = cartItems.filter(item => String(item.itemId) !== String(itemId));
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
-        // Update the UI
         $(`#cart-item-${itemId}`).fadeOut(300, function() {
             $(this).remove();
 
@@ -600,25 +471,6 @@
         });
     }
 
-    // Modified function to add item to cart - to be used on product pages
-    function addToCart(item) {
-        let cartItems = getCartItems();
-
-        // Always add as a new item with its own entry in the cart
-        cartItems.push({
-            itemId: item.itemId,
-            quantity: item.quantity || 1,
-            color: item.color || null,
-            storage: item.storage || null,
-            timestamp: new Date().getTime() // Add timestamp to make each entry unique
-        });
-
-        // Save updated cart to localStorage
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
-
-        // Return the updated cart item count
-        return cartItems.length;
-    }
 </script>
 </body>
 </html>
