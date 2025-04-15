@@ -13,7 +13,7 @@ public class ItemDTO {
     private String name;
     private String description;
     private double price;
-    private String category; // E.g., mobile, broadband, router, laptop
+    private String category;
     private int stockQuantity;
     private String image;
     private int supplierId;

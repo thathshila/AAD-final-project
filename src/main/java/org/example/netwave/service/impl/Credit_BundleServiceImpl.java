@@ -54,7 +54,6 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
             throw new RuntimeException("Credit bundle does not exist!");
         }
 
-        // Convert DTO to Entity and Save
         CreditBundle creditBundle = modelMapper.map(creditBundleDTO, CreditBundle.class);
         credit_BundleRepo.save(creditBundle);
     }
@@ -65,7 +64,7 @@ public class Credit_BundleServiceImpl implements Credit_BundleService {
         CreditBundle creditBundle = credit_BundleRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("credit not found"));
 
-        creditBundle.setDeleted(true); // Mark as deleted
-        credit_BundleRepo.save(creditBundle);  // Save changes
+        creditBundle.setDeleted(true);
+        credit_BundleRepo.save(creditBundle);
     }
 }

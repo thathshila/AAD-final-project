@@ -60,7 +60,6 @@ public class EmailServiceImpl implements EmailService {
         helper.setTo(emailRequest.getTo());
         helper.setSubject(emailRequest.getSubject());
 
-        // Format the timestamp for better readability
         String formattedDate = "";
         try {
             SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -71,7 +70,7 @@ public class EmailServiceImpl implements EmailService {
             formattedDate = emailRequest.getTimestamp();
         }
 
-        // Create HTML email content
+
         String htmlContent =
                 "<!DOCTYPE html>" +
                         "<html>" +

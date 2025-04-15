@@ -38,16 +38,14 @@ public class ReloadServiceImpl implements ReloadService {
 
     @Override
     public Reload processReload(ReloadDTO reloadDTO) {
-        // 1. Find the credit bundle with ID 2
         CreditBundle creditBundle = credit_BundleRepo.findById(reloadDTO.getCredit_bundle_id())
-                .orElseThrow(() -> new ResourceNotFoundException("Credit bundle with ID " + reloadDTO.getCredit_bundle_id() + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException
+                        ("Credit bundle with ID " + reloadDTO.getCredit_bundle_id() + " not found"));
 
-        // 2. Check if credit bundle has enough amount
         if (creditBundle.getAmount() < reloadDTO.getAmount()) {
             throw new InsufficientBalanceException("Insufficient amount in credit bundle");
         }
 
-        // 3. Create and save the reload record
         Reload reload = new Reload();
         reload.setAmount(reloadDTO.getAmount());
         reload.setPhoneNumber(reloadDTO.getPhoneNumber());
@@ -55,14 +53,9 @@ public class ReloadServiceImpl implements ReloadService {
         reload.setReloadDate(LocalDateTime.now());
         reload.setCreditBundle(creditBundle);
 
-        // 4. Update the credit bundle amount
         double newAmount = creditBundle.getAmount() - reloadDTO.getAmount();
         creditBundle.setAmount(newAmount);
-
-        // 5. Save the updated credit bundle
         credit_BundleRepo.save(creditBundle);
-
-        // 6. Save and return the reload
         return reloadRepo.save(reload);
     }
 

@@ -38,38 +38,6 @@ public class WebSecurityConfig {
     private UserServiceImpl userService;
     @Autowired
     private JwtFilter jwtFilter;
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-//    }
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-//            throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-//    @Bean
-//    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/api/v1/auth/authenticate",
-//                                "/api/v1/user/register",
-//                                "/api/v1/auth/refreshToken",
-//                                "/api/v1/admin/**",
-//                                "/v3/api-docs/**",
-//                                "/swagger-ui/**",
-//                                "/swagger-ui.html").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-//                .build();
-//    }
 
 @Bean
 public PasswordEncoder passwordEncoder() {

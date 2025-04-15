@@ -20,7 +20,6 @@ public class AdminController {
                 .findFirst()
                 .orElse("UNKNOWN");
 
-        // Debug: Print role
         System.out.println("User Role: " + role);
 
         return "{\"role\": \"" + role + "\"}";

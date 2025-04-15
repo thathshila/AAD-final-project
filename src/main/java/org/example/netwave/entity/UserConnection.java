@@ -33,9 +33,3 @@ public class UserConnection {
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted;
 }
-
-//    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Packages> packages;
-
-//    @OneToMany(mappedBy = "userConnection", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Reload> reloads;

@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface OTPRepo extends JpaRepository<OTPVerification, Long> {
-   // Optional<OTPVerification> findByEmail(String email);
     Optional<OTPVerification> findTopByEmailOrderByExpiryTimeDesc(String email);
 }
 

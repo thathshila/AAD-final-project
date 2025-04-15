@@ -38,7 +38,7 @@ public class OffersController {
 
 
     @DeleteMapping("/delete/{id}")
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseUtil deleteOffer(@PathVariable int id) {
         offersService.deleteOffer(id);
         return new ResponseUtil(200, "Offer Soft Deleted Successfully", null);

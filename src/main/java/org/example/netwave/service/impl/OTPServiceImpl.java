@@ -26,7 +26,7 @@ public class OTPServiceImpl implements OTPService {
     private OTPRepo otpRepo;
 
     @Autowired
-    private UserRepo userRepo; // Assuming you have a User entity
+    private UserRepo userRepo;
 
     public void sendOtp(String email) {
         String otp = String.valueOf(new Random().nextInt(900000) + 100000);
@@ -45,22 +45,6 @@ public class OTPServiceImpl implements OTPService {
         mailSender.send(message);
     }
 
-//    public boolean verifyOtp(String email, String otp, String newPassword) {
-//        Optional<OTPVerification> otpData = otpRepo.findByEmail(email);
-//        if (otpData.isPresent() && otpData.get().getOtp().equals(otp) &&
-//                otpData.get().getExpiryTime().isAfter(LocalDateTime.now())) {
-//
-//            User user = (User) userRepo.findByEmail(email)  // ✅ Correct method name
-//                    .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//            user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-//            userRepo.save(user);
-//            otpRepo.delete(otpData.get());
-//            return true;
-//        }
-//        return false;
-//    }
-
     @Transactional
     public boolean verifyOtp(String email, String otp, String newPassword) {
         Optional<OTPVerification> otpData = otpRepo.findTopByEmailOrderByExpiryTimeDesc(email);
@@ -72,7 +56,7 @@ public class OTPServiceImpl implements OTPService {
 
             user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
             userRepo.save(user);
-            otpRepo.delete(otpData.get()); // Delete used OTP
+            otpRepo.delete(otpData.get());
             return true;
         }
         return false;

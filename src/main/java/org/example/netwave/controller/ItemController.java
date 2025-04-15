@@ -81,25 +81,20 @@ public class ItemController {
                 return new ResponseUtil(404, "Item not found", null);
             }
 
-            // Update fields
             existingItem.setName(name);
             existingItem.setDescription(description);
 
-            // Only update if values are provided
             if (price > 0) existingItem.setPrice(price);
             if (category != null && !category.isEmpty()) existingItem.setCategory(category);
             if (stockQuantity > 0) existingItem.setStockQuantity(stockQuantity);
             if (supplierId > 0) existingItem.setSupplierId(supplierId);
 
-            // Handle image update
             if (image != null && !image.isEmpty()) {
-                // Delete the old image if exists
                 if (existingItem.getImage() != null && !existingItem.getImage().isEmpty()) {
                     Path oldImagePath = Paths.get(UPLOAD_DIR + existingItem.getImage());
                     Files.deleteIfExists(oldImagePath);
                 }
 
-                // Save the new image
                 String newFileName = saveImage(image);
                 existingItem.setImage(newFileName);
             }
@@ -120,7 +115,6 @@ public class ItemController {
                 return new ResponseUtil(404, "Item not found", null);
             }
 
-            // Delete image file if it exists
             String imagePath = existingItem.getImage();
             if (imagePath != null && !imagePath.isEmpty()) {
                 Path filePath = Paths.get(UPLOAD_DIR + imagePath);

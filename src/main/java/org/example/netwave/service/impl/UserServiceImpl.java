@@ -44,7 +44,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        User user = userRepo.findByEmail(email);
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     public UserDTO loadUserDetailsByUsername(String email) throws UsernameNotFoundException {
-//        User user = userRepo.findByEmail(username);
         User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -69,7 +67,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public UserDTO searchUser(String email) {
         if (userRepo.existsByEmail(email)) {
-          //  User user = userRepo.findByEmail(username);
             User user = userRepo.findByEmail(email)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -128,7 +125,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             user.setDeleted(true);
             userRepo.save(user);
 
-            // Soft delete associated connections
             List<UserConnection> connections = connectionRepo.findByUser_UidAndDeletedFalse(id);
             connections.forEach(connection -> {
                 connection.setDeleted(true);

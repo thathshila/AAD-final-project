@@ -53,12 +53,6 @@ public class UserController {
         }
     }
 
-//    @GetMapping("/getAll")
-//  //  @PreAuthorize("hasAuthority('ADMIN')")
-//    public ResponseEntity<List<UserDTO>> getAllUsers() {
-//        return ResponseEntity.ok(userService.getAllUsers());
-//    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable int id) {
         UserDTO user = userService.getUserById(id);

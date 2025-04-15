@@ -22,16 +22,15 @@ public class Item {
     private String name;
     private String description;
     private double price;
-    private String category; // E.g., mobile, broadband, router, laptop
+    private String category;
     private int stockQuantity;
     private LocalDateTime date = LocalDateTime.now();
     private String image;
     private boolean isDeleted = false;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id")  // Foreign key to Supplier
-    private Supplier supplier; // This establishes the relationship
-
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetails> orderDetails;
 

@@ -29,8 +29,5 @@ public class CreditBundle {
     private List<Reload> reloads;
 }
 
-//
-//    @ManyToOne
-//    @JoinColumn(name = "admin_id")
-//    private Admin admin;
+
 

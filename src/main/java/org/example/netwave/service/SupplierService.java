@@ -8,16 +8,10 @@ import java.util.List;
 public interface SupplierService {
     @Transactional
     void saveSupplier(SupplierDTO supplierDTO);
-
     List<SupplierDTO> getAllSuppliers();
-
     Integer getSupplierByName(String name);
-
     List<String> getSupplierNames();
-
     void updateSupplier(SupplierDTO supplierDTO);
-
     void deleteSupplier(int id);
-
     int getTotalSupplierCount();
 }

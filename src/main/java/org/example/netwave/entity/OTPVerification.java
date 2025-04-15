@@ -22,6 +22,5 @@ public class OTPVerification {
     private String otp;
     private LocalDateTime expiryTime;
 
-    // Getters and Setters
 }
 

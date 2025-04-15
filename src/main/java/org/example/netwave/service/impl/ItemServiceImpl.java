@@ -30,19 +30,14 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public void saveItem(ItemDTO itemDTO) {
-        // Convert DTO to entity
         Item item = modelMapper.map(itemDTO, Item.class);
 
-        // Handle the supplier relationship
         if (itemDTO.getSupplierId() > 0) {
             Optional<Supplier> supplier = supplierRepo.findById(itemDTO.getSupplierId());
             supplier.ifPresent(item::setSupplier);
         }
 
-        // Save the item
         itemRepo.save(item);
-
-        // Update the DTO with generated ID
         itemDTO.setItemId(item.getItemId());
     }
 
@@ -74,21 +69,16 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public void updateItem(ItemDTO itemDTO) {
-        // Check if item exists
         if (!itemRepo.existsById(itemDTO.getItemId())) {
             throw new RuntimeException("Item does not exist with id: " + itemDTO.getItemId());
         }
 
-        // Convert DTO to entity
         Item item = modelMapper.map(itemDTO, Item.class);
-
-        // Handle the supplier relationship
         if (itemDTO.getSupplierId() > 0) {
             Optional<Supplier> supplier = supplierRepo.findById(itemDTO.getSupplierId());
             supplier.ifPresent(item::setSupplier);
         }
 
-        // Save the item
         itemRepo.save(item);
     }
 
@@ -97,7 +87,7 @@ public class ItemServiceImpl implements ItemService {
     public void deleteItem(int id) {
         Item item = itemRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Item not found with id: " + id));
-        item.setDeleted(true); // Soft delete
+        item.setDeleted(true);
         itemRepo.save(item);
     }
 }

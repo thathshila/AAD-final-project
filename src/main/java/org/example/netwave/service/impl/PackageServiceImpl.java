@@ -34,27 +34,15 @@ public class PackageServiceImpl implements PackageService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //    @Override
-//    public void savePackage(PackageDTO packageDTO) {
-//        if (packageRepo.existsById(packageDTO.getPackageId())) {
-//            throw new RuntimeException("Package already exists!");
-//        }
-//        packageRepo.save(modelMapper.map(packageDTO, Packages.class));
-//    }
+
     @Override
     public void savePackage(PackageDTO packageDTO) {
         if (packageRepo.existsById(packageDTO.getPackageId())) {
             throw new RuntimeException("Package already exists!");
         }
-
-        // Map DTO to Entity and save package
         Packages newPackage = modelMapper.map(packageDTO, Packages.class);
         packageRepo.save(newPackage);
-
-        // Fetch all registered users
         List<User> users = userRepo.findAll();
-
-        // Send email notifications
         for (User user : users) {
             emailService.sendPackageNotification(
                     user.getEmail(),
@@ -83,8 +71,8 @@ public class PackageServiceImpl implements PackageService {
         Packages packageItem = packageRepo.findById(packageId)
                 .orElseThrow(() -> new RuntimeException("Package not found!"));
 
-        packageItem.setDeleted(true);  // Mark as deleted (soft delete)
-        packageRepo.save(packageItem);  // Save changes
+        packageItem.setDeleted(true);
+        packageRepo.save(packageItem);
     }
 
 
@@ -112,12 +100,6 @@ public class PackageServiceImpl implements PackageService {
         return packageRepo.findPackageIdByNames(name);
     }
 
-//    @Override
-//    public List<PackageDTO> getPackagesByType(String type) {
-//        return packageRepo.findByPackageTypeAndIsDeletedFalse(type).stream()
-//                .map(Packages -> modelMapper.map(Packages, PackageDTO.class))
-//                .collect(Collectors.toList());
-//    }
 
     @Override
     public List<PackageDTO> getPackagesByType(String packageType) {

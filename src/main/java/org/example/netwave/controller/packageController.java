@@ -68,11 +68,6 @@ public class packageController {
         return new ResponseUtil(200, "Bundle found",packageId);
     }
 
-//    @GetMapping("/getByType/{type}")
-//    public ResponseUtil getPackagesByType(@PathVariable String type) {
-//        return new ResponseUtil(200, "Get packages by type: " + type, packageService.getPackagesByType(type));
-//    }
-
     @GetMapping("/getByType/{packageType}")
     public ResponseEntity<Map<String, Object>> getPackagesByType(@PathVariable String packageType) {
         List<PackageDTO> packageDTOs = packageService.getPackagesByType(packageType);

@@ -21,12 +21,12 @@ public class Orders {
 
     @ManyToOne
     @JoinColumn(name = "userId")
-    private User user; // Assuming there's a User entity
+    private User user;
 
     private Date orderDate;
-    private String status; // E.g., pending, completed, shipped
+    private String status;
     private double totalAmount;
-    private String paymentStatus; // E.g., pending, paid
+    private String paymentStatus;
     private LocalDateTime date = LocalDateTime.now();
     private boolean isDeleted = false;
 

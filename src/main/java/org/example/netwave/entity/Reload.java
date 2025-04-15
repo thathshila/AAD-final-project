@@ -17,7 +17,7 @@ public class Reload {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int reloadId;
     private Double amount;
-    private String phoneNumber; // Changed to String to avoid conversion issues
+    private String phoneNumber;
     private String email;
     private LocalDateTime reloadDate = LocalDateTime.now();
 
@@ -26,14 +26,4 @@ public class Reload {
     private CreditBundle creditBundle;
 }
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "sim_id", nullable = false)
-//    private SIM sim;
-
-//    @ManyToOne
-//    @JoinColumn(name = "connection_id")
-//    private UserConnection userConnection;

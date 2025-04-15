@@ -12,13 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class ConnectionDTO {
-   // private int connectionId;
     private int userId;
     private int phoneNumber;
     private String UserName;
- //   private UserConnection.Connectionstatus status;
- //   private LocalDateTime assignedAt;
-   // private boolean isDeleted = false;
 
 }
 

@@ -27,10 +27,10 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserServiceImpl userService;
     private final ResponseDTO responseDTO;
+
     @Autowired
     private OTPService otpService;
 
-    //constructor injection
     public AuthController(JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserServiceImpl userService,
                           ResponseDTO responseDTO) {
         this.jwtUtil = jwtUtil;
@@ -76,7 +76,6 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> sendOtp(@RequestBody Map<String, String> request) throws MessagingException {
         String email = request.get("email");
         otpService.sendOtp(email);
-       // JavaMailUtil.sendMail("amilsrinath5@gmail.com",1234);
         return ResponseEntity.ok(Collections.singletonMap("message", "OTP sent."));
     }
 
