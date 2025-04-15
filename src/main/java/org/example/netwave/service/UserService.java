@@ -2,6 +2,7 @@ package org.example.netwave.service;
 
 
 import org.example.netwave.dto.UserDTO;
+import org.example.netwave.entity.User;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface UserService {
     boolean softDeleteUser(int id);
     int getTotalUserCount();
     boolean emailExists(String email);
+
+    User findByEmail(String email);
 }

@@ -148,7 +148,7 @@
 
                         <div class="d-flex justify-content-between mt-4">
                             <a href="cart.html" class="btn btn-outline-secondary">Back to Cart</a>
-                            <button type="submit" class="btn btn-success btn-lg"
+                            <button type="submit"  class="btn btn-success btn-lg"
                                     style="background-color: #0a7567">Pay Now</button>
                         </div>
                     </form>
@@ -190,7 +190,7 @@
                     if (response.code === 200) {
                         localStorage.removeItem('cartItems');
                         alert("Order created successfully!");
-                        window.location.href = "checkoutPay?id=" + response.data.orderId;
+                        window.location.href = "checkoutPay.html?id=" + response.data.orderId;
                     } else {
                         alert("Error processing order. Please try again.");
                     }

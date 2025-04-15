@@ -29,6 +29,13 @@ public class PaymentDTO {
     private String hash;
     private double amount;
 
+    private String orderId;
+    private String cardName;
+    private String cardNumber;
+    private String expiryDate;
+    private String cvv;
+    private String cardType;
+
     private int status_code;
     private List<OrderItemDTO> items;
 }

@@ -37,13 +37,32 @@
 
         .card-icons {
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            justify-content: space-between;
             margin-bottom: 15px;
         }
 
+        .card-icons div {
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+            text-align: center;
+            flex: 1;
+        }
+
+        .card-icons div:hover {
+            border-color: #007bff;
+            transform: scale(1.05);
+        }
+
+        .card-icons .selected {
+            border-color: #007bff;
+            background-color: #f0f9ff;
+        }
+
         .card-icons i {
-            font-size: 28px;
+            font-size: 32px;
             color: #555;
         }
 
@@ -68,7 +87,6 @@
     <div class="logo-container">
         <!-- Replace text with SVG logo -->
         <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%;">
-            <!-- Gradients and patterns -->
             <defs>
                 <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#6200EA" />
@@ -87,39 +105,37 @@
                 </filter>
             </defs>
 
-            <!-- Background circle -->
             <circle cx="150" cy="100" r="90" fill="url(#logoGradient)" opacity="0.8" />
-
-            <!-- Signal wave lines -->
             <g transform="translate(235, 100) scale(0.9)" filter="url(#glow)">
-                <path d="M-100,0 C-75,-40 -50,40 -25,-20 C0,20 25,-40 50,0 C75,40 100,-20 125,10 C150,-30 175,20 200,0"
-                      stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />
-                <path d="M-100,30 C-75,-10 -50,50 -25,10 C0,50 25,-10 50,30 C75,70 100,10 125,40 C150,0 175,50 200,30"
-                      stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7" />
+                <path d="M-100,0 C-75,-40 -50,40 -25,-20 C0,20 25,-40 50,0 C75,40 100,-20 125,10 C150,-30 175,20 200,0" stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />
+                <path d="M-100,30 C-75,-10 -50,50 -25,10 C0,50 25,-10 50,30 C75,70 100,10 125,40 C150,0 175,50 200,30" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7" />
             </g>
-
-            <!-- Globe/Network icon -->
-            <g transform="translate(150, 100) scale(0.5)">
-                <circle cx="0" cy="0" r="60" fill="none" stroke="white" stroke-width="6" />
-                <ellipse cx="0" cy="0" rx="60" ry="25" fill="none" stroke="white" stroke-width="6" />
-                <line x1="-60" y1="0" x2="60" y2="0" stroke="white" stroke-width="6" />
-                <line x1="0" y1="-60" x2="0" y2="60" stroke="white" stroke-width="6" />
-            </g>
-
-            <!-- Company name -->
             <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="48" fill="#2E2E2E">NET<tspan fill="#6200EA">WAVE</tspan></text>
-
-            <!-- Tagline -->
             <text x="300" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#555555">GLOBAL CONNECTIVITY SOLUTIONS</text>
         </svg>
     </div>
 
     <!-- Payment Form -->
-    <form>
+    <form id="payment-form">
         <div class="mb-3">
             <label for="card-name" class="form-label">Cardholder Name</label>
             <input type="text" class="form-control" id="card-name" placeholder="John Doe" required>
         </div>
+        <div class="card-icons mb-3">
+            <div id="visa" onclick="selected('visa')">
+                <i class="fab fa-cc-visa"></i>
+                <div>Visa</div>
+            </div>
+            <div id="mastercard" onclick="selected('mastercard')">
+                <i class="fab fa-cc-mastercard"></i>
+                <div>Mastercard</div>
+            </div>
+            <div id="amex" onclick="selected('amex')">
+                <i class="fab fa-cc-amex"></i>
+                <div>Amex</div>
+            </div>
+        </div>
+
         <div class="mb-3">
             <label for="card-number" class="form-label">Card Number</label>
             <input type="number" class="form-control" id="card-number" placeholder="1234 5678 9101 1121" required>
@@ -133,12 +149,6 @@
             <input type="password" class="form-control" id="cvv" placeholder="***" required>
         </div>
 
-        <div class="card-icons mb-3">
-            <i class="fab fa-cc-visa"></i>
-            <i class="fab fa-cc-mastercard"></i>
-            <i class="fab fa-cc-amex"></i>
-        </div>
-
         <button type="submit" class="btn submit-btn w-100">Pay Now</button>
     </form>
 
@@ -146,6 +156,94 @@
         <a href="#" class="text-decoration-none text-primary">Need help?</a>
     </div>
 </div>
+
+<script>
+    // Add this to the existing script in checkoutpay.html
+    document.getElementById('payment-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get card details
+        const cardName = document.getElementById('card-name').value;
+        const cardNumber = document.getElementById('card-number').value;
+        const expiryDate = document.getElementById('expiry-date').value;
+        const cvv = document.getElementById('cvv').value;
+
+        // Determine card type from selection
+        let cardType = '';
+        if (document.getElementById('visa').classList.contains('selected')) {
+            cardType = 'visa';
+        } else if (document.getElementById('mastercard').classList.contains('selected')) {
+            cardType = 'mastercard';
+        } else if (document.getElementById('amex').classList.contains('selected')) {
+            cardType = 'amex';
+        }
+
+        // Get order details from localStorage
+        const orderId = localStorage.getItem('checkout_order_id');
+        const amount = parseFloat(localStorage.getItem('checkout_amount'));
+        const email = localStorage.getItem('checkout_email');
+
+        // Process payment via API
+        fetch('http://localhost:8080/payment/process', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            },
+            body: JSON.stringify({
+                orderId: orderId,
+                amount: amount,
+                cardName: cardName,
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cvv: cvv,
+                email: email,
+                cardType: cardType
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    // Store payment details for success page
+                    localStorage.setItem('payment_id', data.data.paymentId);
+                    localStorage.setItem('payment_date', data.data.paymentDate);
+                    localStorage.setItem('payment_method', cardType);
+
+                    // Redirect to success page
+                    window.location.href = `success.html?orderId=${orderId}&cardName=${cardName}&cardNumber=${cardNumber.slice(-4)}`;
+                } else {
+                    alert("Payment failed: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error processing payment:', error);
+                alert('Error processing payment. Please try again.');
+            });
+    });
+    // Function to handle card selection
+    function selected(cardType) {
+        const cards = document.querySelectorAll('.card-icons div');
+        cards.forEach(card => {
+            card.classList.remove('selected');
+        });
+
+        document.getElementById(cardType).classList.add('selected');
+    }
+    //
+    // // Handle form submission and redirect to success page
+    // document.getElementById('payment-form').addEventListener('submit', function(event) {
+    //     event.preventDefault();
+    //
+    //     // Get the payment details
+    //     const cardName = document.getElementById('card-name').value;
+    //     const cardNumber = document.getElementById('card-number').value;
+    //     const expiryDate = document.getElementById('expiry-date').value;
+    //     const cvv = document.getElementById('cvv').value;
+    //
+    //     // Redirect to the success page
+    //     window.location.href = `success.html?cardName=${cardName}&cardNumber=${cardNumber}&expiryDate=${expiryDate}&cvv=${cvv}`;
+    // });
+</script>
 
 </body>
 </html>

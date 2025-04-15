@@ -4,7 +4,11 @@ import jakarta.transaction.Transactional;
 import org.example.netwave.dto.OrderResponseDTO;
 import org.example.netwave.dto.PaymentDTO;
 import org.example.netwave.dto.ResponseDTO;
+import org.example.netwave.entity.Payment;
+import org.example.netwave.entity.User;
 import org.example.netwave.service.OrderService;
+import org.example.netwave.service.PaymentService;
+import org.example.netwave.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -31,6 +35,12 @@ public class PaymentController {
 
     @Autowired
     private  OrderService orderService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @PostMapping("/complete")
     @Transactional
@@ -67,6 +77,56 @@ public class PaymentController {
         orderService.updateOrderStatus(notification.getOrder_id(), notification.getStatus_code());
 
         return ResponseEntity.ok("Notification received");
+    }
+
+    @PostMapping("/process")
+    public ResponseEntity<ResponseDTO> processPayment(@RequestBody PaymentDTO paymentRequest) {
+        try {
+            // Find user by email
+            User user = userService.findByEmail(paymentRequest.getEmail());
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseDTO(400, "User not found", null));
+            }
+
+            // Process payment
+            Payment payment = paymentService.processPayment(paymentRequest, user);
+
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("paymentId", payment.getPaymentId());
+            responseData.put("orderId", paymentRequest.getOrderId());
+            responseData.put("amount", payment.getAmount());
+            responseData.put("paymentDate", payment.getPaymentDate().toString());
+            responseData.put("paymentMethod", payment.getPaymentMethod().toString());
+
+            return ResponseEntity.ok(new ResponseDTO(200, "Payment successful", responseData));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(500, "Error processing payment: " + e.getMessage(), null));
+        }
+    }
+
+    @GetMapping("/details/{orderId}")
+    public ResponseEntity<ResponseDTO> getPaymentDetails(@PathVariable String orderId) {
+        try {
+            Payment payment = paymentService.findByOrderId(orderId);
+            if (payment == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(404, "Payment not found", null));
+            }
+
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("paymentId", payment.getPaymentId());
+            responseData.put("amount", payment.getAmount());
+            responseData.put("paymentDate", payment.getPaymentDate().toString());
+            responseData.put("paymentMethod", payment.getPaymentMethod().toString());
+//            responseData.put("userName", payment.getUser().getFirstName() + " " + payment.getUser().getLastName());
+
+            return ResponseEntity.ok(new ResponseDTO(200, "Payment details retrieved", responseData));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(500, "Error retrieving payment details: " + e.getMessage(), null));
+        }
     }
 
     @GetMapping("/generate-hash")
