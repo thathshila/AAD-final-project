@@ -406,7 +406,7 @@
         }
 
         .top-header {
-            background-color: #0055a4;
+            background-color: #005e20;
             height: 40px;
         }
 
@@ -443,37 +443,50 @@
         }
 
         .bill-title {
-            color: #0055a4;
+            color: #007c2b;
             font-weight: bold;
             margin-bottom: 30px;
             font-size: 2.3rem;
         }
 
         .form-label {
-            color: #666;
+            color: #3a7b44;
             font-weight: 500;
         }
 
         .form-control {
             padding: 10px;
             margin-bottom: 15px;
+            border: 1px solid #a3d39c;
+        }
+
+        .form-control:focus {
+            border-color: #00a651;
+            box-shadow: 0 0 0 0.2rem rgba(0, 166, 81, 0.25);
         }
 
         .btn-back {
             background-color: #00a651;
             color: white;
             padding: 6px 25px;
+            border: none;
         }
 
         .btn-proceed {
-            background-color: #00a651;
+            background-color: #29b584;
             color: white;
             padding: 6px 25px;
             margin-left: 10px;
+            border: none;
+        }
+
+        .btn-back:hover, .btn-proceed:hover {
+            opacity: 0.9;
+            color: white;
         }
 
         .find-account-link {
-            color: #0055a4;
+            color: #007c2b;
             text-decoration: none;
             font-size: 0.85rem;
         }
@@ -483,7 +496,7 @@
         }
 
         .addon-banner {
-            background-color: #0a4b87;
+            background-color: #34c759;
             color: white;
             padding: 15px 20px;
             border-radius: 30px;
@@ -512,11 +525,11 @@
         }
 
         .prepaid-badge {
-            background-color: #1e3a8a;
+            background-color: #005e20;
         }
 
         .postpaid-badge {
-            background-color: #00a651;
+            background-color: #1de8ab;
         }
 
         .addon-title {
@@ -531,7 +544,7 @@
         }
 
         .footer {
-            background-color: #0055a4;
+            background-color: #005e20;
             color: white;
             padding: 10px 0;
             text-align: center;
@@ -541,6 +554,10 @@
             color: white;
             text-decoration: none;
             margin: 0 10px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         /* Network visualization background */
@@ -562,18 +579,35 @@
         }
 
         .dot-green {
-            background-color: #8dc63f;
+            background-color: #3fc69d;
         }
 
         .dot-blue {
-            background-color: #00aeef;
+            background-color: #a3d39c;
         }
 
         .line {
             position: absolute;
             height: 1px;
-            background-color: #eaeaea;
+            background-color: #dcf0d6;
             transform-origin: 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .addon-banner {
+                padding-left: 20px;
+                padding-top: 60px;
+            }
+
+            .addon-badge {
+                width: 90px;
+                height: 90px;
+                transform: translate(10px, -30px);
+            }
+
+            .bill-title {
+                font-size: 1.8rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -607,12 +641,12 @@
     <div class="network-bg" id="networkBg"></div>
 
     <div class="container form-container">
-        <!-- Logo -->
-        <div class="text-center">
-            <div class="logo-container">
-                <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo" class="logo">
-            </div>
-        </div>
+<!--        &lt;!&ndash; Logo &ndash;&gt;-->
+<!--        <div class="text-center">-->
+<!--            <div class="logo-container">-->
+<!--                <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo" class="logo">-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="row">
             <div class="col-md-6">
@@ -682,7 +716,7 @@
             <a href="#">Privacy Policy</a> |
             <a href="#">Terms of Use</a> |
             <a href="#">FAQ</a>
-            <span class="ms-4">© Mobitel (Pvt) Ltd. All rights reserved.</span>
+            <span class="ms-4">© Netwave (Pvt) Ltd. All rights reserved.</span>
         </div>
     </div>
 </footer>

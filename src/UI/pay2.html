@@ -247,120 +247,206 @@
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
-        body {
-            background-color: #f8f9fa;
-            overflow-x: hidden;
-        }
+            body {
+                background-color: #ffffff;
+                overflow-x: hidden;
+                font-family: Arial, sans-serif;
+                color: #202020;
+            }
 
-        .top-header {
-            background-color: #0055a4;
-            height: 40px;
-        }
+            .top-header {
+                background-color: #00a651;
+                height: 40px;
+            }
 
-        .bottom-line {
-            height: 5px;
-            background: linear-gradient(90deg, #00a651, #8dc63f);
-        }
+            .bottom-line {
+                height: 5px;
+                background: linear-gradient(90deg, #00a651, #006633);
+            }
 
-        .content-area {
-            position: relative;
-            z-index: 1;
-            min-height: 70vh;
-        }
+            .content-area {
+                position: relative;
+                z-index: 1;
+                min-height: 70vh;
+                background-color: #ffffff;
+            }
 
-        .form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px 15px;
-        }
+            .form-container {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 30px 15px;
+            }
 
-        .logo-container {
-            background-color: #fff;
-            padding: 15px;
-            display: inline-block;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            position: relative;
-            top: -20px;
-        }
+            .logo-container {
+                background-color: #fff;
+                padding: 15px;
+                display: inline-block;
+                border-radius: 5px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+                position: relative;
+                top: -20px;
+            }
 
-        .logo {
-            max-width: 150px;
-        }
+            .logo {
+                max-width: 150px;
+            }
 
-        .form-title {
-            color: #0055a4;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
+            .form-title {
+                color: #00a651;
+                font-weight: bold;
+                margin-bottom: 30px;
+            }
 
-        .form-label {
-            color: #666;
-            font-weight: 500;
-        }
+            .form-label {
+                color: #202020;
+                font-weight: 500;
+            }
 
-        .form-control {
-            padding: 10px;
-            margin-bottom: 15px;
-        }
+            .form-control {
+                padding: 10px;
+                margin-bottom: 15px;
+                border: 1px solid #cccccc;
+                background-color: #ffffff;
+                color: #202020;
+            }
 
-        .btn-edit {
-            background-color: #00a651;
-            color: white;
-        }
+            .form-control:focus {
+                border-color: #00a651;
+                box-shadow: 0 0 0 0.2rem rgba(0, 166, 81, 0.25);
+            }
 
-        .btn-pay {
-            background-color: #00a651;
-            color: white;
-            margin-left: 10px;
-        }
+            .form-control[readonly] {
+                background-color: #f3f3f3;
+            }
 
-        .footer {
-            background-color: #0055a4;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
+            .btn-edit {
+                background-color: #00a651;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 4px;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
 
-        .footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
+            .btn-pay {
+                background-color: #00a651;
+                color: white;
+                margin-left: 10px;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 4px;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
 
-        /* Network visualization background */
-        .network-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.5;
-        }
+            .btn-edit:hover, .btn-pay:hover {
+                background-color: #008c44;
+                color: white;
+            }
 
-        .dot {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
+            .footer {
+                background-color: #202020;
+                color: white;
+                padding: 10px 0;
+                text-align: center;
+            }
 
-        .dot-green {
-            background-color: #8dc63f;
-        }
+            .footer a {
+                color: white;
+                text-decoration: none;
+                margin: 0 10px;
+            }
 
-        .dot-blue {
-            background-color: #00aeef;
-        }
+            .footer a:hover {
+                color: #00a651;
+                text-decoration: underline;
+            }
 
-        .line {
-            position: absolute;
-            height: 1px;
-            background-color: #eaeaea;
-            transform-origin: 0 0;
-        }
+            /* Network visualization background */
+            .network-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                opacity: 0.3;
+            }
+
+            .dot {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+            }
+
+            .dot-green {
+                background-color: #00a651;
+            }
+
+            .dot-blue {
+                background-color: #202020;
+            }
+
+            .line {
+                position: absolute;
+                height: 1px;
+                background-color: #dddddd;
+                transform-origin: 0 0;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .text-end {
+                text-align: right;
+            }
+
+            .mt-4 {
+                margin-top: 1.5rem;
+            }
+
+            .mt-5 {
+                margin-top: 3rem;
+            }
+
+            .mb-3 {
+                margin-bottom: 1rem;
+            }
+
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .col-sm-4 {
+                width: 33.333%;
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+
+            .col-sm-8 {
+                width: 66.667%;
+                padding-right: 15px;
+                padding-left: 15px;
+            }
+
+            @media (max-width: 576px) {
+                .col-sm-4, .col-sm-8 {
+                    width: 100%;
+                }
+
+                .text-end {
+                    text-align: center;
+                }
+
+                .form-label {
+                    margin-bottom: 0.5rem;
+                }
+            }
     </style>
 </head>
 <body>
@@ -377,11 +463,11 @@
 
     <div class="container form-container">
         <!-- Logo -->
-        <div class="text-center">
-            <div class="logo-container">
-                <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo" class="logo">
-            </div>
-        </div>
+<!--        <div class="text-center">-->
+<!--            <div class="logo-container">-->
+<!--                <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo" class="logo">-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- Form title -->
         <h2 class="text-center form-title">Please confirm the information below</h2>
@@ -431,7 +517,7 @@
             <a href="#">Privacy Policy</a> |
             <a href="#">Terms of Use</a> |
             <a href="#">FAQ</a>
-            <span class="ms-4">© Mobitel (Pvt) Ltd. All rights reserved.</span>
+            <span class="ms-4">© Netwave (Pvt) Ltd. All rights reserved.</span>
         </div>
     </div>
 </footer>
