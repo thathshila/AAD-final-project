@@ -1,6 +1,7 @@
 package org.example.netwave.controller;
 
 import org.example.netwave.dto.PackageDTO;
+import org.example.netwave.dto.ResponseDTO;
 import org.example.netwave.entity.Packages;
 import org.example.netwave.service.PackageService;
 import org.example.netwave.utill.ResponseUtil;
@@ -76,6 +77,5 @@ public class packageController {
         response.put("data", packageDTOs);
         return ResponseEntity.ok(response);
     }
-
 
 }
