@@ -169,4 +169,9 @@ public class OrderServiceImpl implements OrderService {
             ordersRepository.save(order);
         }
     }
+
+    @Override
+    public double getTotalOrderCount() {
+        return ordersRepository.countOrder();
+    }
 }

@@ -1,9 +1,6 @@
 package org.example.netwave.controller;
 
-import org.example.netwave.service.ItemService;
-import org.example.netwave.service.ReloadService;
-import org.example.netwave.service.SupplierService;
-import org.example.netwave.service.UserService;
+import org.example.netwave.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +23,9 @@ public class DashboardController {
     @Autowired
     private ReloadService reloadService;
 
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping("/dashboard/user-count")
     public int getTotalUserCount() {
         return userService.getTotalUserCount();
@@ -44,5 +44,10 @@ public class DashboardController {
     @GetMapping("/dashboard/reload-count")
     public double getTotalReloadCount() {
         return reloadService.getTotalReloadCount();
+    }
+
+    @GetMapping("/dashboard/order-count")
+    public double getTotalOrderCount() {
+        return orderService.getTotalOrderCount();
     }
 }

@@ -189,7 +189,7 @@
                     <i class="fas fa-dollar-sign"></i> Revenue(Orders)
                 </div>
                 <div class="card-body">
-                    <h4>$15,300</h4>
+                    <h4 id="totalOrderAmount">Loading...</h4>
                     <p>Monthly revenue from services.</p>
                 </div>
             </div>
@@ -285,7 +285,7 @@
             dataType: "json",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function(data) {
-                $("#totalReloadAmount").text("$"+data);
+                $("#totalReloadAmount").text("LKR"+data+".00");
             },
             error: function(xhr, status, error) {
                 console.error("Error fetching user count:", error);
@@ -294,6 +294,21 @@
         });
     });
 
+    $(document).ready(function() {
+        $.ajax({
+            url: "http://localhost:8080/api/v1/dashboard/order-count",
+            type: "GET",
+            dataType: "json",
+            headers: { "Authorization": `Bearer ${authToken}` },
+            success: function(data) {
+                $("#totalOrderAmount").text("LKR"+data+".00");
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching user count:", error);
+                $("#totalOrderAmount").text("Error");
+            }
+        });
+    });
 </script>
 </body>
 </html>

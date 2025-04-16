@@ -7,6 +7,7 @@ import org.example.netwave.entity.Orders;
 import org.example.netwave.entity.User;
 
 public interface OrderService {
+
     @Transactional
     OrderResponseDTO saveOrderAndDetails(PaymentDTO paymentDTO);
 
@@ -16,4 +17,7 @@ public interface OrderService {
 
     @Transactional
     void updateOrderStatus(String orderId, int statusCode);
+
+    double getTotalOrderCount();
+
 }
