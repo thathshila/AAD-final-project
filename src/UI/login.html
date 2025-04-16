@@ -1,241 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-
-<!--<head>-->
-<!--    <meta charset="utf-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
-<!--    <title>Login Page</title>-->
-<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>-->
-
-<!--    <style>-->
-<!--        body {-->
-<!--            font-family: 'Poppins', sans-serif;-->
-<!--            background-color: #f8f9fa;-->
-<!--            background-image: url('assets/img/register.jpg'); /* Add your image URL here */-->
-<!--            background-size: cover;-->
-<!--            background-position: center center;-->
-<!--            color: #212529;-->
-<!--            margin: 0;-->
-<!--            padding: 0;-->
-<!--            height: 100vh;-->
-<!--            display: flex;-->
-<!--            justify-content: center;-->
-<!--            align-items: center;-->
-<!--        }-->
-
-<!--        .container {-->
-<!--            display: flex;-->
-<!--            justify-content: center;-->
-<!--            align-items: center;-->
-<!--            min-height: 100vh;-->
-<!--        }-->
-
-<!--        .card {-->
-<!--            background-color: #ffffff;-->
-<!--            border-radius: 10px;-->
-<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);-->
-<!--            padding: 20px;-->
-<!--            width: 100%;-->
-<!--            max-width: 400px;-->
-<!--            text-align: center;-->
-<!--        }-->
-
-<!--        .form-control:focus {-->
-<!--            border-color: #007bff;-->
-<!--            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);-->
-<!--        }-->
-
-<!--        .btn-primary {-->
-<!--            width: 100%;-->
-<!--        }-->
-
-<!--        .forgot-pass {-->
-<!--            color: #007bff;-->
-<!--            text-decoration: none;-->
-<!--        }-->
-
-<!--        .forgot-pass:hover {-->
-<!--            color: #0056b3;-->
-<!--        }-->
-<!--    </style>-->
-<!--</head>-->
-
-<!--<body>-->
-
-<!--<div class="container">-->
-<!--    <div class="card">-->
-<!--        <div class="card-body">-->
-<!--            <h3 class="card-title text-left mb-4">Login</h3>-->
-<!--            <form id="loginForm">-->
-<!--                <div class="form-group mb-3">-->
-<!--                    <label for="email">Email</label>-->
-<!--                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>-->
-<!--                </div>-->
-<!--                <div class="form-group mb-4">-->
-<!--                    <label for="password">Password</label>-->
-<!--                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>-->
-<!--                </div>-->
-<!--                <div class="form-group d-flex align-items-center justify-content-between">-->
-<!--                    <div class="form-check">-->
-<!--                        <input type="checkbox" class="form-check-input" id="rememberMe">-->
-<!--                        <label class="form-check-label" for="rememberMe">Remember me</label>-->
-<!--                    </div>-->
-<!--                    <a href="#" class="forgot-pass" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a>-->
-<!--                </div>-->
-<!--                <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>-->
-<!--                <p class="text-center mt-3">Don't have an account? <a href="register.html">Sign Up</a></p>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--&lt;!&ndash; Forgot Password Modal &ndash;&gt;-->
-<!--<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>-->
-<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--            </div>-->
-<!--            <div class="modal-body">-->
-<!--                <form id="forgotPasswordForm">-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="forgotEmail">Enter Your Email</label>-->
-<!--                        <input type="email" class="form-control" id="forgotEmail" required>-->
-<!--                    </div>-->
-<!--                    <button type="button" class="btn btn-primary mt-2" id="sendOtpBtn">Send OTP</button>-->
-<!--                </form>-->
-
-<!--                <form id="verifyOtpForm" class="mt-3" style="display:none;">-->
-<!--                    <div class="form-group">-->
-<!--                        <label for="otpCode">Enter OTP</label>-->
-<!--                        <input type="text" class="form-control" id="otpCode" required>-->
-<!--                    </div>-->
-<!--                    <div class="form-group mt-2">-->
-<!--                        <label for="newPassword">New Password</label>-->
-<!--                        <input type="password" class="form-control" id="newPassword" required>-->
-<!--                    </div>-->
-<!--                    <button type="button" class="btn btn-success mt-2" id="verifyOtpBtn">Verify & Change Password</button>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
-
-<!--<script>-->
-<!--    document.getElementById("loginForm").addEventListener("submit", function (event) {-->
-<!--        event.preventDefault();-->
-
-<!--        let email = document.getElementById("email").value.trim();-->
-<!--        let password = document.getElementById("password").value.trim();-->
-
-<!--        if (!email || !password) {-->
-<!--            alert("Please enter both email and password.");-->
-<!--            return;-->
-<!--        }-->
-
-<!--        let user = { email, password };-->
-
-<!--        fetch("http://localhost:8080/api/v1/auth/authenticate", {-->
-<!--            method: "POST",-->
-<!--            headers: { "Content-Type": "application/json" },-->
-<!--            body: JSON.stringify(user)-->
-<!--        })-->
-<!--            .then(response => response.json())-->
-<!--            .then(response => {-->
-<!--                if (response.code === 201 && response.data.token) {-->
-<!--                    localStorage.setItem("authToken", response.data.token);-->
-<!--                    return fetch("http://localhost:8080/api/v1/admin/checkRole", {-->
-<!--                        method: "GET",-->
-<!--                        headers: { "Authorization": `Bearer ${response.data.token}` }-->
-<!--                    });-->
-<!--                } else {-->
-<!--                    throw new Error(response.data.message || "Login failed.");-->
-<!--                }-->
-<!--            })-->
-<!--            .then(response => response.json())-->
-<!--            .then(response => {-->
-<!--                let role = response.role;-->
-
-<!--                if (role === "ADMIN") {-->
-<!--                    window.location.href = "admin_dashboard.html";-->
-<!--                } else if (role === "User") {-->
-<!--                    window.location.href = "index.html";-->
-<!--                } else {-->
-<!--                    alert("User role not recognized: " + role);-->
-<!--                }-->
-<!--            })-->
-<!--            .catch(error => {-->
-<!--                console.error("Login error:", error);-->
-<!--                alert("Login failed. Please try again.");-->
-<!--            });-->
-<!--    });-->
-<!--    $(document).ready(function () {-->
-<!--        $("#sendOtpBtn").click(function () {-->
-<!--            let email = $("#forgotEmail").val().trim();-->
-<!--            if (!email) {-->
-<!--                alert("Please enter your email.");-->
-<!--                return;-->
-<!--            }-->
-
-<!--            $.ajax({-->
-<!--                url: "http://localhost:8080/api/v1/auth/send-otp",-->
-<!--                type: "POST",-->
-<!--                contentType: "application/json",-->
-<!--                data: JSON.stringify({ email: email }),-->
-<!--                success: function (response) {-->
-<!--                    alert("OTP sent to your email.");-->
-<!--                    $("#forgotPasswordForm").hide();-->
-<!--                    $("#verifyOtpForm").show();-->
-<!--                },-->
-<!--                error: function () {-->
-<!--                    alert("Error sending OTP. Please try again.");-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-
-<!--        $("#verifyOtpBtn").click(function () {-->
-<!--            let email = $("#forgotEmail").val().trim();-->
-<!--            let otp = $("#otpCode").val().trim();-->
-<!--            let newPassword = $("#newPassword").val().trim();-->
-
-<!--            if (!otp || !newPassword) {-->
-<!--                alert("Please enter OTP and new password.");-->
-<!--                return;-->
-<!--            }-->
-
-<!--            let token = localStorage.getItem("authToken");-->
-
-<!--            if (!token) {-->
-<!--                alert("You need to log in first.");-->
-<!--                return;-->
-<!--            }-->
-
-<!--            $.ajax({-->
-<!--                url: "http://localhost:8080/api/v1/auth/verify-otp",-->
-<!--                type: "POST",-->
-<!--                contentType: "application/json",-->
-<!--                headers: {-->
-<!--                    "Authorization": "Bearer " + token-->
-<!--                },-->
-<!--                data: JSON.stringify({ email: email, otp: otp, newPassword: newPassword }),-->
-<!--                success: function (response) {-->
-<!--                    alert("Password changed successfully.");-->
-<!--                    $("#forgotPasswordModal").modal('hide');-->
-<!--                },-->
-<!--                error: function () {-->
-<!--                    alert("Invalid OTP or expired. Please try again.");-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -244,15 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Login Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
-            background-image: url('assets/img/register.jpg');
+            background-image: url('assets/img/register.jpg'); /* Add your image URL here */
             background-size: cover;
             background-position: center center;
             color: #212529;
@@ -364,8 +124,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<!-- SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.getElementById("loginForm").addEventListener("submit", function (event) {
@@ -375,24 +133,9 @@
         let password = document.getElementById("password").value.trim();
 
         if (!email || !password) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Missing Information',
-                text: 'Please enter both email and password.',
-                confirmButtonColor: '#007bff'
-            });
+            alert("Please enter both email and password.");
             return;
         }
-
-        // Show loading indicator
-        Swal.fire({
-            title: 'Logging In',
-            html: 'Please wait while we authenticate...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
 
         let user = { email, password };
 
@@ -410,67 +153,33 @@
                         headers: { "Authorization": `Bearer ${response.data.token}` }
                     });
                 } else {
-                    throw new Error(response.data?.message || "Login failed. Please check your credentials.");
+                    throw new Error(response.data.message || "Login failed.");
                 }
             })
             .then(response => response.json())
             .then(response => {
                 let role = response.role;
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login Successful!',
-                    text: `Welcome back! Redirecting to your dashboard...`,
-                    confirmButtonColor: '#007bff',
-                    timer: 2000,
-                    timerProgressBar: true
-                }).then(() => {
-                    if (role === "ADMIN") {
-                        window.location.href = "admin_dashboard.html";
-                    } else if (role === "User") {
-                        window.location.href = "index.html";
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Role Error',
-                            text: 'User role not recognized: ' + role,
-                            confirmButtonColor: '#007bff'
-                        });
-                    }
-                });
+
+                if (role === "ADMIN") {
+                    window.location.href = "admin_dashboard.html";
+                } else if (role === "User") {
+                    window.location.href = "index.html";
+                } else {
+                    alert("User role not recognized: " + role);
+                }
             })
             .catch(error => {
                 console.error("Login error:", error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Login Failed',
-                    text: error.message || 'Login failed. Please try again.',
-                    confirmButtonColor: '#007bff'
-                });
+                alert("Login failed. Please try again.");
             });
     });
-
     $(document).ready(function () {
         $("#sendOtpBtn").click(function () {
             let email = $("#forgotEmail").val().trim();
             if (!email) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Email Required',
-                    text: 'Please enter your email address.',
-                    confirmButtonColor: '#007bff'
-                });
+                alert("Please enter your email.");
                 return;
             }
-
-            // Show loading indicator
-            Swal.fire({
-                title: 'Sending OTP',
-                html: 'Please wait while we send the OTP to your email...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
 
             $.ajax({
                 url: "http://localhost:8080/api/v1/auth/send-otp",
@@ -478,23 +187,12 @@
                 contentType: "application/json",
                 data: JSON.stringify({ email: email }),
                 success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'OTP Sent!',
-                        text: 'We have sent an OTP to your email address.',
-                        confirmButtonColor: '#007bff'
-                    });
+                    alert("OTP sent to your email.");
                     $("#forgotPasswordForm").hide();
                     $("#verifyOtpForm").show();
-                    $("#forgotPasswordModal").modal('handleUpdate');
                 },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseJSON?.message || 'Error sending OTP. Please try again.',
-                        confirmButtonColor: '#007bff'
-                    });
+                error: function () {
+                    alert("Error sending OTP. Please try again.");
                 }
             });
         });
@@ -505,52 +203,31 @@
             let newPassword = $("#newPassword").val().trim();
 
             if (!otp || !newPassword) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Missing Information',
-                    text: 'Please enter both OTP and new password.',
-                    confirmButtonColor: '#007bff'
-                });
+                alert("Please enter OTP and new password.");
                 return;
             }
 
-            // Show loading indicator
-            Swal.fire({
-                title: 'Verifying OTP',
-                html: 'Please wait while we verify your OTP...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
+            let token = localStorage.getItem("authToken");
+
+            if (!token) {
+                alert("You need to log in first.");
+                return;
+            }
 
             $.ajax({
                 url: "http://localhost:8080/api/v1/auth/verify-otp",
                 type: "POST",
                 contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
                 data: JSON.stringify({ email: email, otp: otp, newPassword: newPassword }),
                 success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Password Changed!',
-                        text: 'Your password has been updated successfully.',
-                        confirmButtonColor: '#007bff'
-                    }).then(() => {
-                        $("#forgotPasswordModal").modal('hide');
-                        $("#verifyOtpForm").hide();
-                        $("#forgotPasswordForm").show();
-                        $("#forgotEmail").val('');
-                        $("#otpCode").val('');
-                        $("#newPassword").val('');
-                    });
+                    alert("Password changed successfully.");
+                    $("#forgotPasswordModal").modal('hide');
                 },
-                error: function (xhr) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: xhr.responseJSON?.message || 'Invalid OTP or expired. Please try again.',
-                        confirmButtonColor: '#007bff'
-                    });
+                error: function () {
+                    alert("Invalid OTP or expired. Please try again.");
                 }
             });
         });
@@ -559,3 +236,326 @@
 
 </body>
 </html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="utf-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+<!--    <title>Login Page</title>-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">-->
+<!--    &lt;!&ndash; SweetAlert2 CSS &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>-->
+
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: 'Poppins', sans-serif;-->
+<!--            background-color: #f8f9fa;-->
+<!--            background-image: url('assets/img/register.jpg');-->
+<!--            background-size: cover;-->
+<!--            background-position: center center;-->
+<!--            color: #212529;-->
+<!--            margin: 0;-->
+<!--            padding: 0;-->
+<!--            height: 100vh;-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            align-items: center;-->
+<!--            min-height: 100vh;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background-color: #ffffff;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);-->
+<!--            padding: 20px;-->
+<!--            width: 100%;-->
+<!--            max-width: 400px;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .form-control:focus {-->
+<!--            border-color: #007bff;-->
+<!--            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);-->
+<!--        }-->
+
+<!--        .btn-primary {-->
+<!--            width: 100%;-->
+<!--        }-->
+
+<!--        .forgot-pass {-->
+<!--            color: #007bff;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        .forgot-pass:hover {-->
+<!--            color: #0056b3;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<div class="container">-->
+<!--    <div class="card">-->
+<!--        <div class="card-body">-->
+<!--            <h3 class="card-title text-left mb-4">Login</h3>-->
+<!--            <form id="loginForm">-->
+<!--                <div class="form-group mb-3">-->
+<!--                    <label for="email">Email</label>-->
+<!--                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>-->
+<!--                </div>-->
+<!--                <div class="form-group mb-4">-->
+<!--                    <label for="password">Password</label>-->
+<!--                    <input type="password" class="form-control" id="password" placeholder="Enter your password" required>-->
+<!--                </div>-->
+<!--                <div class="form-group d-flex align-items-center justify-content-between">-->
+<!--                    <div class="form-check">-->
+<!--                        <input type="checkbox" class="form-check-input" id="rememberMe">-->
+<!--                        <label class="form-check-label" for="rememberMe">Remember me</label>-->
+<!--                    </div>-->
+<!--                    <a href="#" class="forgot-pass" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a>-->
+<!--                </div>-->
+<!--                <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>-->
+<!--                <p class="text-center mt-3">Don't have an account? <a href="register.html">Sign Up</a></p>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Forgot Password Modal &ndash;&gt;-->
+<!--<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>-->
+<!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <div class="modal-body">-->
+<!--                <form id="forgotPasswordForm">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="forgotEmail">Enter Your Email</label>-->
+<!--                        <input type="email" class="form-control" id="forgotEmail" required>-->
+<!--                    </div>-->
+<!--                    <button type="button" class="btn btn-primary mt-2" id="sendOtpBtn">Send OTP</button>-->
+<!--                </form>-->
+
+<!--                <form id="verifyOtpForm" class="mt-3" style="display:none;">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="otpCode">Enter OTP</label>-->
+<!--                        <input type="text" class="form-control" id="otpCode" required>-->
+<!--                    </div>-->
+<!--                    <div class="form-group mt-2">-->
+<!--                        <label for="newPassword">New Password</label>-->
+<!--                        <input type="password" class="form-control" id="newPassword" required>-->
+<!--                    </div>-->
+<!--                    <button type="button" class="btn btn-success mt-2" id="verifyOtpBtn">Verify & Change Password</button>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!--&lt;!&ndash; SweetAlert2 JS &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>-->
+
+<!--<script>-->
+<!--    document.getElementById("loginForm").addEventListener("submit", function (event) {-->
+<!--        event.preventDefault();-->
+
+<!--        let email = document.getElementById("email").value.trim();-->
+<!--        let password = document.getElementById("password").value.trim();-->
+
+<!--        if (!email || !password) {-->
+<!--            Swal.fire({-->
+<!--                icon: 'error',-->
+<!--                title: 'Missing Information',-->
+<!--                text: 'Please enter both email and password.',-->
+<!--                confirmButtonColor: '#007bff'-->
+<!--            });-->
+<!--            return;-->
+<!--        }-->
+
+<!--        // Show loading indicator-->
+<!--        Swal.fire({-->
+<!--            title: 'Logging In',-->
+<!--            html: 'Please wait while we authenticate...',-->
+<!--            allowOutsideClick: false,-->
+<!--            didOpen: () => {-->
+<!--                Swal.showLoading();-->
+<!--            }-->
+<!--        });-->
+
+<!--        let user = { email, password };-->
+
+<!--        fetch("http://localhost:8080/api/v1/auth/authenticate", {-->
+<!--            method: "POST",-->
+<!--            headers: { "Content-Type": "application/json" },-->
+<!--            body: JSON.stringify(user)-->
+<!--        })-->
+<!--            .then(response => response.json())-->
+<!--            .then(response => {-->
+<!--                if (response.code === 201 && response.data.token) {-->
+<!--                    localStorage.setItem("authToken", response.data.token);-->
+<!--                    return fetch("http://localhost:8080/api/v1/admin/checkRole", {-->
+<!--                        method: "GET",-->
+<!--                        headers: { "Authorization": `Bearer ${response.data.token}` }-->
+<!--                    });-->
+<!--                } else {-->
+<!--                    throw new Error(response.data?.message || "Login failed. Please check your credentials.");-->
+<!--                }-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(response => {-->
+<!--                let role = response.role;-->
+<!--                Swal.fire({-->
+<!--                    icon: 'success',-->
+<!--                    title: 'Login Successful!',-->
+<!--                    text: `Welcome back! Redirecting to your dashboard...`,-->
+<!--                    confirmButtonColor: '#007bff',-->
+<!--                    timer: 2000,-->
+<!--                    timerProgressBar: true-->
+<!--                }).then(() => {-->
+<!--                    if (role === "ADMIN") {-->
+<!--                        window.location.href = "admin_dashboard.html";-->
+<!--                    } else if (role === "User") {-->
+<!--                        window.location.href = "index.html";-->
+<!--                    } else {-->
+<!--                        Swal.fire({-->
+<!--                            icon: 'error',-->
+<!--                            title: 'Role Error',-->
+<!--                            text: 'User role not recognized: ' + role,-->
+<!--                            confirmButtonColor: '#007bff'-->
+<!--                        });-->
+<!--                    }-->
+<!--                });-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error("Login error:", error);-->
+<!--                Swal.fire({-->
+<!--                    icon: 'error',-->
+<!--                    title: 'Login Failed',-->
+<!--                    text: error.message || 'Login failed. Please try again.',-->
+<!--                    confirmButtonColor: '#007bff'-->
+<!--                });-->
+<!--            });-->
+<!--    });-->
+
+<!--    $(document).ready(function () {-->
+<!--        $("#sendOtpBtn").click(function () {-->
+<!--            let email = $("#forgotEmail").val().trim();-->
+<!--            if (!email) {-->
+<!--                Swal.fire({-->
+<!--                    icon: 'error',-->
+<!--                    title: 'Email Required',-->
+<!--                    text: 'Please enter your email address.',-->
+<!--                    confirmButtonColor: '#007bff'-->
+<!--                });-->
+<!--                return;-->
+<!--            }-->
+
+<!--            // Show loading indicator-->
+<!--            Swal.fire({-->
+<!--                title: 'Sending OTP',-->
+<!--                html: 'Please wait while we send the OTP to your email...',-->
+<!--                allowOutsideClick: false,-->
+<!--                didOpen: () => {-->
+<!--                    Swal.showLoading();-->
+<!--                }-->
+<!--            });-->
+
+<!--            $.ajax({-->
+<!--                url: "http://localhost:8080/api/v1/auth/send-otp",-->
+<!--                type: "POST",-->
+<!--                contentType: "application/json",-->
+<!--                data: JSON.stringify({ email: email }),-->
+<!--                success: function (response) {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'success',-->
+<!--                        title: 'OTP Sent!',-->
+<!--                        text: 'We have sent an OTP to your email address.',-->
+<!--                        confirmButtonColor: '#007bff'-->
+<!--                    });-->
+<!--                    $("#forgotPasswordForm").hide();-->
+<!--                    $("#verifyOtpForm").show();-->
+<!--                    $("#forgotPasswordModal").modal('handleUpdate');-->
+<!--                },-->
+<!--                error: function (xhr) {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'error',-->
+<!--                        title: 'Error',-->
+<!--                        text: xhr.responseJSON?.message || 'Error sending OTP. Please try again.',-->
+<!--                        confirmButtonColor: '#007bff'-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+
+<!--        $("#verifyOtpBtn").click(function () {-->
+<!--            let email = $("#forgotEmail").val().trim();-->
+<!--            let otp = $("#otpCode").val().trim();-->
+<!--            let newPassword = $("#newPassword").val().trim();-->
+
+<!--            if (!otp || !newPassword) {-->
+<!--                Swal.fire({-->
+<!--                    icon: 'error',-->
+<!--                    title: 'Missing Information',-->
+<!--                    text: 'Please enter both OTP and new password.',-->
+<!--                    confirmButtonColor: '#007bff'-->
+<!--                });-->
+<!--                return;-->
+<!--            }-->
+
+<!--            // Show loading indicator-->
+<!--            Swal.fire({-->
+<!--                title: 'Verifying OTP',-->
+<!--                html: 'Please wait while we verify your OTP...',-->
+<!--                allowOutsideClick: false,-->
+<!--                didOpen: () => {-->
+<!--                    Swal.showLoading();-->
+<!--                }-->
+<!--            });-->
+
+<!--            $.ajax({-->
+<!--                url: "http://localhost:8080/api/v1/auth/verify-otp",-->
+<!--                type: "POST",-->
+<!--                contentType: "application/json",-->
+<!--                data: JSON.stringify({ email: email, otp: otp, newPassword: newPassword }),-->
+<!--                success: function (response) {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'success',-->
+<!--                        title: 'Password Changed!',-->
+<!--                        text: 'Your password has been updated successfully.',-->
+<!--                        confirmButtonColor: '#007bff'-->
+<!--                    }).then(() => {-->
+<!--                        $("#forgotPasswordModal").modal('hide');-->
+<!--                        $("#verifyOtpForm").hide();-->
+<!--                        $("#forgotPasswordForm").show();-->
+<!--                        $("#forgotEmail").val('');-->
+<!--                        $("#otpCode").val('');-->
+<!--                        $("#newPassword").val('');-->
+<!--                    });-->
+<!--                },-->
+<!--                error: function (xhr) {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'error',-->
+<!--                        title: 'Error',-->
+<!--                        text: xhr.responseJSON?.message || 'Invalid OTP or expired. Please try again.',-->
+<!--                        confirmButtonColor: '#007bff'-->
+<!--                    });-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
