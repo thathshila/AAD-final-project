@@ -1,5 +1,8 @@
 NetWave is a web-based telecom platform that supports SIM card services, credit reloads, data bundles, service packages, promotions, and even online shopping for telecom-related products.
 It includes both user and admin interfaces, real-time chat support, and secure login with JWT and OAuth2.
+NetWave uses Spring Boot for the backend, with REST APIs. Frontend is built with Bootstrap and JavaScript. 
+User authentication is handled via JWT and OAuth2 for security. 
+The chat feature is implemented using socket programming with session-based chat history
 ![Screenshot 2025-04-16 213911](https://github.com/user-attachments/assets/48b48d29-e2c2-4ee7-8a0c-a7b394aa3c02)
 ![Screenshot 2025-04-16 213935](https://github.com/user-attachments/assets/3be59543-e2e3-4391-a7aa-54becee9d5fd)
 ![Screenshot 2025-04-16 214027](https://github.com/user-attachments/assets/cf0a6c94-0d3b-4f4f-8647-7d0f3fe21e17)
