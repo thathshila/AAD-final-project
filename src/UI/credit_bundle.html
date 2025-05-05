@@ -263,13 +263,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credit Bundle Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url('assets/img/hero-carousel-1.jpg');
+            background-image: url('assets/img/hero-carousel-1.jpg'); /* Replace with your preferred background image URL */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -295,7 +294,7 @@
         }
 
         .form-container {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -326,7 +325,7 @@
         }
 
         .credit-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
             color: #333;
             padding: 20px;
             border-radius: 10px;
@@ -380,7 +379,7 @@
                         <button type="submit" class="btn btn-success">Save</button>
                     </div>
                     <div class="col-6 mb-2">
-                        <button type="button" class="btn btn-danger" id="deleteBtn">Delete</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
                     </div>
                     <div class="col-6 mb-2">
                         <button type="button" class="btn btn-info" onclick="viewBundles()">View</button>
@@ -398,11 +397,7 @@
     </div>
 </div>
 
-<!-- Bootstrap JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 <script>
     let authToken = localStorage.getItem("authToken");
 
@@ -418,10 +413,9 @@
 
             if (!bundleName || !amount) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Missing Information',
-                    text: 'Please enter all fields!',
-                    confirmButtonColor: '#00695c'
+                    icon: 'warning',
+                    title: 'Required Fields',
+                    text: 'Please enter all fields!'
                 });
                 return;
             }
@@ -436,16 +430,6 @@
                 requestData.bundleId = bundleId;
             }
 
-            // Show loading indicator
-            Swal.fire({
-                title: 'Processing',
-                html: 'Please wait while we save your bundle...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
             $.ajax({
                 url: apiUrl,
                 type: methodType,
@@ -455,9 +439,8 @@
                 success: function () {
                     Swal.fire({
                         icon: 'success',
-                        title: bundleId ? 'Bundle Updated!' : 'Bundle Saved!',
-                        text: bundleId ? 'Your bundle has been updated successfully.' : 'Your bundle has been saved successfully.',
-                        confirmButtonColor: '#00695c'
+                        title: 'Success',
+                        text: bundleId ? 'Bundle updated successfully!' : 'Bundle saved successfully!'
                     });
                     clearForm();
                     viewBundles();
@@ -466,22 +449,20 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Operation Failed',
-                        text: xhr.responseText || 'Failed to save bundle. Please try again.',
-                        confirmButtonColor: '#00695c'
+                        text: xhr.responseText || 'Operation failed'
                     });
                 },
             });
         });
 
-        $("#deleteBtn").click(function () {
+        $(".btn-danger").click(function () {
             let bundleId = $("#bundleId").val().trim();
 
             if (!bundleId) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'No Bundle Selected',
-                    text: 'Please select a bundle to delete.',
-                    confirmButtonColor: '#00695c'
+                    icon: 'warning',
+                    title: 'No Selection',
+                    text: 'Please select a bundle to delete.'
                 });
                 return;
             }
@@ -491,32 +472,21 @@
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#00695c',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Show loading indicator
-                    Swal.fire({
-                        title: 'Deleting',
-                        html: 'Please wait while we delete the bundle...',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
                     $.ajax({
                         url: `http://localhost:8080/api/v1/credit_bundle/delete/${bundleId}`,
                         type: "DELETE",
                         headers: { "Authorization": `Bearer ${authToken}` },
                         success: function () {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Deleted!',
-                                text: 'Your bundle has been deleted.',
-                                confirmButtonColor: '#00695c'
-                            });
+                            Swal.fire(
+                                'Deleted!',
+                                'Bundle has been deleted.',
+                                'success'
+                            );
                             clearForm();
                             viewBundles();
                         },
@@ -524,8 +494,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Delete Failed',
-                                text: xhr.responseText || 'Failed to delete bundle. Please try again.',
-                                confirmButtonColor: '#00695c'
+                                text: xhr.responseText || 'Failed to delete bundle'
                             });
                         },
                     });
@@ -535,42 +504,27 @@
     });
 
     function viewBundles() {
-        // Show loading indicator
-        Swal.fire({
-            title: 'Loading',
-            html: 'Fetching bundles...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
         $.ajax({
             url: "http://localhost:8080/api/v1/credit_bundle/getAll",
             type: "GET",
             headers: { "Authorization": `Bearer ${authToken}` },
             success: function (response) {
-                Swal.close();
                 $("#bundleList").empty();
 
                 if (!Array.isArray(response.data)) {
+                    console.error("Unexpected response format:", response);
                     Swal.fire({
                         icon: 'error',
-                        title: 'Unexpected Response',
-                        text: 'Error fetching bundles. Please try again.',
-                        confirmButtonColor: '#00695c'
+                        title: 'Error',
+                        text: 'Error fetching bundles. Check console for details.'
                     });
-                    return;
-                }
-
-                if (response.data.length === 0) {
-                    $("#bundleList").html('<div class="col-12 text-center text-muted">No credit bundles found</div>');
                     return;
                 }
 
                 response.data.forEach(bundle => {
                     $("#bundleList").append(`
-                        <div class="credit-card" onclick="fillForm('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
+                        <div class="credit-card" onclick="fillForm
+                        ('${bundle.bundleId}', '${bundle.bundleName}', ${bundle.amount})">
                             <h5>${bundle.bundleName}</h5>
                             <p>Amount: $${bundle.amount}</p>
                         </div>
@@ -578,11 +532,11 @@
                 });
             },
             error: function (xhr) {
+                console.error("Failed to load bundles:", xhr.responseText);
                 Swal.fire({
                     icon: 'error',
-                    title: 'Failed to Load',
-                    text: xhr.responseText || 'Failed to fetch bundles. Please try again.',
-                    confirmButtonColor: '#00695c'
+                    title: 'Error',
+                    text: 'Failed to fetch bundles.'
                 });
             },
         });

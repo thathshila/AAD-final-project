@@ -1,3 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netwave - Payment Confirmation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+        }
+
+        .top-header {
+            background-color: #0055a4;
+            height: 40px;
+        }
+
+        .bottom-line {
+            height: 5px;
+            background: linear-gradient(90deg, #00a651, #8dc63f);
+        }
+
+        .content-area {
+            position: relative;
+            z-index: 1;
+            min-height: 70vh;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 15px;
+        }
+
+        .logo-container {
+            background-color: #fff;
+            padding: 15px;
+            display: inline-block;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            position: relative;
+            top: -20px;
+        }
+
+        .logo {
+            max-width: 150px;
+        }
+
+        .form-title {
+            color: #0055a4;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .form-control {
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-edit {
+            background-color: #00a651;
+            color: white;
+        }
+
+        .btn-pay {
+            background-color: #00a651;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .footer {
+            background-color: #0055a4;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        /* Network visualization background */
+        .network-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .dot-green {
+            background-color: #8dc63f;
+        }
+
+        .dot-blue {
+            background-color: #00aeef;
+        }
+
+        .line {
+            position: absolute;
+            height: 1px;
+            background-color: #eaeaea;
+            transform-origin: 0 0;
+        }
+    </style>
+</head>
+<body>
+<!-- Top blue header -->
+<div class="top-header"></div>
+
+<!-- Green gradient line -->
+<div class="bottom-line"></div>
+
+<!-- Main content area -->
+<div class="content-area">
+    <!-- Network visualization background -->
+    <div class="network-bg" id="networkBg"></div>
+
+    <div class="container form-container">
+        <!-- Logo -->
+        <div class="text-center">
+            <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Gradients and patterns -->
+                <defs>
+                    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#6200EA" />
+                        <stop offset="100%" stop-color="#00BFA5" />
+                    </linearGradient>
+
+                    <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00BFA5" />
+                        <stop offset="50%" stop-color="#1DE9B6" />
+                        <stop offset="100%" stop-color="#64FFDA" />
+                    </linearGradient>
+
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                <!-- Background circle -->
+                <circle cx="150" cy="100" r="90" fill="url(#logoGradient)" opacity="0.8" />
+
+                <!-- Signal wave lines -->
+                <g transform="translate(235, 100) scale(0.9)" filter="url(#glow)">
+                    <path d="M-100,0 C-75,-40 -50,40 -25,-20 C0,20 25,-40 50,0 C75,40 100,-20 125,10 C150,-30 175,20 200,0"
+                          stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />
+                    <path d="M-100,30 C-75,-10 -50,50 -25,10 C0,50 25,-10 50,30 C75,70 100,10 125,40 C150,0 175,50 200,30"
+                          stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7" />
+                </g>
+
+                <!-- Globe/Network icon -->
+                <g transform="translate(150, 100) scale(0.5)">
+                    <circle cx="0" cy="0" r="60" fill="none" stroke="white" stroke-width="6" />
+                    <ellipse cx="0" cy="0" rx="60" ry="25" fill="none" stroke="white" stroke-width="6" />
+                    <line x1="-60" y1="0" x2="60" y2="0" stroke="white" stroke-width="6" />
+                    <line x1="0" y1="-60" x2="0" y2="60" stroke="white" stroke-width="6" />
+                </g>
+
+                <!-- Company name -->
+                <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="48" fill="#2E2E2E">NET<tspan fill="#6200EA">WAVE</tspan></text>
+
+                <!-- Tagline -->
+                <text x="300" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#555555">GLOBAL CONNECTIVITY SOLUTIONS</text>
+
+                <!-- Decorative elements -->
+                <circle cx="450" cy="55" r="8" fill="#00BFA5" />
+                <circle cx="470" cy="40" r="5" fill="#6200EA" />
+                <circle cx="135" cy="155" r="6" fill="white" opacity="0.7" />
+                <circle cx="165" cy="160" r="4" fill="white" opacity="0.5" />
+            </svg>
+        </div>
+
+        <!-- Form title -->
+        <h2 class="text-center form-title">Please confirm the information below</h2>
+
+        <!-- Payment confirmation form -->
+        <form class="mt-4">
+            <div class="mb-3 row">
+                <label for="mobileNumber" class="col-sm-4 col-form-label form-label">Mobile/Account Number</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="mobileNumber" value="" readonly>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="confirmNumber" class="col-sm-4 col-form-label form-label">Re Enter Mobile/Account Number</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="confirmNumber" value="" readonly>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="amount" class="col-sm-4 col-form-label form-label">Amount (LKR)</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="amount" value="" readonly>
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="email" class="col-sm-4 col-form-label form-label">Email</label>
+                <div class="col-sm-8">
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email address">
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <button type="button" class="btn btn-edit">EDIT</button>
+                <button type="submit" class="btn btn-pay">PAY NOW</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5">
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Use</a> |
+            <a href="#">FAQ</a>
+            <span class="ms-4">© Netwave (Pvt) Ltd. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap, jQuery, and SweetAlert scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.32/sweetalert2.all.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const networkBg = document.getElementById('networkBg');
+
+        const mobileNumber = localStorage.getItem("mobileNumber");
+        const amount = localStorage.getItem("amount");
+        const email = localStorage.getItem("email");
+
+        if (mobileNumber) document.getElementById("mobileNumber").value = mobileNumber;
+        if (confirmNumber) document.getElementById("confirmNumber").value = mobileNumber;
+        if (amount) document.getElementById("amount").value = amount;
+        if (email) document.getElementById("email").value = email;
+
+        $('.btn-pay').click(function(e) {
+            e.preventDefault();
+
+            const mobileNumber = $('#mobileNumber').val();
+            const confirmNumber = $('#confirmNumber').val();
+            const amount = $('#amount').val();
+            const email = $('#email').val();
+
+            if (mobileNumber !== confirmNumber) {
+                // Replace alert with SweetAlert
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Mobile numbers do not match!',
+                    icon: 'error',
+                    confirmButtonColor: '#00a651'
+                });
+                return;
+            }
+
+            localStorage.setItem('mobileNumber', mobileNumber);
+            localStorage.setItem('amount', amount);
+            localStorage.setItem('email', email);
+
+            window.location.href = 'pay4.html';
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
@@ -235,434 +581,3 @@
 <!--</script>-->
 <!--</body>-->
 <!--</html>-->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Payment Confirmation</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-            body {
-                background-color: #ffffff;
-                overflow-x: hidden;
-                font-family: Arial, sans-serif;
-                color: #202020;
-            }
-
-            .top-header {
-                background-color: #00a651;
-                height: 40px;
-            }
-
-            .bottom-line {
-                height: 5px;
-                background: linear-gradient(90deg, #00a651, #006633);
-            }
-
-            .content-area {
-                position: relative;
-                z-index: 1;
-                min-height: 70vh;
-                background-color: #ffffff;
-            }
-
-            .form-container {
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 30px 15px;
-            }
-
-            .logo-container {
-                background-color: #fff;
-                padding: 15px;
-                display: inline-block;
-                border-radius: 5px;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                margin-bottom: 20px;
-                position: relative;
-                top: -20px;
-            }
-
-            .logo {
-                max-width: 150px;
-            }
-
-            .form-title {
-                color: #00a651;
-                font-weight: bold;
-                margin-bottom: 30px;
-            }
-
-            .form-label {
-                color: #202020;
-                font-weight: 500;
-            }
-
-            .form-control {
-                padding: 10px;
-                margin-bottom: 15px;
-                border: 1px solid #cccccc;
-                background-color: #ffffff;
-                color: #202020;
-            }
-
-            .form-control:focus {
-                border-color: #00a651;
-                box-shadow: 0 0 0 0.2rem rgba(0, 166, 81, 0.25);
-            }
-
-            .form-control[readonly] {
-                background-color: #f3f3f3;
-            }
-
-            .btn-edit {
-                background-color: #00a651;
-                color: white;
-                border: none;
-                padding: 8px 20px;
-                border-radius: 4px;
-                font-weight: 500;
-                text-transform: uppercase;
-            }
-
-            .btn-pay {
-                background-color: #00a651;
-                color: white;
-                margin-left: 10px;
-                border: none;
-                padding: 8px 20px;
-                border-radius: 4px;
-                font-weight: 500;
-                text-transform: uppercase;
-            }
-
-            .btn-edit:hover, .btn-pay:hover {
-                background-color: #008c44;
-                color: white;
-            }
-
-            .footer {
-                background-color: #202020;
-                color: white;
-                padding: 10px 0;
-                text-align: center;
-            }
-
-            .footer a {
-                color: white;
-                text-decoration: none;
-                margin: 0 10px;
-            }
-
-            .footer a:hover {
-                color: #00a651;
-                text-decoration: underline;
-            }
-
-            /* Network visualization background */
-            .network-bg {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
-                opacity: 0.3;
-            }
-
-            .dot {
-                position: absolute;
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-            }
-
-            .dot-green {
-                background-color: #00a651;
-            }
-
-            .dot-blue {
-                background-color: #202020;
-            }
-
-            .line {
-                position: absolute;
-                height: 1px;
-                background-color: #dddddd;
-                transform-origin: 0 0;
-            }
-
-            .text-center {
-                text-align: center;
-            }
-
-            .text-end {
-                text-align: right;
-            }
-
-            .mt-4 {
-                margin-top: 1.5rem;
-            }
-
-            .mt-5 {
-                margin-top: 3rem;
-            }
-
-            .mb-3 {
-                margin-bottom: 1rem;
-            }
-
-            .row {
-                display: flex;
-                flex-wrap: wrap;
-            }
-
-            .col-sm-4 {
-                width: 33.333%;
-                padding-right: 15px;
-                padding-left: 15px;
-            }
-
-            .col-sm-8 {
-                width: 66.667%;
-                padding-right: 15px;
-                padding-left: 15px;
-            }
-
-            @media (max-width: 576px) {
-                .col-sm-4, .col-sm-8 {
-                    width: 100%;
-                }
-
-                .text-end {
-                    text-align: center;
-                }
-
-                .form-label {
-                    margin-bottom: 0.5rem;
-                }
-            }
-    </style>
-</head>
-<body>
-<!-- Top blue header -->
-<div class="top-header"></div>
-
-<!-- Green gradient line -->
-<div class="bottom-line"></div>
-
-<!-- Main content area -->
-<div class="content-area">
-    <!-- Network visualization background -->
-    <div class="network-bg" id="networkBg"></div>
-
-    <div class="container form-container">
-        <!-- Logo -->
-<!--        <div class="text-center">-->
-<!--            <div class="logo-container">-->
-<!--                <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo" class="logo">-->
-<!--            </div>-->
-<!--        </div>-->
-
-        <!-- Form title -->
-        <h2 class="text-center form-title">Please confirm the information below</h2>
-
-        <!-- Payment confirmation form -->
-        <form class="mt-4" id="paymentForm">
-            <div class="mb-3 row">
-                <label for="mobileNumber" class="col-sm-4 col-form-label form-label">Mobile/Account Number</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="mobileNumber" value="0713179180" readonly>
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <label for="confirmNumber" class="col-sm-4 col-form-label form-label">Re Enter Mobile/Account Number</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="confirmNumber" value="0713179180" readonly>
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <label for="amount" class="col-sm-4 col-form-label form-label">Amount (LKR)</label>
-                <div class="col-sm-8">
-                    <input type="text" class="form-control" id="amount" value="100" readonly>
-                </div>
-            </div>
-
-            <div class="mb-3 row">
-                <label for="email" class="col-sm-4 col-form-label form-label">Email</label>
-                <div class="col-sm-8">
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email address">
-                </div>
-            </div>
-
-            <div class="text-end mt-4">
-                <button type="button" class="btn btn-edit" id="editBtn">EDIT</button>
-                <button type="submit" class="btn btn-pay">PAY NOW</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="footer mt-5">
-    <div class="container">
-        <div class="d-flex justify-content-center align-items-center">
-            <a href="#">Privacy Policy</a> |
-            <a href="#">Terms of Use</a> |
-            <a href="#">FAQ</a>
-            <span class="ms-4">© Netwave (Pvt) Ltd. All rights reserved.</span>
-        </div>
-    </div>
-</footer>
-
-<!-- Bootstrap, jQuery and SweetAlert JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Network visualization
-        const networkBg = document.getElementById('networkBg');
-        const dotCount = 50;
-        const lineCount = 70;
-
-        for (let i = 0; i < dotCount; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.classList.add(Math.random() > 0.5 ? 'dot-green' : 'dot-blue');
-            dot.style.left = `${Math.random() * 100}%`;
-            dot.style.top = `${Math.random() * 100}%`;
-            networkBg.appendChild(dot);
-        }
-
-        const dots = networkBg.querySelectorAll('.dot');
-        for (let i = 0; i < lineCount; i++) {
-            const line = document.createElement('div');
-            line.classList.add('line');
-
-            const startDot = dots[Math.floor(Math.random() * dots.length)];
-            const endDot = dots[Math.floor(Math.random() * dots.length)];
-
-            const startRect = startDot.getBoundingClientRect();
-            const endRect = endDot.getBoundingClientRect();
-            const parentRect = networkBg.getBoundingClientRect();
-
-            const startX = (startRect.left - parentRect.left) + startRect.width / 2;
-            const startY = (startRect.top - parentRect.top) + startRect.height / 2;
-            const endX = (endRect.left - parentRect.left) + endRect.width / 2;
-            const endY = (endRect.top - parentRect.top) + endRect.height / 2;
-
-            const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-            const angle = Math.atan2(endY - startY, endX - startX);
-
-            line.style.width = `${length}px`;
-            line.style.left = `${startX}px`;
-            line.style.top = `${startY}px`;
-            line.style.transform = `rotate(${angle}rad)`;
-
-            networkBg.appendChild(line);
-        }
-
-        // Load saved data from localStorage
-        const mobileNumber = localStorage.getItem("mobileNumber");
-        const amount = localStorage.getItem("amount");
-        const email = localStorage.getItem("email");
-
-        if (mobileNumber) {
-            document.getElementById("mobileNumber").value = mobileNumber;
-            document.getElementById("confirmNumber").value = mobileNumber;
-        }
-        if (amount) document.getElementById("amount").value = amount;
-        if (email) document.getElementById("email").value = email;
-
-        // Edit button handler
-        document.getElementById('editBtn').addEventListener('click', function() {
-            Swal.fire({
-                title: 'Edit Payment Details',
-                text: 'You will be redirected back to the previous page to edit your details.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#00a651',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, edit details',
-                cancelButtonText: 'Cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = 'pay2.html';
-                }
-            });
-        });
-
-        // Payment form submission
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const mobileNumber = document.getElementById('mobileNumber').value;
-            const confirmNumber = document.getElementById('confirmNumber').value;
-            const amount = document.getElementById('amount').value;
-            const email = document.getElementById('email').value;
-
-            // Validate email if provided
-            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Email',
-                    text: 'Please enter a valid email address or leave it blank.',
-                    confirmButtonColor: '#00a651'
-                });
-                return;
-            }
-
-            // Show payment processing dialog
-            Swal.fire({
-                title: 'Processing Payment',
-                html: `
-                    <div style="text-align: left;">
-                        <p><strong>Mobile Number:</strong> ${mobileNumber}</p>
-                        <p><strong>Amount:</strong> LKR ${amount}</p>
-                        ${email ? `<p><strong>Email Receipt To:</strong> ${email}</p>` : ''}
-                        <div class="progress mt-3">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
-                        </div>
-                    </div>
-                `,
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                didOpen: () => {
-                    // Simulate payment processing
-                    setTimeout(() => {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Payment Successful!',
-                            html: `
-                                <div style="text-align: center;">
-                                    <i class="fas fa-check-circle" style="font-size: 60px; color: #00a651;"></i>
-                                    <p class="mt-3">Your payment of LKR ${amount} has been processed successfully.</p>
-                                    ${email ? `<p>A receipt has been sent to ${email}</p>` : ''}
-                                    <p>Transaction ID: MOB${Math.floor(100000 + Math.random() * 900000)}</p>
-                                </div>
-                            `,
-                            confirmButtonColor: '#00a651',
-                            confirmButtonText: 'Finish'
-                        }).then(() => {
-                            // Clear localStorage and redirect to home
-                            localStorage.removeItem('mobileNumber');
-                            localStorage.removeItem('amount');
-                            localStorage.removeItem('email');
-                            window.location.href = 'index.html';
-                        });
-                    }, 3000);
-                }
-            });
-        });
-    });
-</script>
-</body>
-</html>

@@ -1,7 +1,5 @@
 package org.example.netwave.dto;
 
-
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class EmailCheckDTO {
-    @Email(message = "Invalid Email Address")
-    private String email;
-
+public class ApiResponse<T> {
+    private boolean status;
+    private String message;
+    private T data;
 }

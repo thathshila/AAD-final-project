@@ -281,7 +281,7 @@
 </main>
 
 <div class="container">
-    <h5>Purchase a Dialog Mobile SIM Connection</h5>
+    <h5>Purchase a Netwave Mobile SIM Connection</h5>
     <div class="row mt-4">
         <div class="col-md-6 border-end">
             <h4><strong>Login for fast check out</strong></h4>
@@ -368,6 +368,59 @@
             }
         });
     }
+    //
+    // function validateNumber() {
+    //     let inputNumber = $("#contactNumber").val().trim();
+    //
+    //     // Show processing indicator
+    //     Swal.fire({
+    //         title: 'Validating',
+    //         html: 'Checking your number...',
+    //         allowOutsideClick: false,
+    //         didOpen: () => {
+    //             Swal.showLoading();
+    //         }
+    //     });
+    //
+    //     if (inputNumber.startsWith("0")) {
+    //         inputNumber = inputNumber.substring(1);
+    //     }
+    //     let validNumberList = validNumbers.map(String);
+    //
+    //     if (!/^52\d{7}$/.test(inputNumber)) {
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Invalid Number',
+    //             text: 'Number must start with 52 and have 9 digits',
+    //             confirmButtonColor: '#e40046'
+    //         });
+    //         return;
+    //     }
+    //
+    //     // Simulate validation delay (remove in production)
+    //     setTimeout(() => {
+    //         if (validNumberList.includes(inputNumber)) {
+    //             Swal.fire({
+    //                 icon: 'success',
+    //                 title: 'Number Verified',
+    //                 text: 'Your number has been successfully verified',
+    //                 confirmButtonColor: '#e40046'
+    //             }).then((result) => {
+    //                 if (result.isConfirmed) {
+    //                     window.location.href = "pay.html";
+    //                 }
+    //             });
+    //         } else {
+    //             Swal.fire({
+    //                 icon: 'error',
+    //                 title: 'Number Not Found',
+    //                 text: 'This number is not registered in our system',
+    //                 confirmButtonColor: '#e40046',
+    //                 footer: '<a href="register.html">Register this number?</a>'
+    //             });
+    //         }
+    //     }, 1000);
+    // }
 
     function validateNumber() {
         let inputNumber = $("#contactNumber").val().trim();
@@ -400,6 +453,9 @@
         // Simulate validation delay (remove in production)
         setTimeout(() => {
             if (validNumberList.includes(inputNumber)) {
+                // Store verified phone number
+                localStorage.setItem("verifiedPhoneNumber", inputNumber);
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Number Verified',
@@ -421,7 +477,6 @@
             }
         }, 1000);
     }
-
     // Initialize on page load
     $(document).ready(function() {
         loadAllContactNumbers();

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('networkCanvas');
     const ctx = canvas.getContext('2d');
 
-    // Set canvas size to match window
+
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Node class for network points
+
     class Node {
         constructor() {
             this.x = Math.random() * canvas.width;
@@ -19,17 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
             this.size = Math.random() * 2 + 1;
             this.speedX = (Math.random() - 0.5) * 0.3;
             this.speedY = (Math.random() - 0.5) * 0.3;
-            // Changed node colors to orange and red
+
             this.color = Math.random() > 0.5 ?
                 'rgba(255, 87, 34, 0.5)' : 'rgba(255, 152, 0, 0.5)';
         }
 
         update() {
-            // Move the node
+
             this.x += this.speedX;
             this.y += this.speedY;
 
-            // Bounce off edges
+
             if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
             if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
         }
@@ -42,16 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Create nodes
-    const nodeCount = 80; // Reduced number of nodes
+
+    const nodeCount = 80;
     const nodes = [];
-    const connectionDistance = 120; // Reduced connection distance
+    const connectionDistance = 120;
 
     for (let i = 0; i < nodeCount; i++) {
         nodes.push(new Node());
     }
 
-    // Draw connections between nodes
+
     function drawConnections() {
         for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
@@ -60,10 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (distance < connectionDistance) {
-                    // Opacity based on distance - reduced further for better text readability
+
                     const opacity = (1 - (distance / connectionDistance)) * 0.3;
 
-                    // Gradient line with mixed colors from the nodes
                     const gradient = ctx.createLinearGradient(
                         nodes[i].x, nodes[i].y, nodes[j].x, nodes[j].y
                     );
@@ -82,19 +81,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Animation loop
+
     function animate() {
-        // Clear canvas with slight opacity to create fade effect
+
         ctx.fillStyle = 'rgba(248, 249, 250, 0.1)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Update and draw nodes
         for (let node of nodes) {
             node.update();
             node.draw();
         }
 
-        // Draw connections
         drawConnections();
 
         requestAnimationFrame(animate);
@@ -107,8 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".confirm-btn").addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form submission (optional if using form submission)
-        window.location.href = "pay5.html"; // Redirect to pay3.html
+        event.preventDefault();
+        window.location.href = "pay5.html";
     });
 });
 
@@ -116,13 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    let amount = localStorage.getItem("paymentAmount") || "0"; // Default to 0 if not found
+    let amount = localStorage.getItem("paymentAmount") || "0";
     document.querySelector(".amount-display").innerText = "Rs " + amount;
 });
 
 
 document.querySelector(".confirm-btn").addEventListener("click", function() {
     let amount = document.querySelector(".amount-display").innerText;
-    localStorage.setItem("paymentAmount", amount); // Store amount
-    window.location.href = "pay5.html"; // Redirect to pay5.html
+    localStorage.setItem("paymentAmount", amount);
+    window.location.href = "pay5.html";
 });

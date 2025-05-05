@@ -28,6 +28,7 @@ public class Packages {
 
     @OneToMany(mappedBy = "packages", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Offers> offers;
+
     @ManyToOne
     @JoinColumn(name = "credit_bundle_id")
     private CreditBundle creditBundle;

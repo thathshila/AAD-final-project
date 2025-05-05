@@ -12,13 +12,17 @@ import org.example.netwave.repo.OrderDetailsRepo;
 import org.example.netwave.repo.OrdersRepo;
 import org.example.netwave.repo.UserRepo;
 import org.example.netwave.service.OrderService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +30,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private  OrdersRepo ordersRepository;
+
     @Autowired
     private  OrderDetailsRepo orderDetailsRepository;
+
     @Autowired
     private  ItemRepo itemRepository;
+
     @Autowired
     private  UserRepo userRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     @Transactional
@@ -173,5 +183,33 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public double getTotalOrderCount() {
         return ordersRepository.countOrder();
+    }
+
+
+    @Override
+    public List<OrderDetailsDTO> getAllOrderDetails() {
+        return orderDetailsRepository.findByIsDeletedFalse()
+                .stream()
+                .map(this::convertToOrderDetailsDTO)
+                .collect(Collectors.toList());
+    }
+
+    private OrderDetailsDTO convertToOrderDetailsDTO(OrderDetails orderDetail) {
+        OrderDetailsDTO dto = new OrderDetailsDTO();
+
+        // Explicit mapping for ambiguous fields
+        dto.setOrderDetailId(orderDetail.getOrderDetailId());
+        dto.setOrderId(orderDetail.getOrder().getOrderId());
+
+        dto.setItemId(orderDetail.getItem().getItemId());
+        dto.setItemName(orderDetail.getItem().getName());
+        dto.setQuantity(orderDetail.getQuantity());
+
+        // Explicitly choose which price to use (here using direct itemPrice)
+        dto.setItemPrice(orderDetail.getItemPrice());
+        dto.setSubtotal(orderDetail.getSubtotal());
+        dto.setDate(LocalDate.from(orderDetail.getDate()));
+
+        return dto;
     }
 }

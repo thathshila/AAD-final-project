@@ -1,3 +1,551 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netwave - Bill Pay & Recharge</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .top-header {
+            background-color: #0055a4;
+            height: 40px;
+        }
+
+        .bottom-line {
+            height: 5px;
+            background: linear-gradient(90deg, #00a651, #8dc63f);
+        }
+
+        .content-area {
+            position: relative;
+            z-index: 1;
+            min-height: 70vh;
+        }
+
+        .form-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 15px;
+        }
+
+        /* Improved logo container styling */
+        .logo-container {
+            background-color: #fff;
+            padding: 15px 25px;
+            display: inline-block;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            position: relative;
+            top: -25px;
+        }
+
+        /* Better logo display */
+        .logo-svg {
+            max-width: 280px;
+            height: auto;
+            display: block;
+        }
+
+        .bill-title {
+            color: #0055a4;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 2.3rem;
+        }
+
+        .form-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .form-control {
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-back {
+            background-color: #00a651;
+            color: white;
+            padding: 6px 25px;
+        }
+
+        .btn-proceed {
+            background-color: #00a651;
+            color: white;
+            padding: 6px 25px;
+            margin-left: 10px;
+        }
+
+        .find-account-link {
+            color: #0055a4;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .find-account-link:hover {
+            text-decoration: underline;
+        }
+
+        .addon-banner {
+            background-color: #0a4b87;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 120px;
+            overflow: hidden;
+        }
+
+        .addon-badge {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-20px, -20px);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .prepaid-badge {
+            background-color: #1e3a8a;
+        }
+
+        .postpaid-badge {
+            background-color: #00a651;
+        }
+
+        .addon-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .addon-subtitle {
+            font-size: 1.4rem;
+            margin: 0;
+        }
+
+        .footer {
+            background-color: #0055a4;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        /* Network visualization background */
+        .network-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .dot-green {
+            background-color: #8dc63f;
+        }
+
+        .dot-blue {
+            background-color: #00aeef;
+        }
+
+        .line {
+            position: absolute;
+            height: 1px;
+            background-color: #eaeaea;
+            transform-origin: 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .addon-banner {
+                padding-left: 20px;
+                padding-top: 60px;
+            }
+
+            .addon-badge {
+                width: 90px;
+                height: 90px;
+                transform: translate(10px, -30px);
+            }
+
+            .bill-title {
+                font-size: 1.8rem;
+            }
+
+            .logo-container {
+                padding: 12px 20px;
+                top: -15px;
+            }
+
+            .logo-svg {
+                max-width: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Top blue header -->
+<div class="top-header"></div>
+
+<!-- Green gradient line -->
+<div class="bottom-line"></div>
+
+<!-- Main content area -->
+<div class="content-area">
+    <!-- Network visualization background -->
+    <div class="network-bg" id="networkBg"></div>
+
+    <div class="container form-container">
+        <!-- Original logo SVG preserved exactly as it was -->
+        <svg class="logo-svg" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- Gradients and patterns -->
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#6200EA" />
+                    <stop offset="100%" stop-color="#00BFA5" />
+                </linearGradient>
+
+                <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00BFA5" />
+                    <stop offset="50%" stop-color="#1DE9B6" />
+                    <stop offset="100%" stop-color="#64FFDA" />
+                </linearGradient>
+
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+            </defs>
+
+            <!-- Background circle -->
+            <circle cx="150" cy="100" r="90" fill="url(#logoGradient)" opacity="0.8" />
+
+            <!-- Signal wave lines -->
+            <g transform="translate(235, 100) scale(0.9)" filter="url(#glow)">
+                <path d="M-100,0 C-75,-40 -50,40 -25,-20 C0,20 25,-40 50,0 C75,40 100,-20 125,10 C150,-30 175,20 200,0"
+                      stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />
+                <path d="M-100,30 C-75,-10 -50,50 -25,10 C0,50 25,-10 50,30 C75,70 100,10 125,40 C150,0 175,50 200,30"
+                      stroke="white" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7" />
+            </g>
+
+            <!-- Globe/Network icon -->
+            <g transform="translate(150, 100) scale(0.5)">
+                <circle cx="0" cy="0" r="60" fill="none" stroke="white" stroke-width="6" />
+                <ellipse cx="0" cy="0" rx="60" ry="25" fill="none" stroke="white" stroke-width="6" />
+                <line x1="-60" y1="0" x2="60" y2="0" stroke="white" stroke-width="6" />
+                <line x1="0" y1="-60" x2="0" y2="60" stroke="white" stroke-width="6" />
+            </g>
+
+            <!-- Company name -->
+            <text x="300" y="90" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="48" fill="#2E2E2E">NET<tspan fill="#6200EA">WAVE</tspan></text>
+
+            <!-- Tagline -->
+            <text x="300" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#555555">GLOBAL CONNECTIVITY SOLUTIONS</text>
+
+            <!-- Decorative elements -->
+            <circle cx="450" cy="55" r="8" fill="#00BFA5" />
+            <circle cx="470" cy="40" r="5" fill="#6200EA" />
+            <circle cx="135" cy="155" r="6" fill="white" opacity="0.7" />
+            <circle cx="165" cy="160" r="4" fill="white" opacity="0.5" />
+        </svg>
+        <!-- Improved Logo Container but keeping original logo design -->
+        <div class="text-center">
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Form title -->
+                <h2 class="bill-title">BILL PAY & RECHARGE</h2>
+
+                <!-- Bill payment form -->
+                <form class="mt-4">
+                    <div class="mb-3">
+                        <label for="mobileNumber" class="form-label">Mobile/Account Number</label>
+                        <input type="text" class="form-control" id="mobileNumber">
+                        <a href="#" class="find-account-link">How to find my Account Number ?</a>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmNumber" class="form-label">Re Enter Mobile/Account Number</label>
+                        <input type="text" class="form-control" id="confirmNumber">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount (LKR)</label>
+                        <input type="text" class="form-control" id="amount">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email (Optional)</label>
+                        <input type="email" class="form-control" id="email" placeholder="">
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-back">BACK</button>
+                        <button type="submit" class="btn btn-proceed">PROCEED</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <!-- Add-on banners -->
+                <div class="d-flex flex-column justify-content-center h-100">
+                    <!-- Prepaid banner -->
+                    <div class="addon-banner">
+                        <div class="addon-badge prepaid-badge">Click here</div>
+                        <div>
+                            <h3 class="addon-title">Prepaid Internet</h3>
+                            <p class="addon-subtitle">Add-on Plans</p>
+                        </div>
+                    </div>
+
+                    <!-- Postpaid banner -->
+                    <div class="addon-banner">
+                        <div class="addon-badge postpaid-badge">Click here</div>
+                        <div>
+                            <h3 class="addon-title">Postpaid Internet</h3>
+                            <p class="addon-subtitle">Add-on Plans</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-5">
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center">
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Use</a> |
+            <a href="#">FAQ</a>
+            <span class="ms-4">© Netwave (Pvt) Ltd. All rights reserved.</span>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap and network visualization script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const networkBg = document.getElementById('networkBg');
+        const dotCount = 50;
+        const lineCount = 70;
+
+        for (let i = 0; i < dotCount; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.classList.add(Math.random() > 0.5 ? 'dot-green' : 'dot-blue');
+            dot.style.left = `${Math.random() * 100}%`;
+            dot.style.top = `${Math.random() * 100}%`;
+            networkBg.appendChild(dot);
+        }
+
+        const dots = networkBg.querySelectorAll('.dot');
+        for (let i = 0; i < lineCount; i++) {
+            const line = document.createElement('div');
+            line.classList.add('line');
+
+            const startDot = dots[Math.floor(Math.random() * dots.length)];
+            const endDot = dots[Math.floor(Math.random() * dots.length)];
+
+            const startRect = startDot.getBoundingClientRect();
+            const endRect = endDot.getBoundingClientRect();
+            const parentRect = networkBg.getBoundingClientRect();
+
+            const startX = (startRect.left - parentRect.left) + startRect.width / 2;
+            const startY = (startRect.top - parentRect.top) + startRect.height / 2;
+            const endX = (endRect.left - parentRect.left) + endRect.width / 2;
+            const endY = (endRect.top - parentRect.top) + endRect.height / 2;
+
+            const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            const angle = Math.atan2(endY - startY, endX - startX);
+
+            line.style.width = `${length}px`;
+            line.style.left = `${startX}px`;
+            line.style.top = `${startY}px`;
+            line.style.transform = `rotate(${angle}rad)`;
+
+            networkBg.appendChild(line);
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const mobileNumber = document.getElementById("mobileNumber").value;
+            const confirmNumber = document.getElementById("confirmNumber").value;
+            const amount = document.getElementById("amount").value;
+            const email = document.getElementById("email").value;
+
+            if (mobileNumber.length !== 10) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Mobile Number',
+                    text: 'Mobile number must be exactly 10 digits.',
+                    confirmButtonColor: '#00a651'
+                });
+                return;
+            }
+
+            if (confirmNumber !== mobileNumber) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Number Mismatch',
+                    text: 'Re-entered mobile number does not match.',
+                    confirmButtonColor: '#00a651'
+                });
+                return;
+            }
+
+            if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid Amount',
+                    text: 'Please enter a valid amount.',
+                    confirmButtonColor: '#00a651'
+                });
+                return;
+            }
+
+            if (!email) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Email Required',
+                    text: 'Email is required for this transaction.',
+                    confirmButtonColor: '#00a651'
+                });
+                return;
+            }
+
+            localStorage.setItem("mobileNumber", mobileNumber);
+            localStorage.setItem("confirmNumber", confirmNumber);
+            localStorage.setItem("amount", amount);
+            localStorage.setItem("email", email);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Your information has been saved. Redirecting...',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                willClose: () => {
+                    window.location.href = "pay2.html";
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
@@ -388,569 +936,3 @@
 <!--</script>-->
 <!--</body>-->
 <!--</html>-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bill Pay & Recharge</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            overflow-x: hidden;
-            font-family: Arial, sans-serif;
-        }
-
-        .top-header {
-            background-color: #005e20;
-            height: 40px;
-        }
-
-        .bottom-line {
-            height: 5px;
-            background: linear-gradient(90deg, #00a651, #8dc63f);
-        }
-
-        .content-area {
-            position: relative;
-            z-index: 1;
-            min-height: 70vh;
-        }
-
-        .form-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 15px;
-        }
-
-        .logo-container {
-            background-color: #fff;
-            padding: 15px;
-            display: inline-block;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            position: relative;
-            top: -20px;
-        }
-
-        .logo {
-            max-width: 150px;
-        }
-
-        .bill-title {
-            color: #007c2b;
-            font-weight: bold;
-            margin-bottom: 30px;
-            font-size: 2.3rem;
-        }
-
-        .form-label {
-            color: #3a7b44;
-            font-weight: 500;
-        }
-
-        .form-control {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #a3d39c;
-        }
-
-        .form-control:focus {
-            border-color: #00a651;
-            box-shadow: 0 0 0 0.2rem rgba(0, 166, 81, 0.25);
-        }
-
-        .btn-back {
-            background-color: #00a651;
-            color: white;
-            padding: 6px 25px;
-            border: none;
-        }
-
-        .btn-proceed {
-            background-color: #29b584;
-            color: white;
-            padding: 6px 25px;
-            margin-left: 10px;
-            border: none;
-        }
-
-        .btn-back:hover, .btn-proceed:hover {
-            opacity: 0.9;
-            color: white;
-        }
-
-        .find-account-link {
-            color: #007c2b;
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
-
-        .find-account-link:hover {
-            text-decoration: underline;
-        }
-
-        .addon-banner {
-            background-color: #34c759;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 30px;
-            margin-bottom: 20px;
-            position: relative;
-            padding-left: 120px;
-            overflow: hidden;
-        }
-
-        .addon-badge {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translate(-20px, -20px);
-            font-weight: bold;
-            font-size: 1.2rem;
-            text-align: center;
-            line-height: 1.1;
-            cursor: pointer;
-        }
-
-        .prepaid-badge {
-            background-color: #005e20;
-        }
-
-        .postpaid-badge {
-            background-color: #1de8ab;
-        }
-
-        .addon-title {
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin: 0;
-        }
-
-        .addon-subtitle {
-            font-size: 1.4rem;
-            margin: 0;
-        }
-
-        .footer {
-            background-color: #005e20;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-
-        .footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Network visualization background */
-        .network-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        .dot {
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-        }
-
-        .dot-green {
-            background-color: #3fc69d;
-        }
-
-        .dot-blue {
-            background-color: #a3d39c;
-        }
-
-        .line {
-            position: absolute;
-            height: 1px;
-            background-color: #dcf0d6;
-            transform-origin: 0 0;
-        }
-
-        @media (max-width: 768px) {
-            .addon-banner {
-                padding-left: 20px;
-                padding-top: 60px;
-            }
-
-            .addon-badge {
-                width: 90px;
-                height: 90px;
-                transform: translate(10px, -30px);
-            }
-
-            .bill-title {
-                font-size: 1.8rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .addon-banner {
-                padding-left: 20px;
-                padding-top: 60px;
-            }
-
-            .addon-badge {
-                width: 90px;
-                height: 90px;
-                transform: translate(10px, -30px);
-            }
-
-            .bill-title {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
-</head>
-<body>
-<!-- Top blue header -->
-<div class="top-header"></div>
-
-<!-- Green gradient line -->
-<div class="bottom-line"></div>
-
-<!-- Main content area -->
-<div class="content-area">
-    <!-- Network visualization background -->
-    <div class="network-bg" id="networkBg"></div>
-
-    <div class="container form-container">
-<!--        &lt;!&ndash; Logo &ndash;&gt;-->
-<!--        <div class="text-center">-->
-<!--            <div class="logo-container">-->
-<!--                <img src="https://www.mobitel.lk/sites/all/themes/mobitel/logo.png" alt="SLT Mobitel Logo" class="logo">-->
-<!--            </div>-->
-<!--        </div>-->
-
-        <div class="row">
-            <div class="col-md-6">
-                <!-- Form title -->
-                <h2 class="bill-title">BILL PAY & RECHARGE</h2>
-
-                <!-- Bill payment form -->
-                <form class="mt-4" id="paymentForm">
-                    <div class="mb-3">
-                        <label for="mobileNumber" class="form-label">Mobile/Account Number</label>
-                        <input type="text" class="form-control" id="mobileNumber" placeholder="Enter 10-digit number">
-                        <a href="#" class="find-account-link" id="findAccountLink">How to find my Account Number ?</a>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="confirmNumber" class="form-label">Re Enter Mobile/Account Number</label>
-                        <input type="text" class="form-control" id="confirmNumber" placeholder="Re-enter your number">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="amount" class="form-label">Amount (LKR)</label>
-                        <input type="text" class="form-control" id="amount" placeholder="Enter amount">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email (Optional)</label>
-                        <input type="email" class="form-control" id="email" placeholder="example@domain.com">
-                    </div>
-
-                    <div class="mt-4">
-                        <button type="button" class="btn btn-back" id="backBtn">BACK</button>
-                        <button type="submit" class="btn btn-proceed">PROCEED</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="col-md-6">
-                <!-- Add-on banners -->
-                <div class="d-flex flex-column justify-content-center h-100">
-                    <!-- Prepaid banner -->
-                    <div class="addon-banner">
-                        <div class="addon-badge prepaid-badge" id="prepaidBadge">Click here</div>
-                        <div>
-                            <h3 class="addon-title">Prepaid Internet</h3>
-                            <p class="addon-subtitle">Add-on Plans</p>
-                        </div>
-                    </div>
-
-                    <!-- Postpaid banner -->
-                    <div class="addon-banner">
-                        <div class="addon-badge postpaid-badge" id="postpaidBadge">Click here</div>
-                        <div>
-                            <h3 class="addon-title">Postpaid Internet</h3>
-                            <p class="addon-subtitle">Add-on Plans</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Footer -->
-<footer class="footer mt-5">
-    <div class="container">
-        <div class="d-flex justify-content-center align-items-center">
-            <a href="#">Privacy Policy</a> |
-            <a href="#">Terms of Use</a> |
-            <a href="#">FAQ</a>
-            <span class="ms-4">© Netwave (Pvt) Ltd. All rights reserved.</span>
-        </div>
-    </div>
-</footer>
-
-<!-- Bootstrap, SweetAlert and network visualization script -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Network visualization
-        const networkBg = document.getElementById('networkBg');
-        const dotCount = 50;
-        const lineCount = 70;
-
-        for (let i = 0; i < dotCount; i++) {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            dot.classList.add(Math.random() > 0.5 ? 'dot-green' : 'dot-blue');
-            dot.style.left = `${Math.random() * 100}%`;
-            dot.style.top = `${Math.random() * 100}%`;
-            networkBg.appendChild(dot);
-        }
-
-        const dots = networkBg.querySelectorAll('.dot');
-        for (let i = 0; i < lineCount; i++) {
-            const line = document.createElement('div');
-            line.classList.add('line');
-
-            const startDot = dots[Math.floor(Math.random() * dots.length)];
-            const endDot = dots[Math.floor(Math.random() * dots.length)];
-
-            const startRect = startDot.getBoundingClientRect();
-            const endRect = endDot.getBoundingClientRect();
-            const parentRect = networkBg.getBoundingClientRect();
-
-            const startX = (startRect.left - parentRect.left) + startRect.width / 2;
-            const startY = (startRect.top - parentRect.top) + startRect.height / 2;
-            const endX = (endRect.left - parentRect.left) + endRect.width / 2;
-            const endY = (endRect.top - parentRect.top) + endRect.height / 2;
-
-            const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-            const angle = Math.atan2(endY - startY, endX - startX);
-
-            line.style.width = `${length}px`;
-            line.style.left = `${startX}px`;
-            line.style.top = `${startY}px`;
-            line.style.transform = `rotate(${angle}rad)`;
-
-            networkBg.appendChild(line);
-        }
-
-        // Form validation with SweetAlert
-        const paymentForm = document.getElementById('paymentForm');
-        const backBtn = document.getElementById('backBtn');
-        const findAccountLink = document.getElementById('findAccountLink');
-        const prepaidBadge = document.getElementById('prepaidBadge');
-        const postpaidBadge = document.getElementById('postpaidBadge');
-
-        paymentForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const mobileNumber = document.getElementById('mobileNumber').value.trim();
-            const confirmNumber = document.getElementById('confirmNumber').value.trim();
-            const amount = document.getElementById('amount').value.trim();
-            const email = document.getElementById('email').value.trim();
-
-            // Validate mobile number
-            if (mobileNumber.length !== 10 || !/^\d+$/.test(mobileNumber)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Mobile Number',
-                    text: 'Mobile number must be exactly 10 digits.',
-                    confirmButtonColor: '#00a651'
-                });
-                return;
-            }
-
-            // Validate confirmation number
-            if (confirmNumber !== mobileNumber) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Numbers Don\'t Match',
-                    text: 'Re-entered mobile number does not match.',
-                    confirmButtonColor: '#00a651'
-                });
-                return;
-            }
-
-            // Validate amount
-            if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Amount',
-                    text: 'Please enter a valid positive amount.',
-                    confirmButtonColor: '#00a651'
-                });
-                return;
-            }
-
-            // Validate email if provided
-            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Invalid Email',
-                    text: 'Please enter a valid email address or leave it blank.',
-                    confirmButtonColor: '#00a651'
-                });
-                return;
-            }
-
-            // Show loading indicator
-            Swal.fire({
-                title: 'Processing Payment',
-                html: 'Please wait while we process your payment...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                    // Simulate API call with setTimeout
-                    setTimeout(() => {
-                        // Save to localStorage
-                        localStorage.setItem('mobileNumber', mobileNumber);
-                        localStorage.setItem('confirmNumber', confirmNumber);
-                        localStorage.setItem('amount', amount);
-                        localStorage.setItem('email', email);
-
-                        // Show success message
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Payment Successful!',
-                            text: 'Your payment is being processed.',
-                            confirmButtonColor: '#00a651',
-                            confirmButtonText: 'Continue'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                window.location.href = 'pay2.html';
-                            }
-                        });
-                    }, 2000);
-                }
-            });
-        });
-
-        // Back button handler
-        backBtn.addEventListener('click', function() {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You will lose any unsaved changes.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#00a651',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, go back'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.history.back();
-                }
-            });
-        });
-
-        // Find account link handler
-        findAccountLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            Swal.fire({
-                title: 'How to Find Your Account Number',
-                html: `
-                    <div style="text-align: left;">
-                        <p><strong>For Prepaid Users:</strong></p>
-                        <ul>
-                            <li>Check your SIM card packaging</li>
-                            <li>Dial *123# and select "My Account"</li>
-                            <li>Check your last recharge receipt</li>
-                        </ul>
-                        <p><strong>For Postpaid Users:</strong></p>
-                        <ul>
-                            <li>Check your monthly bill statement</li>
-                            <li>Call customer service at 1717</li>
-                            <li>Check your online account dashboard</li>
-                        </ul>
-                    </div>
-                `,
-                confirmButtonColor: '#00a651',
-                confirmButtonText: 'Got it!'
-            });
-        });
-
-        // Prepaid badge handler
-        prepaidBadge.addEventListener('click', function() {
-            Swal.fire({
-                title: 'Prepaid Internet Add-ons',
-                html: `
-                    <div style="text-align: left;">
-                        <p><strong>Daily Plans:</strong></p>
-                        <ul>
-                            <li>50MB - Rs. 10</li>
-                            <li>100MB - Rs. 20</li>
-                            <li>500MB - Rs. 50</li>
-                        </ul>
-                        <p><strong>Weekly Plans:</strong></p>
-                        <ul>
-                            <li>1GB - Rs. 100</li>
-                            <li>2GB - Rs. 180</li>
-                            <li>5GB - Rs. 350</li>
-                        </ul>
-                    </div>
-                `,
-                confirmButtonColor: '#1e3a8a',
-                confirmButtonText: 'Close'
-            });
-        });
-
-        // Postpaid badge handler
-        postpaidBadge.addEventListener('click', function() {
-            Swal.fire({
-                title: 'Postpaid Internet Add-ons',
-                html: `
-                    <div style="text-align: left;">
-                        <p><strong>Monthly Add-ons:</strong></p>
-                        <ul>
-                            <li>10GB - Rs. 500</li>
-                            <li>20GB - Rs. 800</li>
-                            <li>50GB - Rs. 1500</li>
-                        </ul>
-                        <p><strong>Special Offers:</strong></p>
-                        <ul>
-                            <li>Unlimited Night Data - Rs. 300</li>
-                            <li>Weekend Data Boost - Rs. 200</li>
-                        </ul>
-                    </div>
-                `,
-                confirmButtonColor: '#00a651',
-                confirmButtonText: 'Close'
-            });
-        });
-    });
-</script>
-</body>
-</html>

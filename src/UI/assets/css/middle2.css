@@ -58,7 +58,7 @@
 .unlimited-blaster {
     font-size: 1.8rem;
     font-weight: bold;
-    background-color: #6a1b9a;
+    background-color: #5bdcc5;
     color: white;
     padding: 2px 8px;
     border-radius: 5px;
@@ -71,7 +71,7 @@
 }
 
 .trial-map {
-    background: linear-gradient(135deg, #4a148c, #7b1fa2);
+    background: linear-gradient(135deg, #4a148c, #61dd84);
     color: white;
     height: 350px;
     display: flex;

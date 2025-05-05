@@ -163,6 +163,7 @@
 <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>-->
 
+
 <!--<script>-->
 <!--    let authToken = localStorage.getItem("authToken");-->
 
@@ -411,6 +412,7 @@
 <!--</script>-->
 <!--</body>-->
 <!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -486,7 +488,6 @@
             text-align: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            cursor: pointer;
         }
 
         .card-container .package-card:hover {
@@ -558,7 +559,7 @@
                         <option value="">Select Credit Bundle</option>
                     </select>
                 </div>
-                <input type="text" id="creditBundleId" class="form-control">
+                <input type="hidden" id="creditBundleId" class="form-control">
                 <input type="hidden" id="packageId" class="form-control">
             </div>
             <div class="btn-container">
@@ -596,11 +597,6 @@
                     console.log("API Response:", resp);
                     if (!Array.isArray(resp.data)) {
                         console.error("Error: Response data is not an array", resp);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Unexpected response format from server',
-                        });
                         return;
                     }
 
@@ -615,7 +611,7 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Failed to load credit bundles',
+                        text: 'Failed to load credit bundles'
                     });
                 }
             });
@@ -643,7 +639,7 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Failed to fetch credit bundle details',
+                            text: 'Failed to fetch credit bundle details'
                         });
                     }
                 });
@@ -672,9 +668,9 @@
 
             if (!packageName || !packageType || !dataLimit || !callMinutes || !smsLimit || !price || !validityDays || !creditBundleId) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Missing Information',
-                    text: 'Please fill in all required fields!',
+                    icon: 'warning',
+                    title: 'Required Fields',
+                    text: 'Please enter all required fields!'
                 });
                 return;
             }
@@ -709,10 +705,8 @@
                 success: function (resp) {
                     Swal.fire({
                         icon: 'success',
-                        title: packageId ? 'Package Updated!' : 'Package Saved!',
-                        text: packageId ? 'Your package has been updated successfully.' : 'Your package has been saved successfully.',
-                        showConfirmButton: false,
-                        timer: 1500
+                        title: 'Success',
+                        text: packageId ? 'Package updated successfully!' : 'Package saved successfully!'
                     });
                     viewPackages();
                     clearForm();
@@ -721,8 +715,8 @@
                     console.error("Error saving/updating package:", error);
                     Swal.fire({
                         icon: 'error',
-                        title: 'Operation Failed',
-                        text: 'Failed to save/update package. Please try again.',
+                        title: 'Error',
+                        text: 'Failed to save/update package!'
                     });
                 }
             });
@@ -734,8 +728,8 @@
             if (!packageId) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'No Package Selected',
-                    text: 'Please select a package to delete.',
+                    title: 'No Selection',
+                    text: 'Please select a package to delete.'
                 });
                 return;
             }
@@ -757,7 +751,7 @@
                         success: function () {
                             Swal.fire(
                                 'Deleted!',
-                                'Your package has been deleted.',
+                                'Package has been deleted.',
                                 'success'
                             );
                             clearForm();
@@ -767,7 +761,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Delete Failed',
-                                text: xhr.responseText || 'Failed to delete package',
+                                text: xhr.responseText || 'Failed to delete package'
                             });
                         },
                     });
@@ -776,21 +770,11 @@
         });
 
         function viewPackages() {
-            Swal.fire({
-                title: 'Loading Packages',
-                html: 'Please wait...',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading()
-                }
-            });
-
             $.ajax({
                 url: "http://localhost:8080/api/v1/packages/getAll",
                 type: "GET",
                 headers: {"Authorization": `Bearer ${authToken}`},
                 success: function (response) {
-                    Swal.close();
                     $("#packageList").empty();
 
                     if (!Array.isArray(response.data)) {
@@ -798,105 +782,68 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Unexpected response format from server',
+                            text: 'Error fetching packages. Check console for details.'
                         });
-                        return;
-                    }
-
-                    if (response.data.length === 0) {
-                        $("#packageList").html('<p class="text-center">No packages found</p>');
                         return;
                     }
 
                     response.data.forEach(pkg => {
                         const packageCard = `
-                            <div class="package-card"
-                                data-package-id="${pkg.packageId}"
-                                data-package-name="${pkg.packageName}"
-                                data-package-type="${pkg.packageType}"
-                                data-price="${pkg.price}"
-                                data-data-limit="${pkg.dataLimit}"
-                                data-call-minutes="${pkg.callMinutes}"
-                                data-sms-limit="${pkg.smsLimit}"
-                                data-validity-days="${pkg.validityDays}"
-                                data-credit-bundle-id="${pkg.creditBundleId}">
-                                <h5>${pkg.packageName}</h5>
-                                <p>Type: ${pkg.packageType}</p>
-                                <p>Data Limit: ${pkg.dataLimit}</p>
-                                <p>Price: LKR ${pkg.price}</p>
-                                <p>Validity: ${pkg.validityDays} days</p>
-                                <p>SMS: ${pkg.smsLimit}</p>
-                                <p>Call: ${pkg.callMinutes}</p>
-                            </div>
+                                <div class="package-card"
+                                data-package-id="${pkg.packageId}" data-package-name="${pkg.packageName}"
+                                 data-package-type="${pkg.packageType}" data-price="${pkg.price}"
+                                 data-data-limit="${pkg.dataLimit}" data-call-minutes="${pkg.callMinutes}"
+                                  data-sms-limit="${pkg.smsLimit}" data-validity-days="${pkg.validityDays}"
+                                  data-credit-bundle-id="${pkg.creditBundleId}">
+                                    <h5>${pkg.packageName}</h5>
+                                    <p>Type: ${pkg.packageType}</p>
+                                    <p>Data Limit: ${pkg.dataLimit}</p>
+                                    <p>Price: LKR ${pkg.price}</p>
+                                    <p>Validity: ${pkg.validityDays} days</p>
+                                    <p>SMS: ${pkg.smsLimit}</p>
+                                    <p>Call: ${pkg.callMinutes}</p>
+                                </div>
                         `;
                         $("#packageList").append(packageCard);
                     });
 
                 },
                 error: function (xhr) {
+                    console.error("Failed to load packages:", xhr.responseText);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Failed to load packages. Please try again.',
+                        text: 'Failed to fetch packages.'
                     });
-                    console.error("Failed to load packages:", xhr.responseText);
                 }
             });
         }
 
         $("#packageList").on("click", ".package-card", function () {
-            const packageId = $(this).data("package-id");
-            const creditBundleId = $(this).data("credit-bundle-id");
+            console.log("Package card clicked!");
 
-            // First, find the credit bundle name for this ID
-            $.ajax({
-                url: `http://localhost:8080/api/v1/credit_bundle/getNameById/${creditBundleId}`,
-                method: "GET",
-                headers: {"Authorization": `Bearer ${authToken}`},
-                success: function(resp) {
-                    fillForm(
-                        packageId,
-                        $(this).data("package-name"),
-                        $(this).data("package-type"),
-                        $(this).data("price"),
-                        $(this).data("data-limit"),
-                        $(this).data("call-minutes"),
-                        $(this).data("sms-limit"),
-                        $(this).data("validity-days"),
-                        creditBundleId,
-                        resp.data // credit bundle name
-                    );
-                }.bind(this),
-                error: function(error) {
-                    console.error("Error fetching credit bundle name:", error);
-                    fillForm(
-                        packageId,
-                        $(this).data("package-name"),
-                        $(this).data("package-type"),
-                        $(this).data("price"),
-                        $(this).data("data-limit"),
-                        $(this).data("call-minutes"),
-                        $(this).data("sms-limit"),
-                        $(this).data("validity-days"),
-                        creditBundleId,
-                        ""
-                    );
-                }
-            });
+            const packageId = $(this).data("package-id");
+            console.log("packageId:", packageId);
+
+            fillForm(
+                packageId,
+                $(this).data("package-name"),
+                $(this).data("package-type"),
+                $(this).data("price"),
+                $(this).data("data-limit"),
+                $(this).data("call-minutes"),
+                $(this).data("sms-limit"),
+                $(this).data("validity-days"),
+                $(this).data("credit-bundle-id")
+            );
         });
 
         $("#clearBtn").click(function() {
             clearForm();
-            Swal.fire({
-                icon: 'success',
-                title: 'Form Cleared',
-                showConfirmButton: false,
-                timer: 1000
-            });
         });
 
         function fillForm(packageId, packageName, packageType, price, dataLimit,
-                          callMinutes, smsLimit, validityDays, creditBundleId, creditBundleName) {
+                          callMinutes, smsLimit, validityDays, creditBundleId) {
             $("#packageId").val(packageId);
             $("#packageName").val(packageName);
             $("#packageType").val(packageType);
@@ -906,18 +853,18 @@
             $("#price").val(price);
             $("#validityDays").val(validityDays);
             $("#creditBundleId").val(creditBundleId);
-
-            // Set the dropdown to match the selected credit bundle
-            if (creditBundleName) {
-                $("#creditBundle").val(creditBundleName);
-            }
+            $("#creditBundle").val(creditBundleId);
         }
 
         function clearForm() {
-            $("#packageForm")[0].reset();
-            $("#packageId").val("");
+            $("#packageName").val("");
+            $("#packageType").val("");
+            $("#dataLimit").val("");
+            $("#callMinutes").val("");
+            $("#smsLimit").val("");
+            $("#price").val("");
+            $("#validityDays").val("");
             $("#creditBundle").val("");
-            $("#creditBundleId").val("");
         }
     });
 </script>

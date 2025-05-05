@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class OrderDetailsDTO {
     private int quantity;
     private double itemPrice;
     private double subtotal;
+    private int orderId;
+    private LocalDate date;
 }

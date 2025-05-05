@@ -80,17 +80,21 @@ public class UserController {
     }
 
     @PostMapping("/check-email")
-    public ResponseEntity<ApiResponseDTO<Boolean>> checkEmailExists(@RequestBody EmailCheckDTO emailCheckDto) {
-        boolean exists = userService.emailExists(emailCheckDto.getEmail());
+    public ResponseEntity<ResponseDTO> checkEmailExists(@RequestBody EmailCheckDTO emailCheckDto) {
+        try {
+            boolean exists = userService.emailExists(emailCheckDto.getEmail());
 
-        ApiResponseDTO<Boolean> response = new ApiResponseDTO<>();
-        response.setCode(200);
-        response.setMessage(exists ? "Email exists" : "Email not found");
-        response.setStatus(true);
-        response.setData(exists);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+            if (exists) {
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(new ResponseDTO(VarList.OK, "Email exists", true));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO(VarList.Not_Found, "Email not found", false));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO(VarList.Internal_Server_Error, e.getMessage(), null));
+        }
     }
-
 
 }

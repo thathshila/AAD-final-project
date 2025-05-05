@@ -1,22 +1,20 @@
 let stompClient = null;
 let currentUser = null;
 
-// Open chat when clicking the button
+
 document.getElementById('chatButton').addEventListener('click', function() {
     document.getElementById('chatModal').style.display = 'block';
 
-    // Connect if not already connected
     if (stompClient === null || !stompClient.connected) {
         connect();
     }
 });
 
-// Close chat when clicking the X
 document.getElementById('closeChat').addEventListener('click', function() {
     document.getElementById('chatModal').style.display = 'none';
 });
 
-// Send message when pressing Enter
+
 document.getElementById('message').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') {
         sendMessage();
@@ -26,11 +24,10 @@ document.getElementById('message').addEventListener('keypress', function(e) {
 function connect() {
     currentUser = document.getElementById('username').textContent;
 
-    // Use the correct server URL (assuming your backend is on port 8080)
     const socket = new SockJS('http://localhost:8080/ws');
     stompClient = Stomp.over(socket);
 
-    // For debugging
+
     stompClient.debug = null; // Disable STOMP frame logging
 
     stompClient.connect({}, function(frame) {
@@ -40,7 +37,6 @@ function connect() {
             showMessage(JSON.parse(message.body));
         });
 
-        // Notify that user joined
         const chatMessage = {
             sender: currentUser,
             type: 'JOIN'
@@ -77,7 +73,6 @@ function showMessage(message) {
     const messageArea = document.getElementById('messageArea');
 
     if (message.type === 'JOIN') {
-        // Handle join notification if needed
         return;
     }
 
@@ -102,11 +97,9 @@ function showMessage(message) {
     messageElement.appendChild(contentElement);
     messageArea.appendChild(messageElement);
 
-    // Scroll to bottom
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
-// Disconnect when window is closed
-window.onbeforeunload = function() {
+    window.onbeforeunload = function() {
     disconnect();
 };

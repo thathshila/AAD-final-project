@@ -862,7 +862,7 @@
                     const transactionId = generateTransactionId();
                     const emailData = {
                         to: email,
-                        subject: "Your SLT Mobitel Payment Was Successful",
+                        subject: "Your Netwave Payment Was Successful",
                         phoneNumber: phoneNumber,
                         amount: amount,
                         transactionId: transactionId,
@@ -907,7 +907,7 @@
                         localStorage.removeItem('mobileNumber');
                         localStorage.removeItem('amount');
                         localStorage.removeItem('email');
-                        window.location.href = "success.html";
+                        window.location.href = "index.html";
                     });
                 })
                 .catch(error => {

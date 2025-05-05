@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +10,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Add SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.12/sweetalert2.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Add SweetAlert2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.7.12/sweetalert2.all.min.js"></script>
 </head>
 <body>
 <header>
@@ -147,7 +153,7 @@
 
 <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
 <script>
-
+    let authToken = localStorage.getItem("authToken");
     $(document).ready(function() {
         loadCartItems();
 
@@ -193,7 +199,13 @@
             console.log("Selected items for checkout:", selectedItems);
 
             if (selectedItems.length === 0) {
-                alert('No items selected for checkout!');
+                // Replace alert with SweetAlert
+                Swal.fire({
+                    title: 'No Items Selected',
+                    text: 'Please select at least one item for checkout.',
+                    icon: 'warning',
+                    confirmButtonColor: '#0a7567'
+                });
                 return;
             }
 
@@ -211,34 +223,73 @@
             }
 
             $('#userEmail').removeClass('is-invalid');
-            $('#emailVerificationMessage').html
-            ('<div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Verifying email...');
+            $('#emailVerificationMessage').html('<div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Verifying email...');
 
-            let authToken = localStorage.getItem("authToken");
+            // Store the email in localStorage
+            localStorage.setItem('registrationEmail', email);
 
             $.ajax({
                 url: 'http://localhost:8080/api/v1/user/check-email',
                 method: 'POST',
                 contentType: 'application/json',
-                headers: {"Authorization": `Bearer ${authToken}`},
                 data: JSON.stringify({ email: email }),
+                headers: {"Authorization": `Bearer ${authToken}`},
                 success: function(response) {
+                    console.log("Email verification response:", response);
+
+                    // Email exists in database - proceed to checkout
                     if (response.code === 200) {
                         localStorage.setItem('checkoutEmail', email);
-
                         $('#emailVerificationMessage').html('');
                         bootstrap.Modal.getInstance(document.getElementById('emailVerificationModal')).hide();
-                        fetchItemDetailsForPayment(getSelectedItems(), email);
-                    } else {
-                        $('#emailVerificationMessage').html('<div class="alert alert-danger">Error verifying email. Please try again.</div>');
+
+                        // Get selected items and initiate payment process
+                        const selectedItems = getSelectedItems();
+                        if (selectedItems.length > 0) {
+                            fetchItemDetailsForPayment(selectedItems, email);
+                        } else {
+                            // Replace alert with SweetAlert
+                            Swal.fire({
+                                title: 'No Items Selected',
+                                text: 'Please select at least one item for checkout.',
+                                icon: 'warning',
+                                confirmButtonColor: '#0a7567'
+                            });
+                        }
+                    }
+                    // Email not found - redirect to registration
+                    else if (response.code === 404) {
+                        $('#emailVerificationMessage').html('<div class="alert alert-info">Email not registered. Redirecting to sign up...</div>');
+                        setTimeout(function() {
+                            window.location.href = 'register.html?email=' + encodeURIComponent(email);
+                        }, 1500);
+                    }
+                    // Handle other response codes
+                    else {
+                        $('#emailVerificationMessage').html('<div class="alert alert-warning">Unexpected response: ' + (response.message || 'Unknown error') + '</div>');
                     }
                 },
                 error: function(xhr, status, error) {
-                    $('#emailVerificationMessage').html('<div class="alert alert-danger">Error connecting to the server. Please try again later.</div>');
                     console.error('Error checking email:', error);
+
+                    if (xhr.status === 404) {
+                        $('#emailVerificationMessage').html('<div class="alert alert-info">Email not registered. Redirecting to sign up...</div>');
+                        setTimeout(function() {
+                            window.location.href = 'register.html?email=' + encodeURIComponent(email);
+                        }, 1500);
+                    }
+                    // Handle other errors
+                    else {
+                        $('#emailVerificationMessage').html('<div class="alert alert-danger">Error verifying email. Please try again.</div>');
+                    }
                 }
             });
         });
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
 
         function fetchItemDetailsForPayment(selectedItems, email) {
             let authToken = localStorage.getItem("authToken");
@@ -280,10 +331,7 @@
         });
     });
 
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
+
 
     function getSelectedItems() {
         const selectedItems = [];
@@ -454,23 +502,46 @@
     }
 
     function removeFromCart(itemId) {
-        let cartItems = getCartItems();
-        cartItems = cartItems.filter(item => String(item.itemId) !== String(itemId));
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        // Using SweetAlert for confirmation
+        Swal.fire({
+            title: 'Remove Item',
+            text: 'Are you sure you want to remove this item from your cart?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#0a7567',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, remove it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let cartItems = getCartItems();
+                cartItems = cartItems.filter(item => String(item.itemId) !== String(itemId));
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
-        $(`#cart-item-${itemId}`).fadeOut(300, function() {
-            $(this).remove();
+                $(`#cart-item-${itemId}`).fadeOut(300, function() {
+                    $(this).remove();
 
-            if (cartItems.length === 0) {
-                $('#empty-cart-message').show();
-                $('#checkout-btn').prop('disabled', true);
-                updateOrderSummary(0);
-            } else {
-                calculateSelectedTotal();
+                    if (cartItems.length === 0) {
+                        $('#empty-cart-message').show();
+                        $('#checkout-btn').prop('disabled', true);
+                        updateOrderSummary(0);
+                    } else {
+                        calculateSelectedTotal();
+                    }
+
+                    // Show success message
+                    Swal.fire({
+                        title: 'Removed!',
+                        text: 'The item has been removed from your cart.',
+                        icon: 'success',
+                        confirmButtonColor: '#0a7567',
+                        timer: 1500,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+                });
             }
         });
     }
-
 </script>
 </body>
 </html>

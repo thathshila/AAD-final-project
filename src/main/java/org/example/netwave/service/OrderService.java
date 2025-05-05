@@ -1,12 +1,17 @@
 package org.example.netwave.service;
 
 import jakarta.transaction.Transactional;
+import org.example.netwave.dto.OrderDetailsDTO;
 import org.example.netwave.dto.OrderResponseDTO;
 import org.example.netwave.dto.PaymentDTO;
 import org.example.netwave.entity.Orders;
 import org.example.netwave.entity.User;
 
+import java.util.List;
+
 public interface OrderService {
+
+
 
     @Transactional
     OrderResponseDTO saveOrderAndDetails(PaymentDTO paymentDTO);
@@ -20,4 +25,5 @@ public interface OrderService {
 
     double getTotalOrderCount();
 
+    List<OrderDetailsDTO> getAllOrderDetails();
 }
