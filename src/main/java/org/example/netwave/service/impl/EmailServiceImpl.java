@@ -91,7 +91,7 @@ public class EmailServiceImpl implements EmailService {
                         "<body>" +
                         "    <div class='container'>" +
                         "        <div class='header'>" +
-                        "            <h2>SLT Mobitel Payment Confirmation</h2>" +
+                        "            <h2>NETWAVE Payment Confirmation</h2>" +
                         "        </div>" +
                         "        <div class='content'>" +
                         "            <p>Dear Customer,</p>" +
@@ -121,7 +121,7 @@ public class EmailServiceImpl implements EmailService {
                         "        </div>" +
                         "        <div class='footer'>" +
                         "            <p>This is an automated message. Please do not reply to this email.</p>" +
-                        "            <p>&copy; " + new SimpleDateFormat("yyyy").format(new Date()) + " SLT Mobitel. All rights reserved.</p>" +
+                        "            <p>&copy; " + new SimpleDateFormat("yyyy").format(new Date()) + " NETWAVE. All rights reserved.</p>" +
                         "        </div>" +
                         "    </div>" +
                         "</body>" +
